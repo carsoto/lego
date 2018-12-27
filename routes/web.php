@@ -19,6 +19,8 @@ Route::get('/', function () {
     return view('adminlte::auth.login');
 });
 
+Route::resource('alumno', 'AlumnoController');
+
 Route::group(['prefix' => 'registro'], function () {
 	Route::get('alumno/ficha-inicial', 'AlumnoController@registroinicio')->name('registro.ficha.alumno');
 });
