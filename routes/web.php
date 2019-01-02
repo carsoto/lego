@@ -19,10 +19,10 @@ Route::get('/', function () {
     return view('adminlte::auth.login');
 });
 
-Route::resource('alumno', 'AlumnoController');
+Route::resource('atleta', 'AtletaController');
 
 Route::group(['prefix' => 'registro'], function () {
-	Route::get('alumno/ficha-inicial', 'AlumnoController@registroinicio')->name('registro.ficha.alumno');
+	Route::get('atleta/ficha-inicial', 'AtletaController@registroinicio')->name('registro.ficha.atleta');
 });
 
 Route::group(['middleware' => 'auth'], function () {

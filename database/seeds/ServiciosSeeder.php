@@ -15,10 +15,10 @@ class ServiciosSeeder extends Seeder
 
         $array_records = array (
 			array('descripcion' => 'Academia', 'activo' => 1, 'created_at' => date('Y-m-d')),
-			array('descripcion' => 'Alquiler de canchas', 'activo' => 1, 'created_at' => date('Y-m-d')),
+			array('descripcion' => 'Alquiler de canchas', 'activo' => 0, 'created_at' => date('Y-m-d')),
 			array('descripcion' => 'Vacacional', 'activo' => 1, 'created_at' => date('Y-m-d')),
 			array('descripcion' => 'Campamentos', 'activo' => 1, 'created_at' => date('Y-m-d')),
-			array('descripcion' => 'Torneos', 'activo' => 1, 'created_at' => date('Y-m-d')),
+			array('descripcion' => 'Torneos', 'activo' => 0, 'created_at' => date('Y-m-d')),
         );
 
         foreach (array_chunk($array_records, 100) as $records) {

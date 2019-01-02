@@ -6,8 +6,8 @@
 <script src="{{ asset('/public/plugins/datatables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/public/plugins/datatables/dataTables.bootstrap.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/public/plugins/sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('/public/plugins/chart-js/Chart.js') }}" type="text/javascript"></script>
-<script src="{{ asset('/public/js/demo.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/public/plugins/datepicker/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/public/plugins/datepicker/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
       Both of these plugins are recommended to enhance the
@@ -19,7 +19,6 @@
     ]) !!};
 
     (function($) {
-		ChartJs.init();
 		
 		$('input').iCheck({
             checkboxClass: 'icheckbox_square-red',
@@ -80,6 +79,17 @@
 		        });
 		    });	
     	}
+
+    	$('.datepicker-nac').datepicker({
+			language: "es",
+			format: 'dd-mm-yyyy',
+		    orientation: "auto left",
+		    forceParse: false,
+		    autoclose: true,
+		    todayHighlight: true,
+		    toggleActive: true,
+		    maxDate: '0'
+		});
     	
     })(jQuery);
 </script>
