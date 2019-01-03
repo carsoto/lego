@@ -63,10 +63,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         $messages = [
-            'username.required' => 'El RUT es obligatorio',
-            'username.max' => 'El RUT no puede tener más de 11 caracteres',
-            'username.regex' => 'No es un RUT válido',
-            'username.unique' => 'El RUT ya se encuentra registrado',
+            'username.required' => 'El usuario es obligatorio',
+            'username.max' => 'El usuario no puede tener más de 11 caracteres',
+            'username.unique' => 'El usuario ya se encuentra registrado',
             'name.required' => 'El nombre es obligatorio',
             'lastname.required' => 'El apellido es obligatorio',
             'email.required' => 'El correo electrónico es obligatorio',
@@ -79,7 +78,7 @@ class RegisterController extends Controller
         ];
 
         return Validator::make($data, [
-            'username' => ['required', 'max:11', 'unique:users', 'regex:/^(\d{7,9}-)([a-zA-Z]{1}$|\d{1}$)/'],
+            'username' => ['required', 'max:11', 'unique:users'],
             'name' => 'required|max:255',
             'lastname' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',

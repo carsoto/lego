@@ -11,17 +11,15 @@
 |
 */
 
-/*Route::get('/', function () {
+Route::get('/', function () {
     return view('welcome');
+});
+
+/*Route::get('/', function () {
+    return view('adminlte::auth.login');
 });*/
 
-Route::get('/', function () {
-    return view('adminlte::auth.login');
-});
-
-Route::group(['prefix' => 'registro'], function () {
-	Route::get('alumno/ficha-inicial', 'AlumnoController@registroinicio')->name('registro.ficha.alumno');
-});
+Route::resource('academia', 'AcademiaController');
 
 Route::group(['middleware' => 'auth'], function () {
 
