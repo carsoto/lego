@@ -19,6 +19,8 @@ Route::get('/', function () {
     return view('adminlte::auth.login');
 });
 
+Route::resource('servicios', 'ServiciosController');
+
 Route::resource('atleta', 'AtletaController');
 
 Route::group(['prefix' => 'registro'], function () {
