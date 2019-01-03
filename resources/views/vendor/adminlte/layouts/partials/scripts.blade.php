@@ -6,6 +6,7 @@
 <script src="{{ asset('/public/plugins/datatables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/public/plugins/datatables/dataTables.bootstrap.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/public/plugins/sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/public/js/moment.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/public/plugins/datepicker/bootstrap-datepicker.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/public/plugins/datepicker/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
 
@@ -81,17 +82,30 @@
 
     	$('.datepicker-nac').datepicker({
 			language: "es",
-			format: 'dd-mm-yyyy',
+			format: 'yyyy-mm-dd',
 		    orientation: "auto left",
 		    forceParse: false,
 		    autoclose: true,
 		    todayHighlight: true,
 		    toggleActive: true
-		});
+		}).on('changeDate', function(e) {
+			var hoy = new Date();
+			var h = hoy.toJSON().slice(0,10);
+			var fecha1 = moment(this.value);
+			var fecha2 = moment(h);
+			var edad = fecha2.diff(fecha1, 'years');
+
+			if(edad < 18){
+				document.getElementById('ficha-representante').style.display = 'block';
+				document.getElementById('ced-atleta').style.display = 'none';
+				document.getElementById('colegio-atleta').style.display = 'inline-block';
+			}else{
+				document.getElementById('ficha-representante').style.display = 'none';
+				document.getElementById('ced-atleta').style.display = 'inline-block';
+				document.getElementById('colegio-atleta').style.display = 'none';
+			}
+    });
     	
     })(jQuery);
 
-    function mayor_edad() {
-    	alert('rerere');
-    }
 </script>

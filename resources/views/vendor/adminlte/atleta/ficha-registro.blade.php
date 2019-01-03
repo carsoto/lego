@@ -4,8 +4,8 @@
 
 <h4>Ficha de Atleta</h4>
 <div class="col-lg-3 col-md-3 col-sm-3" style="padding: 5px;">
-	{!! Form::label('cedula', 'Cédula') !!}
-	{!! Form::text('cedula', null, array('class' => 'form-control input-sm')) !!}
+	{!! Form::label('fecha_nacimiento', 'Fecha de nacimiento') !!}<strong><span style='color: red;'>*</span></strong>
+	{!! Form::text('fecha_nacimiento', null, array('class' => 'form-control input-sm datepicker-nac', 'id' => 'fecha_nacimiento', 'readonly'=>"readonly")) !!}
 </div>
 
 <div class="col-lg-3 col-md-3 col-sm-3" style="padding: 5px;">
@@ -19,8 +19,8 @@
 </div>
 
 <div class="col-lg-3 col-md-3 col-sm-3" style="padding: 5px;">
-	{!! Form::label('fecha_nacimiento', 'Fecha de nacimiento') !!}<strong><span style='color: red;'>*</span></strong>
-	{!! Form::text('fecha_nacimiento', null, array('class' => 'form-control datepicker-nac', 'onblur' => 'mayor_edad()')) !!}
+	{!! Form::label('cedula', 'Cédula') !!}<span id="ced-atleta" style='color: red;'>*</span>
+	{!! Form::text('cedula', null, array('class' => 'form-control input-sm')) !!}
 </div>
 
 <div class="col-lg-3 col-md-3 col-sm-3" style="padding: 5px;">
@@ -46,7 +46,7 @@
 </div>
 
 <div class="col-lg-3 col-md-3 col-sm-3" style="padding: 5px;">
-	{!! Form::label('institucion', 'Institución') !!}
+	{!! Form::label('institucion', 'Colegio') !!}<span id="colegio-atleta" style='color: red;'>*</span>
 	{!! Form::text('institucion', null, array('class' => 'form-control input-sm')) !!}
 </div>
 
@@ -78,4 +78,8 @@
         </span>
     	{!! Form::text('instagram', null, array('class' => 'form-control input-sm', 'placeholder' => 'Instagram')) !!}
     </div>
+</div>
+
+<div id="ficha-representante" style="display: none;">
+	FICHA DEL REPRESENTANTE
 </div>
