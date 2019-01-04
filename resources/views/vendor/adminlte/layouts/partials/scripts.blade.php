@@ -97,12 +97,17 @@
 
 			if(edad < 18){
 				document.getElementById('ficha-representante').style.display = 'block';
+				document.getElementById('ficha-representante').style.paddingTop = '30px';
 				document.getElementById('ced-atleta').style.display = 'none';
+				document.getElementById('telf-contacto-atleta').style.display = 'none';
 				document.getElementById('colegio-atleta').style.display = 'inline-block';
+				document.getElementById('direccion-atleta').style.display = 'none';
 			}else{
 				document.getElementById('ficha-representante').style.display = 'none';
 				document.getElementById('ced-atleta').style.display = 'inline-block';
+				document.getElementById('telf-contacto-atleta').style.display = 'inline-block';
 				document.getElementById('colegio-atleta').style.display = 'none';
+				document.getElementById('direccion-atleta').style.display = 'inline-block';
 			}
     });
     	

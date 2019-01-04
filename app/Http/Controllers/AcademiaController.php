@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Atleta;
+use App\Representante;
+use App\RedesSociales;
 
 class AcademiaController extends Controller
 {
@@ -13,7 +16,11 @@ class AcademiaController extends Controller
      */
     public function index()
     {
-        return view('adminlte::academia.index');
+        $representante = new Representante();
+        $atleta = new Atleta();
+        $redes_sociales = RedesSociales::where('activo', '=', 1)->get();
+
+        return view('adminlte::academia.index', array('representante' => $representante, 'atleta' => $atleta, 'redes_sociales' => $redes_sociales));
     }
 
     /**
@@ -34,7 +41,7 @@ class AcademiaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**
