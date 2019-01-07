@@ -36,11 +36,9 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
 <body data-spy="scroll" data-offset="0" data-target="#navigation">
 
 <div id="app">
-    <div class="col-md-4" style="margin-bottom: 20px;"><a href="{{ route('academia.index') }}" class="btn btn-primary">ACADEMIA</a></div>
-    <div class="col-md-4" style="margin-bottom: 20px;"><a href="" target="_blank" class="btn btn-md btn-flat btn-success">ALQUILER DE CANCHAS</a></div>
-    <div class="col-md-4" style="margin-bottom: 20px;"><a href="" target="_blank" class="btn btn-md btn-flat btn-warning">CAMPAMENTOS</a></div>
-    <div class="col-md-4" style="margin-bottom: 20px;"><a href="" target="_blank" class="btn btn-md btn-flat btn-info">VACACIONAL</a></div>
-    <div class="col-md-4" style="margin-bottom: 20px;"><a href="" target="_blank" class="btn btn-md btn-flat btn-danger">TORNEOS</a></div>
+    <div class="col-md-4" style="margin-bottom: 20px;"><a href="" class="btn btn-success">INICIAR SESIÓN</a></div>
+    <div class="col-md-4" style="margin-bottom: 20px;"><a href="" target="_blank" class="btn btn-md btn-flat btn-info">REGISTRO PARA NIÑOS</a></div>
+    <div class="col-md-4" style="margin-bottom: 20px;"><a href="" target="_blank" class="btn btn-md btn-flat btn-primary">REGISTRO PARA ADULTOS</a></div>
 </div>
 
 <!-- Bootstrap core JavaScript
