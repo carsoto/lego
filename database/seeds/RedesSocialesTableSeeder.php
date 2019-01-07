@@ -16,7 +16,7 @@ class RedesSocialesTableSeeder extends Seeder
         $array_records = array (
         	array('descripcion' => 'Instagram', 'icono' => 'fa-instagram', 'activo' => 1, 'created_at' => date('Y-m-d')),
         	array('descripcion' => 'Facebook', 'icono' => 'fa-facebook', 'activo' => 1, 'created_at' => date('Y-m-d')),
-        	array('descripcion' => 'Twitter', 'icono' => 'fa-twitter', 'activo' => 1, 'created_at' => date('Y-m-d')),
+        	array('descripcion' => 'Twitter', 'icono' => 'fa-twitter', 'activo' => 0, 'created_at' => date('Y-m-d')),
         );
 
         foreach (array_chunk($array_records, 100) as $records) {

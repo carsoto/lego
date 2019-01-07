@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Atleta;
 use App\Representante;
 use App\RedesSociales;
+use App\InformacionAdicional;
 
 class AcademiaController extends Controller
 {
@@ -19,8 +20,10 @@ class AcademiaController extends Controller
         $representante = new Representante();
         $atleta = new Atleta();
         $redes_sociales = RedesSociales::where('activo', '=', 1)->get();
+        $preguntas = InformacionAdicional::all();
+        $tallas = array('0' => 'Seleccionar talla', '32' => '32', '34' => '34', '36' => '36', '38' => '38', '40' => '40', '42' => '42');
 
-        return view('adminlte::academia.index', array('representante' => $representante, 'atleta' => $atleta, 'redes_sociales' => $redes_sociales));
+        return view('adminlte::academia.index', array('representante' => $representante, 'atleta' => $atleta, 'redes_sociales' => $redes_sociales, 'preguntas' => $preguntas, 'tallas' => $tallas));
     }
 
     /**

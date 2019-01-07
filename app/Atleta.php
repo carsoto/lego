@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Fri, 04 Jan 2019 19:14:08 +0000.
+ * Date: Mon, 07 Jan 2019 17:42:19 +0000.
  */
 
 namespace App;
@@ -22,9 +22,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $direccion
  * @property string $colegio
  * @property string $email
+ * @property int $talla_top
+ * @property int $talla_camiseta
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * 
+ * @property \Illuminate\Database\Eloquent\Collection $informacion_adicionals
  * @property \Illuminate\Database\Eloquent\Collection $redes_sociales
  * @property \Illuminate\Database\Eloquent\Collection $representantes
  *
@@ -33,7 +36,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class Atleta extends Eloquent
 {
 	protected $casts = [
-		'cedula' => 'int'
+		'cedula' => 'int',
+		'talla_top' => 'int',
+		'talla_camiseta' => 'int'
 	];
 
 	protected $dates = [
@@ -49,8 +54,17 @@ class Atleta extends Eloquent
 		'telf_contacto',
 		'direccion',
 		'colegio',
-		'email'
+		'email',
+		'talla_top',
+		'talla_camiseta'
 	];
+
+	public function informacion_adicional()
+	{
+		return $this->belongsToMany(\App\InformacionAdicional::class, 'atletas_informacion_adicional', 'atletas_id')
+					->withPivot('respuesta')
+					->withTimestamps();
+	}
 
 	public function redes_sociales()
 	{

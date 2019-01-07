@@ -87,7 +87,8 @@
 		    forceParse: false,
 		    autoclose: true,
 		    todayHighlight: true,
-		    toggleActive: true
+		    toggleActive: true,
+		    endDate: "today",
 		}).on('changeDate', function(e) {
 			var hoy = new Date();
 			var h = hoy.toJSON().slice(0,10);
@@ -97,7 +98,7 @@
 
 			if(edad < 18){
 				document.getElementById('ficha-representante').style.display = 'block';
-				document.getElementById('ficha-representante').style.paddingTop = '30px';
+				document.getElementById('ficha-representante').style.paddingTop = '15px';
 				document.getElementById('ced-atleta').style.display = 'none';
 				document.getElementById('telf-contacto-atleta').style.display = 'none';
 				document.getElementById('colegio-atleta').style.display = 'inline-block';
