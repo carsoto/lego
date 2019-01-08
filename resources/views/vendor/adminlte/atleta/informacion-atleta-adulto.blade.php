@@ -3,27 +3,27 @@
 @endif
 
 <h4>Ficha de Atleta</h4>
-<div class="col-lg-3 col-md-3 col-sm-3" style="padding: 5px;">
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="padding: 5px;">
 	{!! Form::label('fecha_nacimiento', 'Fecha de nacimiento') !!}<strong><span style='color: red;'>*</span></strong>
 	{!! Form::text('atleta[fecha_nacimiento]', null, array('class' => 'form-control input-sm datepicker-nac', 'id' => 'fecha_nacimiento', 'readonly'=>"readonly")) !!}
 </div>
 
-<div class="col-lg-3 col-md-3 col-sm-3" style="padding: 5px;">
-	{!! Form::label('nombres', 'Nombres') !!}<strong><span style='color: red;'>*</span></strong>
-	{!! Form::text('atleta[nombres]', null, array('class' => 'form-control input-sm')) !!}
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="padding: 5px;">
+	{!! Form::label('nombres', 'Nombre y Apellido') !!}<strong><span style='color: red;'>*</span></strong>
+	{!! Form::text('atleta[nombre]', null, array('class' => 'form-control input-sm')) !!}
 </div>
 
-<div class="col-lg-3 col-md-3 col-sm-3" style="padding: 5px;">
-	{!! Form::label('apellidos', 'Apellidos') !!}<strong><span style='color: red;'>*</span></strong>
-	{!! Form::text('atleta[apellidos]', null, array('class' => 'form-control input-sm')) !!}
-</div>
-
-<div class="col-lg-3 col-md-3 col-sm-3" style="padding: 5px;">
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="padding: 5px;">
 	{!! Form::label('cedula', 'Cédula') !!}<strong><span id="ced-atleta" style='color: red;'>*</span></strong>
 	{!! Form::text('atleta[cedula]', null, array('class' => 'form-control input-sm')) !!}
 </div>
 
-<div class="col-lg-3 col-md-3 col-sm-3" style="padding: 5px;">
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="padding: 5px;">
+	{!! Form::label('telf_contacto', 'Teléfono de contacto') !!}<strong><span id="telf-contacto-atleta" style='color: red;'>*</span></strong>
+	{!! Form::text('atleta[telf_contacto]', null, array('class' => 'form-control input-sm')) !!}
+</div>
+
+<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" style="padding: 5px;">
 	{!! Form::label('genero', 'Género') !!}<strong><span style='color: red;'>*</span></strong>
 	<div class="iradio icheck">
     	<label style="padding-right: 20px;">
@@ -35,28 +35,18 @@
     </div>
 </div>
 
-<div class="col-lg-3 col-md-3 col-sm-3" style="padding: 5px;">
-	{!! Form::label('telf_contacto', 'Teléfono de contacto') !!}<strong><span id="telf-contacto-atleta" style='color: red;'>*</span></strong>
-	{!! Form::text('atleta[telf_contacto]', null, array('class' => 'form-control input-sm')) !!}
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6" style="padding: 5px;">
-	{!! Form::label('institucion', 'Colegio') !!}<strong><span id="colegio-atleta" style='color: red;'>*</span></strong>
-	{!! Form::text('atleta[institucion]', null, array('class' => 'form-control input-sm')) !!}
-</div>
-
-<div class="col-lg-3 col-md-3 col-sm-3" style="padding: 5px;">
+<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" style="padding: 5px;">
 	{!! Form::label('talla-top', 'Talla top') !!}
 	{!! Form::select('atleta[talla_top]', $tallas, null, array('class' => 'form-control input-sm')) !!}
 </div>
 
-<div class="col-lg-3 col-md-3 col-sm-3" style="padding: 5px;">
+<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" style="padding: 5px;">
 	{!! Form::label('talla-camiseta', 'Talla camiseta') !!}
 	{!! Form::select('atleta[talla_camiseta]', $tallas, null, array('class' => 'form-control input-sm')) !!}
 </div>
 
 @foreach($redes_sociales AS $key => $red_social)
-	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="padding: 5px;">
+	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding: 5px;">
 		{!! Form::label(strtolower($red_social->descripcion), ucfirst($red_social->descripcion)) !!}
 		<div class="input-group input-group-sm">
 			<span class="input-group-btn">

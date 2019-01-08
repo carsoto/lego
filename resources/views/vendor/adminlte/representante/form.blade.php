@@ -27,7 +27,7 @@
 </div>
 
 @foreach($redes_sociales AS $key => $red_social)
-	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding: 5px;">
+	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="padding: 5px;">
 		{!! Form::label(strtolower($red_social->descripcion), ucfirst($red_social->descripcion)) !!}
 		<div class="input-group input-group-sm">
 			<span class="input-group-btn">

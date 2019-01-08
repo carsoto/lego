@@ -1,4 +1,3 @@
-
 @extends('adminlte::layouts.allpublic')
 
 @section('htmlheader_title')
@@ -11,7 +10,7 @@
 		<div class="row">
 			<div class="col-lg-12" style="padding-top: 10px;">
 				<div class="box box-danger">
-					{!! Form::open(['route' => 'academia.store']) !!}
+					<!--{!! Form::open(['route' => 'academia.store']) !!}-->
 						<div class="box-body">
 							@include('adminlte::atleta.ficha-registro', ['atleta' => $atleta, 'respresentante' => $representante, 'redes_sociales' => $redes_sociales])
 						</div>
@@ -20,7 +19,7 @@
 								{!! Form::submit('Registrar', array('class' => 'btn btn-danger')) !!}	
 							</div>
 						</div>
-					{!! Form::close() !!}
+					<!--{!! Form::close() !!}-->
 				</div>
 			</div>
 		</div>
