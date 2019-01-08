@@ -115,7 +115,7 @@
     })(jQuery);
 
     function agregar_atleta(tipo){
-    	var valido = false;
+    	var valido = true;
     	
     	if(tipo == "nino"){
 

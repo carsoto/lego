@@ -10,17 +10,17 @@
 
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="padding: 5px;">
 	{!! Form::label('nombres', 'Nombre y Apellido') !!}<strong><span style='color: red;'>*</span></strong>
-	{!! Form::text('atleta[nombre]', null, array('class' => 'form-control input-sm') 'id' => 'atleta-',) !!}
+	{!! Form::text('atleta[nombre]', null, array('class' => 'form-control input-sm', 'id' => 'atleta-nombre')) !!}
 </div>
 
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="padding: 5px;">
 	{!! Form::label('cedula', 'Cédula') !!}<strong><span id="ced-atleta" style='color: red;'>*</span></strong>
-	{!! Form::text('atleta[cedula]', null, array('class' => 'form-control input-sm') 'id' => 'atleta-',) !!}
+	{!! Form::text('atleta[cedula]', null, array('class' => 'form-control input-sm', 'id' => 'atleta-cedula')) !!}
 </div>
 
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="padding: 5px;">
 	{!! Form::label('telf_contacto', 'Teléfono de contacto') !!}<strong><span id="telf-contacto-atleta" style='color: red;'>*</span></strong>
-	{!! Form::text('atleta[telf_contacto]', null, array('class' => 'form-control input-sm') 'id' => 'atleta-',) !!}
+	{!! Form::text('atleta[telf_contacto]', null, array('class' => 'form-control input-sm', 'id' => 'atleta-telefono')) !!}
 </div>
 
 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" style="padding: 5px;">
@@ -37,12 +37,12 @@
 
 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" style="padding: 5px;">
 	{!! Form::label('talla-top', 'Talla top') !!}
-	{!! Form::select('atleta[talla_top]', $tallas, null, array('class' => 'form-control input-sm') 'id' => 'atleta-',) !!}
+	{!! Form::select('atleta[talla_top]', $tallas, null, array('class' => 'form-control input-sm', 'id' => 'atleta-')) !!}
 </div>
 
 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" style="padding: 5px;">
 	{!! Form::label('talla-camiseta', 'Talla camiseta') !!}
-	{!! Form::select('atleta[talla_camiseta]', $tallas, null, array('class' => 'form-control input-sm') 'id' => 'atleta-',) !!}
+	{!! Form::select('atleta[talla_camiseta]', $tallas, null, array('class' => 'form-control input-sm', 'id' => 'atleta-')) !!}
 </div>
 
 @foreach($redes_sociales AS $key => $red_social)
