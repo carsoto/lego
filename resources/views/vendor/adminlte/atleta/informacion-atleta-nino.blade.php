@@ -3,22 +3,6 @@
 @endif
 
 <h4>Ficha de Atleta</h4>
-
-<div class="container">
-  <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-
-        
-        <img width="100px" height="100px" src="{{ asset('uploads/avatars/'.$user->avatar) }}">
-        
-        <h4>Edit avatar</h4>
-        
-          <p>{{ Form::file('avatar') }}</p>
-         
-    </div>
-  </div>
-</div>
-
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="padding: 5px;">
 	{!! Form::label('fecha_nacimiento', 'Fecha de nacimiento') !!}<strong><span style='color: red;'>*</span></strong>
 	{!! Form::text('atleta[fecha_nacimiento]', null, array('class' => 'form-control input-sm datepicker-nac', 'id' => 'fecha_nacimiento', 'readonly'=>"readonly")) !!}

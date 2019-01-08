@@ -179,6 +179,7 @@ return [
         Krlove\EloquentModelGenerator\Provider\GeneratorServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         App\Providers\FuncionesProvider::class,
+        Intervention\Image\ImageServiceProvider::class
     ],
 
     /*
@@ -234,6 +235,7 @@ return [
         'Datatables' => yajra\Datatables\Datatables::class,
         'Excel' => Maatwebsite\Excel\ExcelServiceProvider::class,
         'Funciones' => App\Helpers\Funciones::class,
+        'Image' => Intervention\Image\Facades\Image::class
     ],
 
 ];

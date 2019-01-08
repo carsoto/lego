@@ -26,11 +26,23 @@
 
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								<div class="text-right">
-									<button class="btn btn-success">Agregar atleta</button>
+									<button type="button" class="btn btn-success" onclick="agregar_atleta('nino');">Agregar atleta</button>
 								</div>	
 							</div>
+
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: 20px;">
+								<table id="lista-atletas" class="table table-bordered" style="font-size: 11px;">
+									<thead>
+										<tr>
+											<th class="text-center"> ATLETAS AGREGADOS </th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
 						</div>
-						<div class="box-footer">
+						<div id="registrar-atleta" class="box-footer" style="display: none;">
 							<div class="text-right">
 								{!! Form::submit('Registrar', array('class' => 'btn btn-danger')) !!}	
 							</div>

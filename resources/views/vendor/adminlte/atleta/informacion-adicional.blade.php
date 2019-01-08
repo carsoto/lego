@@ -4,7 +4,7 @@
 
 <h4>Información adicional</h4>
 @foreach($preguntas AS $key => $informacion_adicional)
-	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding: 5px;">
+	<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 5px;">
 		<div style="height: 60px; padding-bottom: 10px;">{!! Form::label('pregunta', ucfirst($informacion_adicional->pregunta)) !!}</div>
 		{!! Form::textarea('atleta[respuestas]['.$informacion_adicional->id.']', null, array('class' => 'form-control input-sm', 'style' => 'resize: none;', 'rows' => '3')) !!}
 	</div>

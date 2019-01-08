@@ -110,8 +110,35 @@
 				document.getElementById('colegio-atleta').style.display = 'none';
 				document.getElementById('direccion-atleta').style.display = 'inline-block';
 			}
-    });
+    	});
     	
     })(jQuery);
+
+    function agregar_atleta(tipo){
+    	var valido = false;
+    	
+    	if(tipo == "nino"){
+
+    	}if(tipo == "adulto"){
+
+    	}
+
+    	if(valido){
+	    	var table = document.getElementById("lista-atletas");
+	    	var row = table.insertRow(0);
+			var cell1 = row.insertCell(0);
+			cell1.innerHTML = 'Atleta 1 <a href="#" name="remove" onclick="eliminar_atleta(this)"><i class="fa fa-times"></i></a>';
+			$('#lista-atletas tbody').append(row);
+			document.getElementById("registrar-atleta").style.display = "block";	
+    	}
+    }
+
+    function eliminar_atleta(obj){
+    	var count = $('#lista-atletas tbody').children().length;
+    	if(count == 1){
+    		document.getElementById("registrar-atleta").style.display = "none";
+    	}
+    	$(obj).closest('tr').remove();
+    }
 
 </script>
