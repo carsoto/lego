@@ -1,0 +1,26 @@
+<?php
+
+use Illuminate\Database\Seeder;
+
+class PeriodosSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        set_time_limit(0);
+
+        $array_records = array (
+			array('descripcion' => 'Diario', 'activo' => 1,'created_at' => date('Y-m-d')),
+			array('descripcion' => 'Semanal', 'activo' => 1,'created_at' => date('Y-m-d')),
+			array('descripcion' => 'Mensual', 'activo' => 1,'created_at' => date('Y-m-d')),
+        );
+
+        foreach (array_chunk($array_records, 100) as $records) {
+              \DB::table('periodos')->insert($records);
+        }
+    }
+}

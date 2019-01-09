@@ -18,6 +18,10 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $apellidos
  * @property string $direccion
  * @property string $telf_contacto
+ * @property string $nombres
+ * @property string $apellidos
+ * @property string $telf_contacto
+ * @property string $direccion
  * @property string $email
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
@@ -37,6 +41,7 @@ class Representante extends Eloquent
 		'cedula',
 		'nombres',
 		'apellidos',
+		'telf_contacto',
 		'direccion',
 		'telf_contacto',
 		'email'

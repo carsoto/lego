@@ -74,7 +74,6 @@ class RegisterController extends Controller
             'password.min' => 'La contraseña debe contener al menos 6 caracteres',
             'password.confirmed' => 'Las contraseñas no coinciden',
             'terms.required' => 'Debe aceptar los términos y condiciones'
-
         ];
 
         return Validator::make($data, [

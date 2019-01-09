@@ -24,6 +24,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App
  */
+
 class RedesSociales extends Eloquent
 {
 	protected $casts = [

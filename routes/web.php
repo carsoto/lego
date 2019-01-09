@@ -21,6 +21,10 @@ Route::get('/', function () {
 
 Route::resource('academia', 'AcademiaController');
 
+Route::resource('servicios', 'ServiciosController');
+
+Route::resource('atleta', 'AtletaController');
+
 Route::group(['prefix' => 'registro'], function () {
 	Route::post('/', 'RegistroController@store')->name('registro.store');
 	Route::get('{tipo}', 'RegistroController@registroatleta')->name('registro.atleta');
