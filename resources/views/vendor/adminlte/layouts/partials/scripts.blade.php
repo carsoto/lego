@@ -111,6 +111,16 @@
 				document.getElementById('direccion-atleta').style.display = 'inline-block';
 			}
     	});
+
+    	$('.datepicker').datepicker({
+			language: "es",
+			format: 'yyyy-mm-dd',
+		    orientation: "auto left",
+		    forceParse: false,
+		    autoclose: true,
+		    todayHighlight: true,
+		    toggleActive: true
+		});
     	
     })(jQuery);
 

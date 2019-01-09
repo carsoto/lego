@@ -22,5 +22,9 @@ class DatabaseSeeder extends Seeder
         $this->call(RedesSocialesTableSeeder::class);
 
         $this->call(InformacionAdicionalTableSeeder::class);
+
+        $this->call(LocacionesTableSeeder::class);
+
+        $this->call(HorarioTableSeeder::class);
     }
 }

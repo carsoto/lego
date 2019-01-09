@@ -7,11 +7,17 @@ use App\Atleta;
 use App\Representante;
 use App\RedesSociales;
 use App\InformacionAdicional;
+use App\Locacion;
 
 class RegistroController extends Controller
 {
+    public function index(){
+        $locaciones = Locacion::all();
+        return view('adminlte::registro.registro-inicial', array('locaciones' => $locaciones));
+    }
+
     public function registroatleta($tipo){
-		$representante = new Representante();
+		/*$representante = new Representante();
 		$atleta = new Atleta();
 		$redes_sociales = RedesSociales::where('activo', '=', 1)->get();
 		$preguntas = InformacionAdicional::all();
@@ -21,7 +27,8 @@ class RegistroController extends Controller
 	        return view('adminlte::atleta.ficha-registro-ninos', array('representante' => $representante, 'atleta' => $atleta, 'redes_sociales' => $redes_sociales, 'preguntas' => $preguntas, 'tallas' => $tallas));
     	}if($tipo == 'adultos'){
     		return view('adminlte::atleta.ficha-registro-adultos', array('representante' => $representante, 'atleta' => $atleta, 'redes_sociales' => $redes_sociales, 'preguntas' => $preguntas, 'tallas' => $tallas));
-    	}
+    	}*/
+
     }
 
     public function store(Request $request){

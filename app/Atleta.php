@@ -62,7 +62,7 @@ class Atleta extends Eloquent
 		'telf_contacto',
 		'direccion',
 		'instituto',
-		'email'
+		'email',
 		'talla_top',
 		'talla_camiseta'
 	];

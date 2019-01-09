@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class LocacionesSeeder extends Seeder
+class LocacionesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,7 +19,7 @@ class LocacionesSeeder extends Seeder
         );
 
         foreach (array_chunk($array_records, 100) as $records) {
-              \DB::table('locaciones')->insert($records);
+            \DB::table('locaciones')->insert($records);
         }
     }
 }

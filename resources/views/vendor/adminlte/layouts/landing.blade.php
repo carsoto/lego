@@ -38,8 +38,9 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
 
 <div id="app">
     <div class="col-md-4" style="margin-bottom: 20px;"><a href="" class="btn btn-success">INICIAR SESIÓN</a></div>
-    <div class="col-md-4" style="margin-bottom: 20px;"><a href="{{ route('registro.atleta', array('tipo' => 'niños')) }}" target="_blank" class="btn btn-md btn-flat btn-info">REGISTRO PARA NIÑOS</a></div>
-    <div class="col-md-4" style="margin-bottom: 20px;"><a href="{{ route('registro.atleta', array('tipo' => 'adultos')) }}" target="_blank" class="btn btn-md btn-flat btn-primary">REGISTRO PARA ADULTOS</a></div>
+    <div class="col-md-4" style="margin-bottom: 20px;"><a href="{{ route('registro.index') }}" class="btn btn-primary">REGISTRO</a></div>
+    <!--<div class="col-md-4" style="margin-bottom: 20px;"><a href="{{ route('registro.atleta', array('tipo' => 'niños')) }}" target="_blank" class="btn btn-md btn-flat btn-info">REGISTRO PARA NIÑOS</a></div>
+    <div class="col-md-4" style="margin-bottom: 20px;"><a href="{{ route('registro.atleta', array('tipo' => 'adultos')) }}" target="_blank" class="btn btn-md btn-flat btn-primary">REGISTRO PARA ADULTOS</a></div>-->
 </div>
 
 <!-- Bootstrap core JavaScript
