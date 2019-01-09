@@ -58,12 +58,17 @@
                                 {!! Form::text('atleta[fecha_nacimiento]', null, array('class' => 'form-control input-sm datepicker-nac', 'id' => 'atleta-fecha-nacimiento', 'style' => 'background-color: #fff;', 'readonly'=>"readonly")) !!}
                             </div>
 
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding: 5px;">
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12" style="padding: 5px;">
                                 {!! Form::label('telf_contacto', 'Teléfono de contacto') !!}<strong><span id="telf-contacto-atleta" style='color: red;'>*</span></strong>
                                 {!! Form::text('atleta[telf_contacto]', null, array('class' => 'form-control input-sm', 'id' => 'atleta-telefono')) !!}
                             </div>
-                            
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding: 5px;">
+
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12" style="padding: 5px;">
+                                {!! Form::label('red_social', 'Instagram/Facebook') !!}<strong><span id="red-social-atleta" style='color: red;'>*</span></strong>
+                                {!! Form::text('atleta[red_social]', null, array('class' => 'form-control input-sm', 'id' => 'atleta-red-social')) !!}
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12" style="padding: 5px;">
                                 {!! Form::label('fecha_clase_prueba', 'Fecha de clase de prueba') !!}<strong><span style='color: red;'>*</span></strong>
                                 {!! Form::text('atleta[fecha_clase_prueba]', null, array('class' => 'form-control input-sm datepicker', 'id' => 'atleta-fecha-clase', 'style' => 'background-color: #fff;', 'readonly'=>"readonly")) !!}
                             </div>
@@ -73,7 +78,7 @@
                                 <div class="iradio icheck">
                                     @foreach($locaciones AS $key => $locacion)
                                         <label style="padding-right: 20px;">
-                                            <input value="{{ $locacion->id }}" type="radio" name="locacion" title="{{ $locacion->direccion }}"> {{ $locacion->ubicacion }}
+                                            <input class="check-ubicacion" value="{{ $locacion->id }}" type="radio" name="locacion" title="{{ $locacion->direccion }}"> {{ $locacion->ubicacion }}
                                         </label>
                                     @endforeach
                                 </div>

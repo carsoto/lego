@@ -13,7 +13,7 @@ class CreateHorarioTable extends Migration
      */
     public function up()
     {
-        Schema::create('horario', function(Blueprint $table) {
+        Schema::create('horarios', function(Blueprint $table) {
             $table->engine = 'InnoDB';
         
             $table->increments('id')->unsigned();

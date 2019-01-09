@@ -121,7 +121,7 @@
 		    todayHighlight: true,
 		    toggleActive: true
 		});
-    	
+
     })(jQuery);
 
     function agregar_atleta(tipo){
