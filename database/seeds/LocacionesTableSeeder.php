@@ -16,6 +16,7 @@ class LocacionesTableSeeder extends Seeder
         $array_records = array (
         	array('ubicacion' => 'Vía a la costa', 'direccion' => 'LACOSTA PADEL', 'activo' => 1, 'created_at' => date('Y-m-d')),
         	array('ubicacion' => 'Samborondón', 'direccion' => 'CLUB BIBLOS', 'activo' => 1, 'created_at' => date('Y-m-d')),
+            array('ubicacion' => 'Salinas', 'direccion' => '', 'activo' => 1, 'created_at' => date('Y-m-d')),
         );
 
         foreach (array_chunk($array_records, 100) as $records) {
