@@ -18,17 +18,17 @@ class CreateAtletasTable extends Migration
         
             $table->increments('id')->unsigned();
             $table->bigInteger('cedula')->unique();
-            $table->string('nombres', 50);
-            $table->string('apellidos', 50);
+            $table->string('nombre', 80);
+            $table->string('apellido', 80);
             $table->string('genero', 50);
             $table->date('fecha_nacimiento');
+            $table->string('red_social', 150)->nullable();
             $table->string('telf_contacto', 15)->nullable();
-            $table->string('direccion', 300)->nullable();
             $table->string('instituto', 100)->nullable();
             $table->string('email', 150)->nullable();
             $table->integer('talla_top')->nullable();
             $table->integer('talla_camiseta')->nullable();
-        
+
             $table->timestamps();
         
         });

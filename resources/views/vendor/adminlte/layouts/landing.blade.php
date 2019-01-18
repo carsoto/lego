@@ -37,10 +37,22 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
 <body data-spy="scroll" data-offset="0" data-target="#navigation">
 
 <div id="app">
-    <div class="col-md-4" style="margin-bottom: 20px;"><a href="" class="btn btn-success">INICIAR SESIÓN</a></div>
+    <!--<div class="col-md-4" style="margin-bottom: 20px;"><a href="" class="btn btn-success">INICIAR SESIÓN</a></div>
     <div class="col-md-4" style="margin-bottom: 20px;"><a href="{{ route('registro.index') }}" class="btn btn-primary">REGISTRO</a></div>
-    <!--<div class="col-md-4" style="margin-bottom: 20px;"><a href="{{ route('registro.atleta', array('tipo' => 'niños')) }}" target="_blank" class="btn btn-md btn-flat btn-info">REGISTRO PARA NIÑOS</a></div>
+    <div class="col-md-4" style="margin-bottom: 20px;"><a href="{{ route('registro.atleta', array('tipo' => 'niños')) }}" target="_blank" class="btn btn-md btn-flat btn-info">REGISTRO PARA NIÑOS</a></div>
     <div class="col-md-4" style="margin-bottom: 20px;"><a href="{{ route('registro.atleta', array('tipo' => 'adultos')) }}" target="_blank" class="btn btn-md btn-flat btn-primary">REGISTRO PARA ADULTOS</a></div>-->
+
+    <div style="text-align: center;">
+
+        <a href="{{ route('vacacional.index') }}">
+
+            <img src="{{ asset('public/images/logo-lego.png') }}" width="180px">
+
+        </a>
+
+        <h3 style="font-family: Verdana;">¡Bienvenidos a nuestra academia!</h3>    
+
+    </div>
 </div>
 
 <!-- Bootstrap core JavaScript

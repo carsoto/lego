@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHorariosTable extends Migration
+class CreateVacacionalTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,26 +13,25 @@ class CreateHorariosTable extends Migration
      */
     public function up()
     {
-        Schema::create('horarios', function(Blueprint $table) {
-            $table->engine = 'InnoDB';
-        
+        Schema::create('vacacional', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('locaciones_id')->unsigned();
-            $table->integer('desde')->comment('Edad inicio');
-            $table->integer('hasta')->comment('Edad fin');
-            $table->string('hora_inicio');
-            $table->string('hora_fin');
-        
-            $table->index('locaciones_id','fk_horario_locaciones1_idx');
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin');
+            $table->date('fecha_limite');
+            $table->integer('edad_inicio');
+            $table->integer('edad_fin');
+            $table->integer('porcentaje_individual');
+            $table->integer('porcentaje_grupal');
+            $table->integer('activo')->default(1);
+
+            $table->index('locaciones_id','fk_locaciones_vacacional_idx');
         
             $table->foreign('locaciones_id')
                 ->references('id')->on('locaciones');
-        
+
             $table->timestamps();
-        
         });
-
-
     }
 
     /**
@@ -42,6 +41,6 @@ class CreateHorariosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('horarios');
+        Schema::dropIfExists('vacacional');
     }
 }

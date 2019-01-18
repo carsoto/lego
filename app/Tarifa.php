@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 02 Jan 2019 18:34:18 +0000.
+ * Date: Thu, 17 Jan 2019 21:23:09 +0000.
  */
 
 namespace App;
@@ -27,7 +27,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \App\Locacione $locacione
  * @property \App\Periodo $periodo
  * @property \App\Servicio $servicio
- * @property \Illuminate\Database\Eloquent\Collection $inscripciones
  *
  * @package App
  */
@@ -71,10 +70,5 @@ class Tarifa extends Eloquent
 	public function servicio()
 	{
 		return $this->belongsTo(\App\Servicio::class, 'servicios_id');
-	}
-
-	public function inscripciones()
-	{
-		return $this->hasMany(\App\Inscripcione::class, 'tarifas_id');
 	}
 }

@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 07 Jan 2019 16:29:39 +0000.
+ * Date: Thu, 17 Jan 2019 21:23:09 +0000.
  */
 
 namespace App;
@@ -32,7 +32,7 @@ class InformacionAdicional extends Eloquent
 	public function atletas()
 	{
 		return $this->belongsToMany(\App\Atleta::class, 'atletas_informacion_adicional', 'informacion_adicional_id', 'atletas_id')
-					->withPivot('respuesta')
+					->withPivot('id', 'respuesta')
 					->withTimestamps();
 	}
 }

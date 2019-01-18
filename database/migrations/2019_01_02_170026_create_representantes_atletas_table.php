@@ -15,11 +15,11 @@ class CreateRepresentantesAtletasTable extends Migration
     {
         Schema::create('representantes_atletas', function(Blueprint $table) {
             $table->engine = 'InnoDB';
-        
+
+            $table->increments('id')->unsigned();
+
             $table->integer('representantes_id')->unsigned();
             $table->integer('atletas_id')->unsigned();
-            
-            $table->primary('representantes_id', 'atletas_id');
         
             $table->index('atletas_id','fk_representantes_has_atletas_atletas1_idx');
             $table->index('representantes_id','fk_representantes_has_atletas_representantes1_idx');

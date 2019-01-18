@@ -19,12 +19,16 @@ class DatabaseSeeder extends Seeder
 	    // Los usuarios necesitarán los roles previamente generados
 	    $this->call(UserTableSeeder::class);
 
-        $this->call(RedesSocialesTableSeeder::class);
-
         $this->call(InformacionAdicionalTableSeeder::class);
 
         $this->call(LocacionesTableSeeder::class);
 
-        $this->call(HorarioTableSeeder::class);
+        $this->call(ServiciosTableSeeder::class);
+        
+        $this->call(HorariosTableSeeder::class);
+
+        $this->call(VacacionalTableSeeder::class);
+
+        $this->call(VacacionalHorariosTableSeeder::class);
     }
 }

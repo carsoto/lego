@@ -20,10 +20,10 @@ class CreateRepresentantesTable extends Migration
             $table->bigInteger('cedula')->unique();
             $table->string('nombres', 50);
             $table->string('apellidos', 50);
-            $table->string('direccion', 300);
             $table->string('telf_contacto', 15);
             $table->string('email', 150);
-        
+            $table->string('red_social', 150)->nullable();
+
             $table->timestamps();
         
         });

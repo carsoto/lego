@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Fri, 04 Jan 2019 19:14:08 +0000.
+ * Date: Thu, 17 Jan 2019 21:23:09 +0000.
  */
 
 namespace App;
@@ -16,18 +16,13 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $cedula
  * @property string $nombres
  * @property string $apellidos
- * @property string $direccion
  * @property string $telf_contacto
- * @property string $nombres
- * @property string $apellidos
- * @property string $telf_contacto
- * @property string $direccion
  * @property string $email
+ * @property string $red_social
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * 
  * @property \Illuminate\Database\Eloquent\Collection $atletas
- * @property \Illuminate\Database\Eloquent\Collection $redes_sociales
  *
  * @package App
  */
@@ -42,20 +37,14 @@ class Representante extends Eloquent
 		'nombres',
 		'apellidos',
 		'telf_contacto',
-		'direccion',
-		'telf_contacto',
-		'email'
+		'email',
+		'red_social'
 	];
 
 	public function atletas()
 	{
 		return $this->belongsToMany(\App\Atleta::class, 'representantes_atletas', 'representantes_id', 'atletas_id')
-					->withTimestamps();
-	}
-
-	public function redes_sociales()
-	{
-		return $this->belongsToMany(\App\RedesSociales::class, 'representantes_redes_sociales', 'representantes_id', 'redes_sociales_id')
+					->withPivot('id')
 					->withTimestamps();
 	}
 }

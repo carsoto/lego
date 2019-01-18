@@ -37,8 +37,18 @@ class Locacion extends Eloquent
 		'activo'
 	];
 
+	public function horarios()
+	{
+		return $this->hasMany(\App\Horario::class, 'locaciones_id');
+	}
+
 	public function tarifas()
 	{
 		return $this->hasMany(\App\Tarifa::class, 'locaciones_id');
+	}
+
+	public function vacacional()
+	{
+		return $this->hasMany(\App\Vacacional::class, 'locaciones_id');
 	}
 }

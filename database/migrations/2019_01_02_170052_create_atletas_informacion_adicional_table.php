@@ -15,12 +15,12 @@ class CreateAtletasInformacionAdicionalTable extends Migration
     {
         Schema::create('atletas_informacion_adicional', function(Blueprint $table) {
             $table->engine = 'InnoDB';
-        
+            
+            $table->increments('id')->unsigned();
+
             $table->integer('atletas_id')->unsigned();
             $table->integer('informacion_adicional_id')->unsigned();
             $table->string('respuesta', 150);
-            
-            $table->primary('atletas_id', 'informacion_adicional_id');
         
             $table->index('informacion_adicional_id','fk_atletas_has_informacion_adicional_informacion_adicional1_idx');
             $table->index('atletas_id','fk_atletas_has_informacion_adicional_atletas1_idx');

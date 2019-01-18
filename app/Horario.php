@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 09 Jan 2019 21:20:58 +0000.
+ * Date: Thu, 17 Jan 2019 21:23:09 +0000.
  */
 
 namespace App;
@@ -16,8 +16,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $locaciones_id
  * @property int $desde
  * @property int $hasta
- * @property \Carbon\Carbon $hora_inicio
- * @property \Carbon\Carbon $hora_fin
+ * @property string $hora_inicio
+ * @property string $hora_fin
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * 
@@ -27,17 +27,10 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class Horario extends Eloquent
 {
-	protected $table = 'horarios';
-
 	protected $casts = [
 		'locaciones_id' => 'int',
 		'desde' => 'int',
 		'hasta' => 'int'
-	];
-
-	protected $dates = [
-		'hora_inicio',
-		'hora_fin'
 	];
 
 	protected $fillable = [

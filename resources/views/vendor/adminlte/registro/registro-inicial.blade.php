@@ -8,7 +8,7 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-10 col-lg-offset-1">
                 {!! Form::open(['route' => 'registro.store']) !!}
                     <div class="box box-danger">
                         <div class="box-body">
@@ -16,7 +16,7 @@
                                 <a href="{{ url('/home') }}">
                                     <img src="{{ asset('public/images/logo-lego.png') }}" width="180px">
                                 </a>
-                                <h3>Sé parte de nuestra academia</h3>    
+                                <h3 style="font-family: Verdana;">¡Sé parte de nuestra academia!</h3>    
                             </div>
                             
                             @if (count($errors) > 0)
@@ -35,7 +35,7 @@
                                 {!! Form::label('genero', 'Género') !!}<strong><span style='color: red;'>*</span></strong>
                                 <div class="iradio icheck">
                                     <label style="padding-right: 20px;">
-                                        <input value="Femenino" type="radio" name="atleta[genero]"> Femenino
+                                        <input value="Femenino" type="radio" name="atleta[genero]" checked> Femenino
                                     </label>
                                     <label>
                                         <input value="Masculino" type="radio" name="atleta[genero]"> Masculino
@@ -58,40 +58,29 @@
                                 {!! Form::text('atleta[fecha_nacimiento]', null, array('class' => 'form-control input-sm datepicker-nac', 'id' => 'atleta-fecha-nacimiento', 'style' => 'background-color: #fff;', 'readonly'=>"readonly")) !!}
                             </div>
 
-                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12" style="padding: 5px;">
+                            <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12" style="padding: 5px;">
                                 {!! Form::label('telf_contacto', 'Teléfono de contacto') !!}<strong><span id="telf-contacto-atleta" style='color: red;'>*</span></strong>
                                 {!! Form::text('atleta[telf_contacto]', null, array('class' => 'form-control input-sm', 'id' => 'atleta-telefono')) !!}
                             </div>
 
-                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12" style="padding: 5px;">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding: 5px;">
                                 {!! Form::label('red_social', 'Instagram/Facebook') !!}<strong><span id="red-social-atleta" style='color: red;'>*</span></strong>
                                 {!! Form::text('atleta[red_social]', null, array('class' => 'form-control input-sm', 'id' => 'atleta-red-social')) !!}
                             </div>
 
-                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12" style="padding: 5px;">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding: 5px;">
                                 {!! Form::label('fecha_clase_prueba', 'Fecha de clase de prueba') !!}<strong><span style='color: red;'>*</span></strong>
                                 {!! Form::text('atleta[fecha_clase_prueba]', null, array('class' => 'form-control input-sm datepicker', 'id' => 'atleta-fecha-clase', 'style' => 'background-color: #fff;', 'readonly'=>"readonly")) !!}
                             </div>
 
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding: 5px;">
-                                {!! Form::label('locacion', 'Ubicación') !!}<strong><span style='color: red;'>*</span></strong>
-                                <div class="iradio icheck">
-                                    @foreach($locaciones AS $key => $locacion)
-                                        <label style="padding-right: 20px;">
-                                            <input class="check-ubicacion" value="{{ $locacion->id }}" type="radio" name="locacion" title="{{ $locacion->direccion }}"> {{ $locacion->ubicacion }}
-                                        </label>
-                                    @endforeach
-                                </div>
-                            </div>
-
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding: 5px;" id="select-horario">
-                                
+                            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" style="padding: 5px;">
+                                {!! Form::label('horario', 'Horario') !!}<strong><span style='color: red;'>*</span></strong>
+                                {!! Form::select('atleta[horario]', $horarios, null, array('class' => 'form-control input-sm', 'id' => 'atleta-ubicacion')) !!}
                             </div>
 
                         </div>
                         <div class="box-footer">
                             <div class="pull-right">
-                                <!--<button class="btn btn-danger" type="submit"><strong>Registrar</strong></button>   -->
                                 {!! Form::submit('Registrar', array('class' => 'btn btn-danger btn-block btn-flat')) !!}
                             </div>
                         </div>

@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 02 Jan 2019 18:34:18 +0000.
+ * Date: Tue, 15 Jan 2019 19:36:19 +0000.
  */
 
 namespace App;
@@ -19,8 +19,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $activo
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * 
- * @property \Illuminate\Database\Eloquent\Collection $inscripciones
  *
  * @package App
  */
@@ -37,9 +35,4 @@ class Promocion extends Eloquent
 		'valor',
 		'activo'
 	];
-
-	public function inscripciones()
-	{
-		return $this->hasMany(\App\Inscripcion::class, 'promociones_id');
-	}
 }

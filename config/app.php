@@ -235,7 +235,8 @@ return [
         'Datatables' => yajra\Datatables\Datatables::class,
         'Excel' => Maatwebsite\Excel\ExcelServiceProvider::class,
         'Funciones' => App\Helpers\Funciones::class,
-        'Image' => Intervention\Image\Facades\Image::class
+        'Image' => Intervention\Image\Facades\Image::class,
+        'Carbon' => 'Carbon\Carbon',
     ],
 
 ];

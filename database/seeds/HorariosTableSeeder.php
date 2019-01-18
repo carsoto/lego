@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class HorarioTableSeeder extends Seeder
+class HorariosTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -21,7 +21,7 @@ class HorarioTableSeeder extends Seeder
         );
 
         foreach (array_chunk($array_records, 100) as $records) {
-              \DB::table('horario')->insert($records);
+              \DB::table('horarios')->insert($records);
         }
     }
 }

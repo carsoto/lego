@@ -25,6 +25,8 @@ Route::resource('servicios', 'ServiciosController');
 
 Route::resource('atleta', 'AtletaController');
 
+Route::resource('vacacional', 'VacacionalController');
+
 Route::group(['prefix' => 'registro'], function () {
 	Route::get('/', 'RegistroController@index')->name('registro.index');
 	Route::post('/', 'RegistroController@store')->name('registro.store');
