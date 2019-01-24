@@ -3,7 +3,7 @@
 <table class="table">
     <thead>
         <th>Cantidad de alumnos a inscribir</th>
-        <th>Horario</th>
+        <th>Descripción</th>
         <th>Tarifa</th>
         <th>Subtotal</th>
     </thead>
@@ -25,3 +25,11 @@
         </tr>
     </tbody>
 </table>
+
+<div class="col col-lg-4 col-md-4 bg-yellow disabled color-palette" style="padding: 10px;">
+    <strong>DATOS BANCARIOS</strong>
+    <br><strong>BANCO PICHINCHA</strong>
+    <br><strong>Cta. Ahorros</strong> 2203951260
+    <br><strong>Titular</strong> Stephanie Saman 
+    <br><strong>Cédula</strong> 0915745905
+</div>

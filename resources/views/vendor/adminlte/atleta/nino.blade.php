@@ -1,4 +1,4 @@
-<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" style="padding: 5px;">
+<div class="col-lg-3 col-md-3" style="padding: 5px;">
 
 	{!! Form::label('fecha_nacimiento', 'Fecha de nacimiento') !!}<strong><span style='color: red;'>*</span></strong>
 

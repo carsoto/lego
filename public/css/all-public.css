@@ -21949,3 +21949,9 @@ button.toast-close-button {
   line-height: 1.428571429;
   border-radius: 15px;
 }
+
+.callout.callout-lego-blue {
+  border-color: #254D9A;
+  background-color: #3282D2;
+  color: white;
+}

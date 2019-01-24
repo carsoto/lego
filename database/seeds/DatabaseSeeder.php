@@ -30,5 +30,11 @@ class DatabaseSeeder extends Seeder
         $this->call(VacacionalTableSeeder::class);
 
         $this->call(VacacionalHorariosTableSeeder::class);
+
+        $this->call(CampamentosTableSeeder::class);
+
+        $this->call(CampamentosHorariosTableSeeder::class);
+        
+        $this->call(CampamentosFechasTableSeeder::class);
     }
 }

@@ -1,7 +1,7 @@
 @extends('adminlte::layouts.allpublic')
 
 @section('htmlheader_title')
-    Vacacional
+    Campamentos
 @endsection
 
 @section('content')
@@ -15,7 +15,7 @@
                             <a href="{{ url('/home') }}">
                                 <img src="{{ asset('public/images/logo-lego.png') }}" width="180px">
                             </a>
-                            <h3 style="font-family: Verdana;">¡Disfruta tus vacaciones haciendo deporte!</h3>    
+                            <h3 style="font-family: Verdana;">¡Disfruta de nuestro campamento!</h3>    
                         </div>
                         <div class="stepwizard">
                             <div class="stepwizard-row setup-panel">
@@ -33,7 +33,7 @@
                                 </div>-->
                             </div>
                         </div>
-                        {!! Form::open(['route' => 'vacacional.store', 'role' => 'form', 'id' => 'form-inscripcion']) !!}
+                        {!! Form::open(['route' => 'campamento.store', 'role' => 'form', 'id' => 'form-inscripcion']) !!}
                             <div class="row setup-content" id="step-1">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     @include('adminlte::atleta.registro-ninos', ['tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas])
@@ -42,24 +42,13 @@
                             </div>
                             <div class="row setup-content" id="step-2">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="text-center"><h3> Locación </h3></div>
-                                    <hr>
-                                    
-                                    <div class="text-center">
-                                        @foreach($locaciones AS $key => $locacion)
-                                            @if(count($locacion->vacacional()->where('activo', '=', 1)->get()) > 0)
-                                                <input type="radio" name="check_ubicacion_vacacional" value="{{ $locacion->id }}"> {{ $locacion->ubicacion }}    
-                                            @endif
-                                        @endforeach
-                                    </div>
-
                                     <div class="text-center"><h3> Horarios </h3></div>
                                     <hr>
                                     
-                                    @include('adminlte::vacacional.horarios', ['locaciones' => $locaciones])
+                                    @include('adminlte::campamento.horarios', ['locaciones' => $locaciones, 'datos_tarifa' => $datos_tarifas])
                                     
                                     <div id="resumen_pago" style="display: none; padding-top-top: 40px;">
-                                        @include('adminlte::vacacional.resumen_pago')
+                                        @include('adminlte::campamento.resumen_pago')
                                     </div>
 
                                     <div class="pull-right">

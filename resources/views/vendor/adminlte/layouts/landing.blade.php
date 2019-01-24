@@ -83,14 +83,12 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
 
     <div style="text-align: center;">
 
-        <a href="{{ route('vacacional.index') }}">
-
-            <img src="{{ asset('public/images/logo-lego.png') }}" width="180px">
-
-        </a>
+        <img src="{{ asset('public/images/logo-lego.png') }}" width="180px">
 
         <h3 style="font-family: Verdana;">¡Bienvenidos a nuestra academia!</h3>    
 
+        <a class="btn btn-primary" href="{{ route('vacacional.index') }}">VACACIONALES</a>
+        <a class="btn btn-success" href="{{ route('campamento.index') }}">CAMPAMENTOS</a>
     </div>
 
 </div>

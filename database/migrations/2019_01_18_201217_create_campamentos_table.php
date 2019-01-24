@@ -18,12 +18,12 @@ class CreateCampamentosTable extends Migration
             $table->integer('locaciones_id')->unsigned();
             $table->string('descripcion');
             $table->integer('edad_inicio');
-            $table->integer('edad_fin');
-            $table->decimal('tarifa_ins', 9, 2);
+            $table->integer('edad_fin')->nullable();
             $table->integer('porcentaje_individual')->nullable();
             $table->integer('porcentaje_grupal')->nullable();
             $table->date('fecha_limite');
             $table->integer('activo')->default(1);
+            $table->string('imagen')->nullable();
 
             $table->index('locaciones_id','fk_locaciones_campamentos_idx');
         

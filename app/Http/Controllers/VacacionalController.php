@@ -36,14 +36,13 @@ class VacacionalController extends Controller
                 }
                 $datos_tarifas['edad_inicio'] = $vacacional->edad_inicio;
                 $datos_tarifas['edad_fin'] = $vacacional->edad_fin;
-                $datos_tarifas['porc_grupal'] = $vacacional->porcentaje_grupal;
-                $datos_tarifas['porc_grupal'] = $vacacional->porcentaje_grupal;
                 $datos_tarifas['porc_individual'] = $vacacional->porcentaje_individual;
                 $datos_tarifas['porc_grupal'] = $vacacional->porcentaje_grupal;
                 $datos_tarifas['fecha_limite'] = Carbon::parse($vacacional->fecha_limite)->format('Y-m-d');
             }
         }
 
+        //dd($datos_tarifas);
         return view('adminlte::vacacional.index', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas));
     }
 
@@ -67,7 +66,7 @@ class VacacionalController extends Controller
     {
         try {
             $cantidad_alumnos = count($request->form_atleta);
-            $representante = Representante::updateOrCreate(['cedula' => $request->representante["cedula"]], [ 
+            $representante = Representante::firstOrCreate(['cedula' => $request->representante["cedula"]], [ 
                 'cedula' => $request->representante["cedula"],
                 'nombres' => $request->representante["nombres"],
                 'apellidos' => $request->representante["apellidos"],
@@ -77,7 +76,7 @@ class VacacionalController extends Controller
             ]);
 
             foreach($request->form_atleta AS $key => $atleta){
-                $atleta_reg = Atleta::updateOrCreate(['cedula' => $atleta["cedula"]], [ 
+                $atleta_reg = Atleta::firstOrCreate(['cedula' => $atleta["cedula"]], [ 
                     'cedula' => $atleta["cedula"],
                     'nombre' => $atleta["nombre"],
                     'apellido' => $atleta["apellido"],
@@ -91,7 +90,7 @@ class VacacionalController extends Controller
 
                 foreach($atleta["respuestas"]  AS $id_pregunta => $respuesta){
                     if($respuesta != null){
-                        AtletasInformacionAdicional::updateOrCreate(['atletas_id' => $atleta_reg->id, 'informacion_adicional_id' => $id_pregunta], [ 
+                        AtletasInformacionAdicional::firstOrCreate(['atletas_id' => $atleta_reg->id, 'informacion_adicional_id' => $id_pregunta], [ 
                             'atletas_id' => $atleta_reg->id,
                             'informacion_adicional_id' => $id_pregunta,
                             'respuesta' => $respuesta
@@ -102,9 +101,9 @@ class VacacionalController extends Controller
                 $representante->atletas()->sync($atleta_reg->id, false);
 
                 $pago = $request->pago_monto/$cantidad_alumnos;
-                InscripcionesVacacional::updateOrCreate(['atletas_id' => $atleta_reg->id, 'fecha_inscripcion' => date('Y-m-d')], [ 
+                InscripcionesVacacional::firstOrCreate(['atletas_id' => $atleta_reg->id, 'fecha_inscripcion' => date('Y-m-d')], [ 
                     'atletas_id' => $atleta_reg->id,
-                    'vacacional_horarios_id' => $request->check_horario_vacacional,
+                    'vacacional_horarios_id' => $request->check_horario,
                     'tarifa' => $request->pago_tarifa,
                     'descuento' => $request->pago_descuento,
                     'fecha_inscripcion' => date('Y-m-d'),

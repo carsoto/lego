@@ -17,7 +17,7 @@ class CreateAtletasTable extends Migration
             $table->engine = 'InnoDB';
         
             $table->increments('id')->unsigned();
-            $table->bigInteger('cedula')->unique();
+            $table->bigInteger('cedula')->unique()->nullable();
             $table->string('nombre', 80);
             $table->string('apellido', 80);
             $table->string('genero', 50);

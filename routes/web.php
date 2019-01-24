@@ -28,6 +28,9 @@ Route::resource('atleta', 'AtletaController');
 Route::resource('vacacional', 'VacacionalController');
 
 Route::resource('campamento', 'CampamentoController');
+Route::group(['prefix' => 'campamento'], function () {
+	Route::get('registro/{campamento_id}', 'CampamentoController@registro')->name('campamento.registro');
+});
 
 Route::group(['prefix' => 'registro'], function () {
 	Route::get('/', 'RegistroController@index')->name('registro.index');
