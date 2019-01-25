@@ -32,6 +32,10 @@ Route::group(['prefix' => 'campamento'], function () {
 	Route::get('registro/{campamento_id}', 'CampamentoController@registro')->name('campamento.registro');
 });
 
+Route::resource('torneo', 'TorneoController');
+
+Route::resource('alquiler', 'AlquilerController');
+
 Route::group(['prefix' => 'registro'], function () {
 	Route::get('/', 'RegistroController@index')->name('registro.index');
 	Route::post('/', 'RegistroController@store')->name('registro.store');
