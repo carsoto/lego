@@ -86,17 +86,31 @@ class CampamentoController extends Controller
             ]);
 
             foreach($request->form_atleta AS $key => $atleta){
-                $atleta_reg = Atleta::firstOrCreate(['cedula' => $atleta["cedula"]], [ 
-                    'cedula' => $atleta["cedula"],
-                    'nombre' => $atleta["nombre"],
-                    'apellido' => $atleta["apellido"],
-                    'genero' => $atleta["genero"],
-                    'fecha_nacimiento' => $atleta["fecha_nacimiento"],
-                    'red_social' => $atleta["red_social"],
-                    'instituto' => $atleta["instituto"],
-                    'talla_top' => $atleta["talla_top"],
-                    'talla_camiseta' => $atleta["talla_camiseta"]
-                ]);
+                if($atleta["cedula"] != ""){
+                    $atleta_reg = Atleta::firstOrCreate(['cedula' => $atleta["cedula"]], [ 
+                        'cedula' => $atleta["cedula"],
+                        'nombre' => $atleta["nombre"],
+                        'apellido' => $atleta["apellido"],
+                        'genero' => $atleta["genero"],
+                        'fecha_nacimiento' => $atleta["fecha_nacimiento"],
+                        'red_social' => $atleta["red_social"],
+                        'instituto' => $atleta["instituto"],
+                        'talla_top' => $atleta["talla_top"],
+                        'talla_camiseta' => $atleta["talla_camiseta"]
+                    ]);    
+                }else{
+                    $atleta_reg = Atleta::create([ 
+                        'cedula' => $atleta["cedula"],
+                        'nombre' => $atleta["nombre"],
+                        'apellido' => $atleta["apellido"],
+                        'genero' => $atleta["genero"],
+                        'fecha_nacimiento' => $atleta["fecha_nacimiento"],
+                        'red_social' => $atleta["red_social"],
+                        'instituto' => $atleta["instituto"],
+                        'talla_top' => $atleta["talla_top"],
+                        'talla_camiseta' => $atleta["talla_camiseta"]
+                    ]);
+                }
 
                 foreach($atleta["respuestas"]  AS $id_pregunta => $respuesta){
                     if($respuesta != null){

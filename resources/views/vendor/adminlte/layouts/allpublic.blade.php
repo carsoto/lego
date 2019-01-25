@@ -11,7 +11,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <body>
     <div id="app">
-        <div class="wrapper" style="min-height: 100%;">
+        <div class="wrapper">
 
 	        <!-- Main content -->
 	        <section class="content">

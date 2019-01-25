@@ -93,10 +93,7 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
         <a class="btn btn-success" href="{{ route('campamento.index') }}">CAMPAMENTOS</a>
         <a class="btn btn-primary" href="{{ route('vacacional.index') }}">VACACIONALES</a>
     </div>
-
 </div>
-
-
 
 <!-- Bootstrap core JavaScript
 

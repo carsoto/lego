@@ -41,7 +41,7 @@
 
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: 20px;">
 
-	<!--<div class="table-responsive">-->
+	<div class="table table-responsive">
 
 		<table id="lista-atletas" class="table table-bordered" style="font-size: 11px;">
 
@@ -73,6 +73,6 @@
 
 		</table>	
 
-	<!--</div>-->
+	</div>
 
 </div>
