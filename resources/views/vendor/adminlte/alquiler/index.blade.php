@@ -22,15 +22,15 @@
                         {!! Form::open(['route' => 'alquiler.store', 'role' => 'form', 'id' => 'form-alquiler']) !!}
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 {!! Form::label('fecha_alquiler', 'Fecha de alquiler') !!}<strong><span style='color: red;'>*</span></strong>
-                                {!! Form::text('atleta[fecha_nacimiento]', null, array('class' => 'form-control input-sm datepicker-nac', 'id' => 'atleta_fecha_alquiler', 'readonly'=>"readonly", "style" => "background: white;")) !!}
+                                {!! Form::text('partner[fecha_nacimiento]', null, array('class' => 'form-control input-sm datepicker-nac', 'id' => 'partner_fecha_alquiler', 'readonly'=>"readonly", "style" => "background: white;")) !!}
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 {!! Form::label('hora_inicio', 'Hora de inicio') !!}<strong><span style='color: red;'>*</span></strong>
-                                {!! Form::text('atleta[hora_inicio]', null, array('class' => 'form-control input-sm datepicker-nac', 'id' => 'atleta_hora_inicio', 'readonly'=>"readonly", "style" => "background: white;")) !!}
+                                {!! Form::text('partner[hora_inicio]', null, array('class' => 'form-control input-sm datepicker-nac', 'id' => 'partner_hora_inicio', 'readonly'=>"readonly", "style" => "background: white;")) !!}
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 {!! Form::label('hora_fin_alquiler', 'Hora de fin') !!}<strong><span style='color: red;'>*</span></strong>
-                                {!! Form::text('atleta[hora_fin]', null, array('class' => 'form-control input-sm datepicker-nac', 'id' => 'atleta_hora_fin', 'readonly'=>"readonly", "style" => "background: white;")) !!}
+                                {!! Form::text('partner[hora_fin]', null, array('class' => 'form-control input-sm datepicker-nac', 'id' => 'partner_hora_fin', 'readonly'=>"readonly", "style" => "background: white;")) !!}
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding-top: 4px;">
                                 <br>
@@ -43,49 +43,94 @@
 
                             <div id="form-alquiler-canchas">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: center;">
-                                    <h3 style="font-family: Verdana;">Datos de los jugadores</h3>
+                                    <h3 style="font-family: Verdana;">Datos del responsable</h3>
                                 </div>
 
                                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="padding: 5px;">
-                                    {!! Form::label('cedula', 'Cédula') !!}<strong><span id="ced-atleta" style='color: red;'>*</span></strong>
-                                    {!! Form::text('atleta[cedula]', null, array('class' => 'form-control input-sm', 'id' => 'atleta_cedula', 'onKeyPress'=>"return soloNumeros(event)")) !!}
+                                    {!! Form::label('cedula', 'Cédula') !!}<strong><span id="ced-partner" style='color: red;'>*</span></strong>
+                                    {!! Form::text('responsable[cedula]', null, array('class' => 'form-control input-sm', 'id' => 'responsable_cedula', 'onKeyPress'=>"return soloNumeros(event)")) !!}
                                 </div>
 
                                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="padding: 5px;">
                                     {!! Form::label('nombres', 'Nombres') !!}<strong><span style='color: red;'>*</span></strong>
-                                    {!! Form::text('atleta[nombre]', null, array('class' => 'form-control input-sm', 'id' => 'atleta_nombre')) !!}
+                                    {!! Form::text('responsable[nombre]', null, array('class' => 'form-control input-sm', 'id' => 'responsable_nombre')) !!}
                                 </div>
 
                                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="padding: 5px;">
                                     {!! Form::label('apellidos', 'Apellidos') !!}<strong><span style='color: red;'>*</span></strong>
-                                    {!! Form::text('atleta[apellido]', null, array('class' => 'form-control input-sm', 'id' => 'atleta_apellido')) !!}
+                                    {!! Form::text('responsable[apellido]', null, array('class' => 'form-control input-sm', 'id' => 'responsable_apellido')) !!}
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="padding: 5px;">
+                                    {!! Form::label('genero', 'Género') !!}<strong><span style='color: red;'>*</span></strong>
+                                    <div class="iradio icheck">
+                                        <label style="padding-right: 20px;">
+                                            <input value="Femenino" type="radio" name="responsable_genero" checked> Femenino
+                                        </label>
+                                        <label>
+                                            <input value="Masculino" type="radio" name="responsable_genero"> Masculino
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="padding: 5px;">
+                                    {!! Form::label('telefono', 'Teléfono') !!}
+                                    {!! Form::text('responsable[telefono]', null, array('class' => 'form-control input-sm', 'id' => 'responsable_telefono')) !!}
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="padding: 5px;">
+                                    {!! Form::label('red_social', 'Instagram/Facebook') !!}
+                                    {!! Form::text('responsable[red_social]', null, array('class' => 'form-control input-sm', 'id' => 'responsable_red_social')) !!}
+                                </div>
+                                
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <br>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: center;">
+                                    <h3 style="font-family: Verdana;">Datos de los acompañantes</h3>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="padding: 5px;">
+                                    {!! Form::label('cedula', 'Cédula') !!}<strong><span id="ced-partner" style='color: red;'>*</span></strong>
+                                    {!! Form::text('partner[cedula]', null, array('class' => 'form-control input-sm', 'id' => 'partner_cedula', 'onKeyPress'=>"return soloNumeros(event)")) !!}
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="padding: 5px;">
+                                    {!! Form::label('nombres', 'Nombres') !!}<strong><span style='color: red;'>*</span></strong>
+                                    {!! Form::text('partner[nombre]', null, array('class' => 'form-control input-sm', 'id' => 'partner_nombre')) !!}
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="padding: 5px;">
+                                    {!! Form::label('apellidos', 'Apellidos') !!}<strong><span style='color: red;'>*</span></strong>
+                                    {!! Form::text('partner[apellido]', null, array('class' => 'form-control input-sm', 'id' => 'partner_apellido')) !!}
                                 </div>
 
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding: 5px;">
                                     {!! Form::label('genero', 'Género') !!}<strong><span style='color: red;'>*</span></strong>
                                     <div class="iradio icheck">
                                         <label style="padding-right: 20px;">
-                                            <input value="Femenino" type="radio" name="atleta_genero" checked> Femenino
+                                            <input value="Femenino" type="radio" name="partner_genero" checked> Femenino
                                         </label>
                                         <label>
-                                            <input value="Masculino" type="radio" name="atleta_genero"> Masculino
+                                            <input value="Masculino" type="radio" name="partner_genero"> Masculino
                                         </label>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding: 5px;">
                                     {!! Form::label('telefono', 'Teléfono') !!}
-                                    {!! Form::text('atleta[telefono]', null, array('class' => 'form-control input-sm', 'id' => 'atleta_telefono')) !!}
+                                    {!! Form::text('partner[telefono]', null, array('class' => 'form-control input-sm', 'id' => 'partner_telefono')) !!}
                                 </div>
 
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding: 5px;">
                                     {!! Form::label('red_social', 'Instagram/Facebook') !!}
-                                    {!! Form::text('atleta[red_social]', null, array('class' => 'form-control input-sm', 'id' => 'atleta_red_social')) !!}
+                                    {!! Form::text('partner[red_social]', null, array('class' => 'form-control input-sm', 'id' => 'partner_red_social')) !!}
                                 </div>
 
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding-top: 9px;">
                                     <br>
-                                    <button class="btn btn-sm btn-block btn-primary"><i class="fa fa-plus"></i> AGREGAR JUGADOR</button>
+                                    <button class="btn btn-sm btn-block btn-primary"><i class="fa fa-plus"></i> AGREGAR ACOMPAÑANTE</button>
                                 </div>
 
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
