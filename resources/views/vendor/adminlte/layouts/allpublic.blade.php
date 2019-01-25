@@ -9,20 +9,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
     @include('adminlte::layouts.partials.htmlheader-public')
 @show
 
-<div id="app">
-  
-    <!-- Main content -->
-    <section class="content">
-        <!-- Your Page Content Here -->
-        @yield('content')
-    </section><!-- /.content -->
+<body>
+    <div id="app">
+        <div class="wrapper" style="min-height: 100%;">
 
-    <!-- @include('adminlte::layouts.partials.footer') -->
+	        <!-- Main content -->
+	        <section class="content">
+	        	@yield('content')
+	        </section><!-- /.content -->
 
-</div>
+        </div><!-- ./wrapper -->
+
+        @include('adminlte::layouts.partials.footer-public')
+    </div>
+</body>
 
 @section('scripts')
     @include('adminlte::layouts.partials.scripts')
 @show
 
 </html>
+
+
