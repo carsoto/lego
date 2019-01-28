@@ -17,6 +17,7 @@ class InformacionAdicionalTableSeeder extends Seeder
 			array('pregunta' => '¿Tiene algún problema físico o enfermedad que le limite hacer ejercicios?', 'created_at' => date('Y-m-d')),
 			array('pregunta' => '¿Toma algún medicamento?', 'created_at' => date('Y-m-d')),
 			array('pregunta' => '¿Tiene alguna alergia: animales, insectos, medicamentos u otros?', 'created_at' => date('Y-m-d')),
+            array('pregunta' => '¿Necesita transporte? Indícanos tu dirección', 'created_at' => date('Y-m-d')),
         );
 
         foreach (array_chunk($array_records, 100) as $records) {
