@@ -263,6 +263,28 @@
 
 		});
 
+    	var fecha_actual = new Date(); 
+		fecha_actual.setDate(fecha_actual.getDate()-1);
+
+    	$('.datepicker-reserva').datepicker({
+    		language: "es",
+
+			format: 'yyyy-mm-dd',
+
+		    orientation: "auto left",
+
+		    forceParse: false,
+
+		    autoclose: true,
+
+		    todayHighlight: true,
+
+		    toggleActive: true,
+
+		    startDate: fecha_actual,
+    	});
+		
+
 
 		var navListItems = $('div.setup-panel div a'), allWells = $('.setup-content'), allNextBtn = $('.nextBtn');
 
@@ -425,8 +447,6 @@
 		}
 
 	}
-
-
 
     function formatDate(date, delimiter) {
 
@@ -678,7 +698,59 @@
 
     }
 
+    function disponibilidad_reserva(){
+    	var h_inicio = $('select[name=reserva_hora_inicio]').val();
+    	var h_fin = $('select[name=reserva_hora_fin]').val();
+    	var hora_inicio = $("#reserva_hora_inicio option:selected").text();
+    	var hora_fin = $("#reserva_hora_fin option:selected").text();
+    	var fecha_reserva = $('#reserva_fecha_alquiler').val();
+    	var error_message = '<div class="text-left">Su formulario presenta errores<ul>';
+    	var valido = true;
 
+    	if(fecha_reserva == ""){
+    		error_message += '<li>La fecha de reserva no puede estar en blanco.</li>';
+    		valido = false;
+    	}
+
+    	if(parseInt(h_inicio) >= parseInt(h_fin)){
+    		error_message += '<li>La hora de inicio no puede ser mayor o igual a la hora de fin para la reserva.</li>';
+    		valido = false;
+    	}
+
+    	if(valido){
+    		$.ajax({
+	           	url: 'alquiler/reserva/buscar-disponibilidad',
+	            dataType: "JSON",
+	            type: 'GET',
+	            data: {fecha_reserva: fecha_reserva, h_inicio: hora_inicio, h_fin: hora_fin},
+	            success: function (response) {
+	            	/*if(response.status == 'success'){
+
+	            		swal("Hecho!", response.msg, "success");
+
+	        			datatable_usuarios.ajax.reload();
+
+	            	}else{
+
+	            		swal("Ocurrió un error!", response.msg, "error");
+
+	            	}*/
+
+	                
+
+	            },
+
+	            error: function (xhr, ajaxOptions, thrownError) {
+
+	                swal("Ocurrió un error!", "Por favor, intente de nuevo", "error");
+
+	            }
+	        });
+    	}else{
+    		error_message += '</ul></div>';
+    		swal("Ocurrió un error!", error_message, "error");
+    	}
+    }
 
 </script>
 

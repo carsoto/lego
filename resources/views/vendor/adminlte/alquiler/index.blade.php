@@ -22,26 +22,27 @@
                         {!! Form::open(['route' => 'alquiler.store', 'role' => 'form', 'id' => 'form-alquiler']) !!}
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 {!! Form::label('fecha_alquiler', 'Fecha de alquiler') !!}<strong><span style='color: red;'>*</span></strong>
-                                {!! Form::text('partner[fecha_nacimiento]', null, array('class' => 'form-control input-sm datepicker-nac', 'id' => 'partner_fecha_alquiler', 'readonly'=>"readonly", "style" => "background: white;")) !!}
+                                {!! Form::text('reserva_fecha', null, array('class' => 'form-control input-sm datepicker-reserva', 'id' => 'reserva_fecha_alquiler', 'readonly'=>"readonly", "style" => "background: white;")) !!}
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 {!! Form::label('hora_inicio', 'Hora de inicio') !!}<strong><span style='color: red;'>*</span></strong>
-                                {!! Form::text('partner[hora_inicio]', null, array('class' => 'form-control input-sm datepicker-nac', 'id' => 'partner_hora_inicio', 'readonly'=>"readonly", "style" => "background: white;")) !!}
+                                {!! Form::select('reserva_hora_inicio', $horas_inicio, null, array('class' => 'form-control input-sm', 'id' => 'reserva_hora_inicio')) !!}
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 {!! Form::label('hora_fin_alquiler', 'Hora de fin') !!}<strong><span style='color: red;'>*</span></strong>
-                                {!! Form::text('partner[hora_fin]', null, array('class' => 'form-control input-sm datepicker-nac', 'id' => 'partner_hora_fin', 'readonly'=>"readonly", "style" => "background: white;")) !!}
+                                {!! Form::select('reserva_hora_fin', $horas_fin, null, array('class' => 'form-control input-sm', 'id' => 'reserva_hora_fin')) !!}
                             </div>
+
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding-top: 4px;">
                                 <br>
-                                <button class="btn btn-sm btn-block btn-danger"><i class="fa fa-search"></i> BUSCAR DISPONIBILIDAD</button>
+                                <button class="btn btn-sm btn-block btn-danger" type="button" onclick="disponibilidad_reserva();"><i class="fa fa-search"></i> BUSCAR DISPONIBILIDAD</button>
                             </div>
                             
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <br>
                             </div>
 
-                            <div id="form-alquiler-canchas">
+                            <div id="form-alquiler-canchas" style="display: none;">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: center;">
                                     <h3 style="font-family: Verdana;">Datos del responsable</h3>
                                 </div>

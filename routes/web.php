@@ -35,6 +35,9 @@ Route::group(['prefix' => 'campamento'], function () {
 Route::resource('torneo', 'TorneoController');
 
 Route::resource('alquiler', 'AlquilerController');
+Route::group(['prefix' => 'alquiler'], function () {
+	Route::get('reserva/buscar-disponibilidad', 'AlquilerController@buscardisponibilidad')->name('alquiler.disponibilidad');
+});
 
 Route::group(['prefix' => 'registro'], function () {
 	Route::get('/', 'RegistroController@index')->name('registro.index');
