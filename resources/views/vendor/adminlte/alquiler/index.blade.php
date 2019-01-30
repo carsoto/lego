@@ -145,8 +145,8 @@
                                 
                                 <span class="label label-danger">NOTA IMPORTANTE</span>
                                 <ul>
-                                    <li><span class="label label-primary"> <span id='min_personas'>{{ $min_personas }}</span> personas $ <span id='tarifa_hora'>{{ $tarifa_standard_hora }}</span> por hora</span></li>
-                                    <li><span class="label label-warning"> > {{ $min_personas }} personas valor adicional $ <span id='tarifa_adicional_persona'>{{ $tarifa_adicional_hora }}</span> por hora por persona</span></li>
+                                    <li><span class="label label-primary"> Cantidad mínima de personas: <span id='min_personas'>{{ $min_personas }}</span></li>
+                                    <li><span class="label label-warning"> Tarifa por persona $ <span id='tarifa_hora'>{{ $tarifa_standard_hora }}</span> por hora</span></li>
                                 </ul>
                                
                                 <div class="table table-responsive">
@@ -161,7 +161,6 @@
                                                 <th class="text-center">Hora de inicio</th>
                                                 <th class="text-center">Hora de fin</th>
                                                 <th class="text-center">Cantidad de horas</th>
-                                                <th class="text-center">Valor adicional por persona</th>
                                                 <th class="text-center">Valor a pagar</th>
                                             </tr>
                                             <tr>
@@ -170,7 +169,6 @@
                                                 <th class="text-center"><span id='reserva_h_inicio'></span></th>
                                                 <th class="text-center"><span id='reserva_h_fin'></span></th>
                                                 <th class="text-center"><span id='reserva_cantidad_horas'></span></th>
-                                                <th class="text-center"><span id='reserva_valor_adicional'></span></th>
                                                 <th class="text-center"><span id='reserva_pago'></span></th>
                                             </tr>
                                         </tbody>

@@ -14,9 +14,8 @@ class ReservaConfiguracionTableSeeder extends Seeder
         set_time_limit(0);
 
         $array_records = array (
-			array('propiedad' => 'Tarifa por hora', 'valor' => '25', 'created_at' => date('Y-m-d')),
-			array('propiedad' => 'Cantidad de personas por tarifa', 'valor' => '6', 'created_at' => date('Y-m-d')),
-			array('propiedad' => 'Tarifa por persona adicional', 'valor' => '5', 'created_at' => date('Y-m-d')),
+			array('propiedad' => 'Tarifa por hora', 'valor' => '5', 'created_at' => date('Y-m-d')),
+			array('propiedad' => 'Cantidad de personas por tarifa', 'valor' => '4', 'created_at' => date('Y-m-d')),
 			array('propiedad' => 'Cantidad de canchas', 'valor' => '3', 'created_at' => date('Y-m-d')),
 			array('propiedad' => 'Hora inicio', 'valor' => '8', 'created_at' => date('Y-m-d')),
 			array('propiedad' => 'Hora fin', 'valor' => '21', 'created_at' => date('Y-m-d')),

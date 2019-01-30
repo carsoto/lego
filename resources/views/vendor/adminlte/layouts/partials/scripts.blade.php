@@ -823,16 +823,16 @@
 			var min_personas = $('#min_personas').text();
 			var tarifa_hora = $('#tarifa_hora').text();
 			var tarifa_adicional = $('#tarifa_adicional_persona').text();
-			var min_invitados = parseInt(min_personas) - 1;
+			/*var min_invitados = parseInt(min_personas) - 1;
 
 			if(cantidad_invitados > min_invitados){
 				var p_adicional = cantidad_invitados - min_invitados;
 				var tarifa_adicional_hora = parseInt(tarifa_adicional) * (h_fin - h_inicio)
 				adicional = p_adicional * tarifa_adicional_hora;
 				document.getElementById('reserva_valor_adicional').innerHTML = adicional;	
-			}
+			}**/
 			
-			document.getElementById('reserva_pago').innerHTML = parseInt(tarifa_hora) + adicional;
+			document.getElementById('reserva_pago').innerHTML = '$ ' + ((parseInt(tarifa_hora) * (cantidad_invitados + 1)) * (h_fin - h_inicio));
 		}
 		else{
 			error_message += '</ul></div>';
@@ -880,6 +880,8 @@
 			valido = false;
 		}
 
+		valido = true;
+		
     	if(valido){
     		document.getElementById('form-alquiler').submit();
     	}else{
