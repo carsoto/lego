@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ReservaConfiguracion;
 use Funciones;
+use Response;
 
 class AlquilerController extends Controller
 {
@@ -17,10 +18,16 @@ class AlquilerController extends Controller
     {
         $h_inicio = Funciones::configuracion_reserva('Hora inicio');
         $h_fin = Funciones::configuracion_reserva('Hora fin');
+        $cantd_canchas = Funciones::configuracion_reserva('Cantidad de canchas');
+        $tarifa_standard_hora = Funciones::configuracion_reserva('Tarifa por hora');
+        $tarifa_adicional_hora = Funciones::configuracion_reserva('Tarifa por persona adicional');
+        $min_personas = Funciones::configuracion_reserva('Cantidad de personas por tarifa');
+
         for ($i=$h_inicio; $i <= $h_fin; $i++) { 
             $horas[$i] = $i.':00';
         }
-        return view('adminlte::alquiler.index', ['horas' => $horas]);
+
+        return view('adminlte::alquiler.index', ['horas' => $horas, 'cantd_canchas' => $cantd_canchas, 'tarifa_standard_hora' => $tarifa_standard_hora, 'tarifa_adicional_hora' => $tarifa_adicional_hora, 'min_personas' => $min_personas]);
     }
 
     /**
@@ -41,7 +48,7 @@ class AlquilerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**
@@ -93,7 +100,7 @@ class AlquilerController extends Controller
         $request->fecha_reserva;
         $request->h_inicio;
         $request->h_fin;
-
-        $cantd_canchas = Funciones::configuracion_reserva('Cantidad de canchas');
+        $status = 'disponible';
+        return Response::json(array('status' => $status));
     }
 }

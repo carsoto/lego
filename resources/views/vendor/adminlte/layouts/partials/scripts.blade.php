@@ -699,6 +699,7 @@
     }
 
     function disponibilidad_reserva(){
+    	var cantidad_invitados = $('#lista-invitados tbody').children().length;
     	var h_inicio = $('select[name=reserva_hora_inicio]').val();
     	var h_fin = $('select[name=reserva_hora_fin]').val();
     	var hora_inicio = $("#reserva_hora_inicio option:selected").text();
@@ -706,6 +707,11 @@
     	var fecha_reserva = $('#reserva_fecha_alquiler').val();
     	var error_message = '<div class="text-left">Su formulario presenta errores<ul>';
     	var valido = true;
+
+		document.getElementById('reserva_fecha').innerHTML = fecha_reserva;
+		document.getElementById('reserva_h_inicio').innerHTML = hora_inicio;
+		document.getElementById('reserva_h_fin').innerHTML = hora_fin;
+		document.getElementById('reserva_cantidad_horas').innerHTML = h_fin - h_inicio;
 
     	if(fecha_reserva == ""){
     		error_message += '<li>La fecha de reserva no puede estar en blanco.</li>';
@@ -724,26 +730,16 @@
 	            type: 'GET',
 	            data: {fecha_reserva: fecha_reserva, h_inicio: hora_inicio, h_fin: hora_fin},
 	            success: function (response) {
-	            	/*if(response.status == 'success'){
-
-	            		swal("Hecho!", response.msg, "success");
-
-	        			datatable_usuarios.ajax.reload();
-
+	            	if(response.status == 'disponible'){
+	            		document.getElementById('form-alquiler-canchas').style.display = "block";
 	            	}else{
-
-	            		swal("Ocurrió un error!", response.msg, "error");
-
-	            	}*/
-
-	                
-
+	            		swal("No hay disponibilidad!", response.status, "error");
+	            		document.getElementById('form-alquiler-canchas').style.display = "none";
+	            	}
 	            },
 
 	            error: function (xhr, ajaxOptions, thrownError) {
-
-	                swal("Ocurrió un error!", "Por favor, intente de nuevo", "error");
-
+	                swal("Ocurrió un error!", "No se pudo consultar la disponibilidad de las canchas, intente más tarde", "error");
 	            }
 	        });
     	}else{
@@ -753,12 +749,143 @@
     }
 
     function agregar_invitado(){
-		console.log(document.getElementById('guest_cedula').value);
-		console.log(document.getElementById('guest_nombre').value);
-		console.log(document.getElementById('guest_apellido').value);
-		console.log(document.getElementById('guest_telefono').value);
-		console.log(document.getElementById('guest_email').value);
-		console.log(document.getElementById('guest_red_social').value);
+    	var h_inicio = $('select[name=reserva_hora_inicio]').val();
+    	var h_fin = $('select[name=reserva_hora_fin]').val();
+    	var hora_inicio = $("#reserva_hora_inicio option:selected").text();
+    	var hora_fin = $("#reserva_hora_fin option:selected").text();
+    	var fecha_reserva = $('#reserva_fecha_alquiler').val();
+    	var table = document.getElementById("lista-invitados");
+    	var row = table.insertRow(0);
+    	var cantidad_invitados = $('#lista-invitados tbody').children().length;
+    	var error_message = '<div class="text-left">Su formulario presenta errores<ul>';
+    	var valido = true;
+		var text1 = document.getElementById('guest_cedula').value;
+		var text2 = document.getElementById('guest_nombre').value;
+		var text3 = document.getElementById('guest_apellido').value;
+		var text4 = document.getElementById('guest_telefono').value;
+		var text5 = document.getElementById('guest_email').value;
+		var text6 = document.getElementById('guest_red_social').value;
+
+		var adicional = 0;
+
+		if(text1 == ""){
+			error_message += "<li>El campo <strong>cédula</strong> es obligatorio.</li>";
+			valido = false;
+		}
+
+		if(text2 == ""){
+			error_message += "<li>El campo <strong>nombre</strong> es obligatorio.</li>";
+			valido = false;
+		}
+
+		if(text3 == ""){
+			error_message += "<li>El campo <strong>apellido</strong> es obligatorio.</li>";
+			valido = false;
+		}
+
+		if(valido){
+			var cell1 = row.insertCell(0);
+				cell1.innerHTML = '<input value="'+text1+'" type="text" name="form_guest['+ cantidad_invitados +'][cedula]" style="border: 0px solid;" readonly="readonly">';
+
+			var cell2 = row.insertCell(1);
+				cell2.innerHTML = '<input value="'+text2+'" type="text" name="form_guest['+ cantidad_invitados +'][nombre]" style="border: 0px solid;" readonly="readonly">';
+
+			var cell3 = row.insertCell(2);
+				cell3.innerHTML = '<input value="'+text3+'" type="text" name="form_guest['+ cantidad_invitados +'][apellido]" style="border: 0px solid;" readonly="readonly">';
+
+			var cell4 = row.insertCell(3);
+				cell4.innerHTML = '<input value="'+text4+'" type="text" name="form_guest['+ cantidad_invitados +'][telefono]" style="border: 0px solid;" readonly="readonly">';
+
+			var cell5 = row.insertCell(4);
+				cell5.innerHTML = '<input value="'+text5+'" type="text" name="form_guest['+ cantidad_invitados +'][email]" style="border: 0px solid;" readonly="readonly">';
+
+			var cell6 = row.insertCell(5);
+				cell6.innerHTML = '<input value="'+text6+'" type="text" name="form_guest['+ cantidad_invitados +'][red_social]" style="border: 0px solid;" readonly="readonly">';
+
+			var cell7 = row.insertCell(6);
+				cell7.innerHTML = '<a href="#" name="remove" onclick="eliminar_invitado(this)"><i class="fa fa-times"></i></a>';
+
+			$('#lista-invitados tbody').append(row);
+
+			document.getElementById('guest_cedula').value = "";
+			document.getElementById('guest_nombre').value = "";
+			document.getElementById('guest_apellido').value = "";
+			document.getElementById('guest_telefono').value = "";
+			document.getElementById('guest_email').value = "";
+			document.getElementById('guest_red_social').value = "";
+
+			document.getElementById('reserva_cantidad_invitados').innerHTML = cantidad_invitados + 1;
+			document.getElementById('reserva_fecha').innerHTML = fecha_reserva;
+			document.getElementById('reserva_h_inicio').innerHTML = hora_inicio;
+			document.getElementById('reserva_h_fin').innerHTML = hora_fin;
+			document.getElementById('reserva_cantidad_horas').innerHTML = h_fin - h_inicio;
+
+			var min_personas = $('#min_personas').text();
+			var tarifa_hora = $('#tarifa_hora').text();
+			var tarifa_adicional = $('#tarifa_adicional_persona').text();
+			var min_invitados = parseInt(min_personas) - 1;
+
+			if(cantidad_invitados > min_invitados){
+				var p_adicional = cantidad_invitados - min_invitados;
+				var tarifa_adicional_hora = parseInt(tarifa_adicional) * (h_fin - h_inicio)
+				adicional = p_adicional * tarifa_adicional_hora;
+				document.getElementById('reserva_valor_adicional').innerHTML = adicional;	
+			}
+			
+			document.getElementById('reserva_pago').innerHTML = parseInt(tarifa_hora) + adicional;
+		}
+		else{
+			error_message += '</ul></div>';
+    		swal("Ocurrió un error!", error_message, "error");
+		}
+    }
+
+    function eliminar_invitado(obj){
+    	$(obj).closest('tr').remove();
+    }
+
+    function validar_form_alquiler(){
+    	var valido = true;
+
+		var text1 = document.getElementById('responsable_cedula').value;
+		var text2 = document.getElementById('responsable_nombre').value;
+		var text3 = document.getElementById('responsable_apellido').value;
+		var text4 = document.getElementById('responsable_telefono').value;
+		var text5 = document.getElementById('responsable_email').value;
+
+		var error_message = '<div class="text-left">Su formulario presenta errores<ul>';
+		
+		if(text1 == ""){
+			error_message += "<li>El campo <strong>cédula</strong> del responsable es obligatorio.</li>";
+			valido = false;
+		}
+
+		if(text2 == ""){
+			error_message += "<li>El campo <strong>nombre</strong> del responsable es obligatorio.</li>";
+			valido = false;
+		}
+
+		if(text3 == ""){
+			error_message += "<li>El campo <strong>apellido</strong> del responsable es obligatorio.</li>";
+			valido = false;
+		}
+
+		if(text4 == ""){
+			error_message += "<li>El campo <strong>teléfono</strong> del responsable es obligatorio.</li>";
+			valido = false;
+		}
+
+		if(text5 == ""){
+			error_message += "<li>El campo <strong>correo electrónico</strong> del responsable es obligatorio.</li>";
+			valido = false;
+		}
+
+    	if(valido){
+    		document.getElementById('form-alquiler').submit();
+    	}else{
+			error_message += '</ul></div>';
+    		swal("Ocurrió un error!", error_message, "error");
+		}
     }
 
 </script>

@@ -35,14 +35,14 @@
 
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding-top: 4px;">
                                 <br>
-                                <button class="btn btn-sm btn-block btn-danger" type="button" onclick="disponibilidad_reserva();"><i class="fa fa-search"></i> BUSCAR DISPONIBILIDAD</button>
+                                <button class="btn btn-sm btn-flat btn-block btn-danger" type="button" onclick="disponibilidad_reserva();"><i class="fa fa-search"></i> BUSCAR DISPONIBILIDAD</button>
                             </div>
                             
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <br>
                             </div>
 
-                            <div id="form-alquiler-canchas">
+                            <div id="form-alquiler-canchas" style="display: none;">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: center;">
                                     <h3 style="font-family: Verdana;">Datos del responsable</h3>
                                 </div>
@@ -63,12 +63,12 @@
                                 </div>
 
                                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="padding: 5px;">
-                                    {!! Form::label('telefono', 'Teléfono') !!}
+                                    {!! Form::label('telefono', 'Teléfono') !!}<strong><span style='color: red;'>*</span></strong>
                                     {!! Form::text('responsable[telefono]', null, array('class' => 'form-control input-sm', 'id' => 'responsable_telefono')) !!}
                                 </div>
 
                                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="padding: 5px;">
-                                    {!! Form::label('email', 'Correo electrónico') !!}
+                                    {!! Form::label('email', 'Correo electrónico') !!}<strong><span style='color: red;'>*</span></strong>
                                     {!! Form::text('responsable[email]', null, array('class' => 'form-control input-sm', 'id' => 'responsable_email')) !!}
                                 </div>
 
@@ -117,7 +117,7 @@
 
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding-top: 9px;">
                                     <br>
-                                    <button class="btn btn-sm btn-block btn-primary" type='button' onclick='agregar_invitado();'><i class="fa fa-plus"></i> AGREGAR ACOMPAÑANTE</button>
+                                    <button class="btn btn-sm btn-flat btn-block btn-primary" type='button' onclick='agregar_invitado();'><i class="fa fa-plus"></i> AGREGAR ACOMPAÑANTE</button>
                                 </div>
 
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -125,7 +125,7 @@
                                 </div>
 
                                 <div class="table table-responsive">
-                                    <table id="lista-alquiler" class="table table-bordered" style="font-size: 11px;">
+                                    <table id="lista-invitados" class="table table-bordered" style="font-size: 11px;">
                                         <thead>
                                             <th colspan="7" class="text-center"> JUGADORES </th>
                                         </thead>
@@ -134,27 +134,19 @@
                                                 <th class="text-center">Cédula</th>
                                                 <th class="text-center">Nombres</th>
                                                 <th class="text-center">Apellidos</th>
-                                                <th class="text-center">Correo electrónico</th>
                                                 <th class="text-center">Teléfono</th>
+                                                <th class="text-center">Correo electrónico</th>
                                                 <th class="text-center">Instagram/Facebook</th>
                                                 <th class="text-center"><i class="fa fa-gears"></i></th>
                                             </tr>
-                                            <!--<tr>
-                                                <td class="text-center">aa</td>
-                                                <td class="text-center">aa</td>
-                                                <td class="text-center">aa</td>
-                                                <td class="text-center">aa</td>
-                                                <td class="text-center">aa</td>
-                                                <td class="text-center"><i class="fa fa-close"></i></td>
-                                            </tr>-->
                                         </tbody>
                                     </table>    
                                 </div>
                                 
                                 <span class="label label-danger">NOTA IMPORTANTE</span>
                                 <ul>
-                                    <li><span class="label label-primary"> 6 personas 25$ por hora</span></li>
-                                    <li><span class="label label-warning"> +6 personas valor adicional 5$ por hora</span></li>
+                                    <li><span class="label label-primary"> <span id='min_personas'>{{ $min_personas }}</span> personas $ <span id='tarifa_hora'>{{ $tarifa_standard_hora }}</span> por hora</span></li>
+                                    <li><span class="label label-warning"> > {{ $min_personas }} personas valor adicional $ <span id='tarifa_adicional_persona'>{{ $tarifa_adicional_hora }}</span> por hora por persona</span></li>
                                 </ul>
                                
                                 <div class="table table-responsive">
@@ -172,15 +164,15 @@
                                                 <th class="text-center">Valor adicional por persona</th>
                                                 <th class="text-center">Valor a pagar</th>
                                             </tr>
-                                            <!--<tr>
-                                                <th class="text-center">6</th>
-                                                <th class="text-center">20/02/2019</th>
-                                                <th class="text-center">14:00</th>
-                                                <th class="text-center">15:00</th>
-                                                <th class="text-center">01</th>
-                                                <th class="text-center">-</th>
-                                                <th class="text-center">$ 25</th>
-                                            </tr>-->
+                                            <tr>
+                                                <th class="text-center"><span id='reserva_cantidad_invitados'></span></th>
+                                                <th class="text-center"><span id='reserva_fecha'></span></th>
+                                                <th class="text-center"><span id='reserva_h_inicio'></span></th>
+                                                <th class="text-center"><span id='reserva_h_fin'></span></th>
+                                                <th class="text-center"><span id='reserva_cantidad_horas'></span></th>
+                                                <th class="text-center"><span id='reserva_valor_adicional'></span></th>
+                                                <th class="text-center"><span id='reserva_pago'></span></th>
+                                            </tr>
                                         </tbody>
                                     </table>    
                                 </div>
@@ -191,7 +183,7 @@
                                     <br>
                                 </div>
 
-                                <button class="btn btn-sm btn-block btn-warning"><i class="fa fa-calendar"></i> RESERVAR CANCHA </button>
+                                <button class="btn btn-sm btn-block btn-warning" type="button" onclick="validar_form_alquiler();"><i class="fa fa-calendar"></i> RESERVAR CANCHA </button>
                             </div>
                         {!! Form::close() !!}
                     </div>
