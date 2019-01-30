@@ -23,7 +23,6 @@ class CreateReservaInvitadosTable extends Migration
             $table->string('email', 45);
             $table->string('telefono', 15);
             $table->string('red_social', 100);
-            $table->decimal('pago', 9, 2);
             $table->integer('activo')->default(1);
         
             $table->timestamps();

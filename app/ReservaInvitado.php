@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Tue, 29 Jan 2019 20:46:46 +0000.
+ * Date: Wed, 30 Jan 2019 04:02:46 +0000.
  */
 
 namespace App;
@@ -19,7 +19,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $email
  * @property string $telefono
  * @property string $red_social
- * @property float $pago
  * @property int $activo
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
@@ -32,7 +31,6 @@ class ReservaInvitado extends Eloquent
 {
 	protected $casts = [
 		'cedula' => 'int',
-		'pago' => 'float',
 		'activo' => 'int'
 	];
 
@@ -43,7 +41,6 @@ class ReservaInvitado extends Eloquent
 		'email',
 		'telefono',
 		'red_social',
-		'pago',
 		'activo'
 	];
 

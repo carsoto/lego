@@ -752,5 +752,14 @@
     	}
     }
 
+    function agregar_invitado(){
+		console.log(document.getElementById('guest_cedula').value);
+		console.log(document.getElementById('guest_nombre').value);
+		console.log(document.getElementById('guest_apellido').value);
+		console.log(document.getElementById('guest_telefono').value);
+		console.log(document.getElementById('guest_email').value);
+		console.log(document.getElementById('guest_red_social').value);
+    }
+
 </script>
 
