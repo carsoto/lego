@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ReservaConfiguracion;
-use App\ReservaAlquiler;
-use App\ReservaInvitado;
-use App\ReservaAlquilerInvitado;
+use App\Alquiler;
+use App\Invitado;
 use Funciones;
 use Response;
 
@@ -55,15 +54,16 @@ class AlquilerController extends Controller
         $arr_invitados = $request->form_guest;
         $pago = ((count($arr_invitados) + 1) * $tarifa_standard_hora) * $cantd_horas;
 
-        $reserva = ReservaAlquiler::create([
+        $reserva = Alquiler::create([
             'fecha' => $request->reserva_fecha,
             'hora_inicio' => $request->reserva_hora_inicio.':00',
             'hora_fin' => $request->reserva_hora_fin.':00',
-            'status' => 'Pendiente',
-            'pago' => $pago
+            'cancha' => $request->cancha_asignada,
+            'status'=> 'Pendiente',
+            'pago'=> $pago
         ]);
 
-        $responsable = ReservaInvitado::firstOrCreate([
+        $responsable = Invitado::firstOrCreate([
             'cedula' => $request->responsable["cedula"],
             'nombres' => $request->responsable["nombre"],
             'apellidos' => $request->responsable["apellido"],
@@ -79,10 +79,10 @@ class AlquilerController extends Controller
             ]
         ];
 
-        $reserva->reserva_alquiler_invitados()->sync($responsable->id, false);
+        $reserva->invitados()->sync($reg_responsable, false);
 
         for ($i=1; $i <= count($arr_invitados); $i++) { 
-            $invitado = ReservaInvitado::firstOrCreate([
+            $invitado = Invitado::firstOrCreate([
                 'cedula' => $arr_invitados[$i]["cedula"],
                 'nombres' => $arr_invitados[$i]["nombre"],
                 'apellidos' => $arr_invitados[$i]["apellido"],
@@ -92,16 +92,10 @@ class AlquilerController extends Controller
                 'activo' => 1
             ]);
 
-            $reg_invitado = [
-                $invitado->id => [
-                    'responsable' => 0,
-                ]
-            ];
-
-            $reserva->reserva_alquiler_invitados()->sync($invitado->id, false);
+            $reserva->invitados()->sync($invitado->id, false);
         }
         $message = 'Ya registramos tu reservación, recuerda que el pago debe hacerse al menos una hora antes del inicio de tu reserva de lo contrario será cancelada';
-        return view('adminlte::alquiler.index', ['message' => $message]);
+        return view('adminlte::alquiler.alquiler_finalizado', ['message' => $message, 'status' => 'success']);
     }
 
     /**
@@ -150,10 +144,35 @@ class AlquilerController extends Controller
     }
 
     public function buscardisponibilidad(Request $request){
-        $request->fecha_reserva;
-        $request->h_inicio;
-        $request->h_fin;
-        $status = 'disponible';
-        return Response::json(array('status' => $status));
+        $reservas = Alquiler::where('fecha', '=', $request->fecha_reserva)->get();
+        $cantd_canchas = Funciones::configuracion_reserva('Cantidad de canchas');
+        $canchas_ocupadas = array();
+        $cancha = 0;
+        
+        if(count($reservas) > 0){
+            foreach ($reservas as $key => $reserva) {
+                if ($reserva->hora_inicio == $request->h_inicio) {
+                    $canchas_ocupadas[$reserva->cancha] = 'ocupada';
+                }else if($request->h_inicio < $reserva->hora_fin){
+                    $canchas_ocupadas[$reserva->cancha] = 'ocupada';
+                }else if(($request->h_inicio > $reserva->hora_inicio) && ($request->h_inicio < $reserva->hora_fin)){
+                    $canchas_ocupadas[$reserva->cancha] = 'ocupada';
+                }
+            }
+
+            if(count($canchas_ocupadas) == $cantd_canchas){
+                $cancha = 0;
+                $status = 'no disponible';
+            }else{
+                while(!array_key_exists($cancha, $canchas_ocupadas)){
+                    $cancha = rand(1, $cantd_canchas);
+                }
+                $status = 'disponible';
+            }
+        }else{
+            $cancha = 1;
+            $status = 'disponible';
+        }
+        return Response::json(array('status' => $status, 'cancha' => $cancha));
     }
 }

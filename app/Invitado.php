@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 30 Jan 2019 04:02:46 +0000.
+ * Date: Thu, 31 Jan 2019 15:47:55 +0000.
  */
 
 namespace App;
@@ -10,7 +10,7 @@ namespace App;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class ReservaInvitado
+ * Class Invitado
  * 
  * @property int $id
  * @property int $cedula
@@ -23,11 +23,11 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * 
- * @property \Illuminate\Database\Eloquent\Collection $reserva_alquiler_invitados
+ * @property \Illuminate\Database\Eloquent\Collection $alquilers
  *
  * @package App
  */
-class ReservaInvitado extends Eloquent
+class Invitado extends Eloquent
 {
 	protected $casts = [
 		'cedula' => 'int',
@@ -44,8 +44,10 @@ class ReservaInvitado extends Eloquent
 		'activo'
 	];
 
-	public function reserva_alquiler_invitados()
+	public function alquiler()
 	{
-		return $this->hasMany(\App\ReservaAlquilerInvitado::class, 'reserva_invitados_id');
+		return $this->belongsToMany(\App\Alquiler::class, 'alquiler_invitados', 'invitados_id')
+					->withPivot('id')
+					->withTimestamps();
 	}
 }

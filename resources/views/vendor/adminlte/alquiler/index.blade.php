@@ -152,11 +152,12 @@
                                 <div class="table table-responsive">
                                     <table id="lista-alquiler" class="table table-striped" style="font-size: 11px;">
                                         <thead>
-                                            <th colspan="7" class="text-center"> RESUMEN DE RESERVA </th>
+                                            <th colspan="8" class="text-center"> RESUMEN DE RESERVA </th>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <th class="text-center">Cantidad de personas</th>
+                                                <th class="text-center">Cancha Asignada</th>
                                                 <th class="text-center">Fecha de reserva</th>
                                                 <th class="text-center">Hora de inicio</th>
                                                 <th class="text-center">Hora de fin</th>
@@ -165,6 +166,7 @@
                                             </tr>
                                             <tr>
                                                 <th class="text-center"><span id='reserva_cantidad_invitados'></span></th>
+                                                <th class="text-center"><input type="text" name="cancha_asignada" id="cancha_asignada" readonly="readonly" style="display: none;"><span id='reserva_cancha'></span></th>
                                                 <th class="text-center"><span id='reserva_fecha'></span></th>
                                                 <th class="text-center"><span id='reserva_h_inicio'></span></th>
                                                 <th class="text-center"><span id='reserva_h_fin'></span></th>

@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Tue, 29 Jan 2019 20:46:33 +0000.
+ * Date: Thu, 31 Jan 2019 15:47:46 +0000.
  */
 
 namespace App;
@@ -10,26 +10,28 @@ namespace App;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class ReservaAlquiler
+ * Class Alquiler
  * 
  * @property int $id
  * @property \Carbon\Carbon $fecha
  * @property string $hora_inicio
  * @property string $hora_fin
+ * @property int $cancha
  * @property string $status
  * @property float $pago
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * 
- * @property \Illuminate\Database\Eloquent\Collection $reserva_alquiler_invitados
+ * @property \Illuminate\Database\Eloquent\Collection $invitados
  *
  * @package App
  */
-class ReservaAlquiler extends Eloquent
+class Alquiler extends Eloquent
 {
-	protected $table = 'reserva_alquiler';
+	protected $table = 'alquiler';
 
 	protected $casts = [
+		'cancha' => 'int',
 		'pago' => 'float'
 	];
 
@@ -41,12 +43,15 @@ class ReservaAlquiler extends Eloquent
 		'fecha',
 		'hora_inicio',
 		'hora_fin',
+		'cancha',
 		'status',
 		'pago'
 	];
 
-	public function reserva_alquiler_invitados()
+	public function invitados()
 	{
-		return $this->hasMany(\App\ReservaAlquilerInvitado::class);
+		return $this->belongsToMany(\App\Invitado::class, 'alquiler_invitados', 'alquiler_id', 'invitados_id')
+					->withPivot('id')
+					->withTimestamps();
 	}
 }

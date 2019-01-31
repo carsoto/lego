@@ -13,8 +13,11 @@
             <div class="box box-danger">
                 <div class="box-body">
                     <div class="text-center">
-                        <a href="{{ route('academia.inscripcion_prueba') }}" class="btn btn-primary">Clase de prueba</a>
-                        <a href="{{ route('academia.inscripcion') }}" class="btn btn-success">Academia</a>
+                        <div style="text-align: center;">
+                            <img src="{{ asset('public/images/logo-lego.png') }}" width="180px">
+                            <h3 style="font-family: Verdana;">¡LEGO BEACH VOLLEY!</h3>
+                            <h4>INSCRIPCION</h4>
+                        </div>
                     </div>
                 </div>
             </div>

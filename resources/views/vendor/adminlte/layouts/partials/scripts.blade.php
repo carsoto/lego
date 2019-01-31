@@ -282,6 +282,8 @@
 		    toggleActive: true,
 
 		    startDate: fecha_actual,
+
+		    //daysOfWeekDisabled: [0],
     	});
 		
 
@@ -731,6 +733,8 @@
 	            data: {fecha_reserva: fecha_reserva, h_inicio: hora_inicio, h_fin: hora_fin},
 	            success: function (response) {
 	            	if(response.status == 'disponible'){
+	            		document.getElementById('cancha_asignada').value = response.cancha;
+						document.getElementById('reserva_cancha').innerHTML = response.cancha;
 	            		document.getElementById('form-alquiler-canchas').style.display = "block";
 	            	}else{
 	            		swal("No hay disponibilidad!", response.status, "error");
@@ -823,16 +827,8 @@
 			var min_personas = $('#min_personas').text();
 			var tarifa_hora = $('#tarifa_hora').text();
 			var tarifa_adicional = $('#tarifa_adicional_persona').text();
-			/*var min_invitados = parseInt(min_personas) - 1;
 
-			if(cantidad_invitados > min_invitados){
-				var p_adicional = cantidad_invitados - min_invitados;
-				var tarifa_adicional_hora = parseInt(tarifa_adicional) * (h_fin - h_inicio)
-				adicional = p_adicional * tarifa_adicional_hora;
-				document.getElementById('reserva_valor_adicional').innerHTML = adicional;	
-			}**/
-			
-			document.getElementById('reserva_pago').innerHTML = '$ ' + ((parseInt(tarifa_hora) * (cantidad_invitados + 1)) * (h_fin - h_inicio));
+			document.getElementById('reserva_pago').innerHTML = '$ ' + ((parseInt(tarifa_hora) * (cantidad_invitados + 1)) * (h_fin - h_inicio)) + '.00';
 		}
 		else{
 			error_message += '</ul></div>';
@@ -881,7 +877,7 @@
 		}
 
 		valido = true;
-		
+
     	if(valido){
     		document.getElementById('form-alquiler').submit();
     	}else{

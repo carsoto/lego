@@ -19,7 +19,12 @@ Route::get('/', function () {
     return view('adminlte::auth.login');
 });*/
 
-Route::resource('academia', 'AcademiaController');
+//Route::resource('academia', 'AcademiaController');
+Route::group(['prefix' => 'academia'], function () {
+	Route::get('/', 'AcademiaController@index')->name('academia.index');
+	Route::get('inscripcion/prueba', 'AcademiaController@inscripcionprueba')->name('academia.inscripcion_prueba');
+	Route::get('inscripcion/', 'AcademiaController@inscripcionacademia')->name('academia.inscripcion');
+});
 
 Route::resource('servicios', 'ServiciosController');
 

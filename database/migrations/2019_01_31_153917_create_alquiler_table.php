@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateReservaAlquilerTable extends Migration
+class CreateAlquilerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,21 @@ class CreateReservaAlquilerTable extends Migration
      */
     public function up()
     {
-        Schema::create('reserva_alquiler', function(Blueprint $table) {
+        Schema::create('alquiler', function(Blueprint $table) {
             $table->engine = 'InnoDB';
         
             $table->increments('id')->unsigned();
             $table->date('fecha');
             $table->string('hora_inicio', 45);
             $table->string('hora_fin', 45);
+            $table->integer('cancha');
             $table->string('status', 45);
             $table->decimal('pago', 9, 2);
         
             $table->timestamps();
         
         });
+
     }
 
     /**
@@ -35,6 +37,6 @@ class CreateReservaAlquilerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reserva_alquiler');
+        Schema::dropIfExists('alquiler');
     }
 }
