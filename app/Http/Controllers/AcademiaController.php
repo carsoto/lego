@@ -54,7 +54,12 @@ class AcademiaController extends Controller
         return view('adminlte::academia.prueba', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas));
     }
     public function inscripcionacademia(){
-        return view('adminlte::academia.inscripcion');
+        $locaciones = Locacion::where('activo', '=', 1)->get();
+        $preguntas = InformacionAdicional::all();
+        $tallas = array('0' => 'Seleccionar talla', '32' => '32', '34' => '34', '36' => '36', '38' => '38', '40' => '40', '42' => '42');
+        $datos_tarifas = array();
+
+        return view('adminlte::academia.inscripcion', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas));
     }
 
     /**
