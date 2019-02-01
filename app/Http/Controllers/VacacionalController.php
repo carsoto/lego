@@ -12,6 +12,8 @@ use App\Atleta;
 use App\AtletasInformacionAdicional;
 use App\InscripcionesVacacional;
 use Carbon\Carbon;
+use Funciones;
+use DB;
 
 class VacacionalController extends Controller
 {
@@ -133,6 +135,11 @@ class VacacionalController extends Controller
         }
 
         return view('adminlte::vacacional.inscripcion_finalizada', array('message' => $msg, 'status' => $status));
+    }
+
+    public function dashboard(){
+        $inscritos = Funciones::inscritos_vacacional();
+        return view('adminlte::vacacional.dashboard', array('inscritos' => $inscritos));
     }
 
     /**

@@ -63,7 +63,7 @@
 
 		        serverSide: true,
 
-		        ajax: 'usuarios/table/listado',
+		        ajax: 'admin/usuarios/table/listado',
 
 		        columns: [		
 
@@ -115,7 +115,7 @@
 
 						$.ajax({
 
-				           	url: 'usuarios/eliminar/'+_this.attr("data-id"),
+				           	url: 'admin/usuarios/eliminar/'+_this.attr("data-id"),
 
 				            dataType: "JSON",
 

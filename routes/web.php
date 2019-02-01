@@ -53,10 +53,13 @@ Route::group(['prefix' => 'registro'], function () {
 Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('usuarios', 'UserController');
+	
+	Route::group(['prefix' => 'admin'], function () {
+		Route::group(['prefix' => 'usuarios'], function () {
+			Route::get('eliminar/{usuario}', 'UserController@destroy')->name('usuarios.borrar');
+			Route::get('table/listado', 'UserController@list')->name('usuarios.listado');
+		});
 
-	Route::group(['prefix' => 'usuarios'], function () {
-		Route::get('eliminar/{usuario}', 'UserController@destroy')->name('usuarios.borrar');
-		Route::get('table/listado', 'UserController@list')->name('usuarios.listado');
+		Route::get('vacacional/resumen', 'VacacionalController@dashboard')->name('vacacional.dashboard');
 	});
-
 });
