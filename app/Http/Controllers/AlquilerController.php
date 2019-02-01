@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\ReservaConfiguracion;
 use App\Alquiler;
 use App\Invitado;
+use App\Locacion;
 use Funciones;
 use Response;
 
@@ -23,12 +24,16 @@ class AlquilerController extends Controller
         $cantd_canchas = Funciones::configuracion_reserva('Cantidad de canchas');
         $tarifa_standard_hora = Funciones::configuracion_reserva('Tarifa por hora');
         $min_personas = Funciones::configuracion_reserva('Cantidad de personas por tarifa');
+		$id_locaciones = Funciones::configuracion_reserva('Locaciones');
+		$id_locaciones = explode(',', $id_locaciones);
+
+		$locaciones = Locacion::whereIn('id', $id_locaciones)->get();
 
         for ($i=$h_inicio; $i <= $h_fin; $i++) { 
             $horas[$i] = $i.':00';
         }
 
-        return view('adminlte::alquiler.index', ['horas' => $horas, 'cantd_canchas' => $cantd_canchas, 'tarifa_standard_hora' => $tarifa_standard_hora, 'min_personas' => $min_personas]);
+        return view('adminlte::alquiler.index', ['horas' => $horas, 'cantd_canchas' => $cantd_canchas, 'tarifa_standard_hora' => $tarifa_standard_hora, 'min_personas' => $min_personas, 'locaciones' => $locaciones]);
     }
 
     /**
@@ -56,6 +61,7 @@ class AlquilerController extends Controller
 
         $reserva = Alquiler::create([
             'fecha' => $request->reserva_fecha,
+            'locacion_id' => $request->reserva_locacion,
             'hora_inicio' => $request->reserva_hora_inicio.':00',
             'hora_fin' => $request->reserva_hora_fin.':00',
             'cancha' => $request->cancha_asignada,
@@ -144,7 +150,7 @@ class AlquilerController extends Controller
     }
 
     public function buscardisponibilidad(Request $request){
-        $reservas = Alquiler::where('fecha', '=', $request->fecha_reserva)->get();
+        $reservas = Alquiler::where('fecha', '=', $request->fecha_reserva)->where('locacion_id', '=', $request->locacion)->get();
         $cantd_canchas = Funciones::configuracion_reserva('Cantidad de canchas');
         $canchas_ocupadas = array();
         $cancha = 0;

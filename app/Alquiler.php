@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 31 Jan 2019 15:47:46 +0000.
+ * Date: Fri, 01 Feb 2019 16:32:52 +0000.
  */
 
 namespace App;
@@ -13,6 +13,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * Class Alquiler
  * 
  * @property int $id
+ * @property int $locacion_id
  * @property \Carbon\Carbon $fecha
  * @property string $hora_inicio
  * @property string $hora_fin
@@ -31,6 +32,7 @@ class Alquiler extends Eloquent
 	protected $table = 'alquiler';
 
 	protected $casts = [
+		'locacion_id' => 'int',
 		'cancha' => 'int',
 		'pago' => 'float'
 	];
@@ -40,6 +42,7 @@ class Alquiler extends Eloquent
 	];
 
 	protected $fillable = [
+		'locacion_id',
 		'fecha',
 		'hora_inicio',
 		'hora_fin',
@@ -51,7 +54,7 @@ class Alquiler extends Eloquent
 	public function invitados()
 	{
 		return $this->belongsToMany(\App\Invitado::class, 'alquiler_invitados', 'alquiler_id', 'invitados_id')
-					->withPivot('id')
+					->withPivot('id', 'responsable')
 					->withTimestamps();
 	}
 }

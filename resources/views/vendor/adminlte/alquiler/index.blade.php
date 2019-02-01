@@ -20,22 +20,35 @@
                         </div>
 
                         {!! Form::open(['route' => 'alquiler.store', 'role' => 'form', 'id' => 'form-alquiler']) !!}
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                 {!! Form::label('fecha_alquiler', 'Fecha de alquiler') !!}<strong><span style='color: red;'>*</span></strong>
                                 {!! Form::text('reserva_fecha', null, array('class' => 'form-control input-sm datepicker-reserva', 'id' => 'reserva_fecha_alquiler', 'readonly'=>"readonly", "style" => "background: white;")) !!}
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                 {!! Form::label('hora_inicio', 'Hora de inicio') !!}<strong><span style='color: red;'>*</span></strong>
                                 {!! Form::select('reserva_hora_inicio', $horas, null, array('class' => 'form-control input-sm', 'id' => 'reserva_hora_inicio')) !!}
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                 {!! Form::label('hora_fin_alquiler', 'Hora de fin') !!}<strong><span style='color: red;'>*</span></strong>
                                 {!! Form::select('reserva_hora_fin', $horas, null, array('class' => 'form-control input-sm', 'id' => 'reserva_hora_fin')) !!}
                             </div>
 
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding-top: 4px;">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                {!! Form::label('locacion', 'Locación') !!}<strong><span style='color: red;'>*</span></strong>
+                                <div class="iradio icheck">
+                                    @foreach($locaciones AS $key => $locacion)
+                                        <label style="padding-right: 20px;">
+                                            <input value="{{ $locacion->id }}" type="radio" name="reserva_locacion"> {{ $locacion->ubicacion }}
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12" style="padding-top: 4px;">
                                 <br>
-                                <button class="btn btn-sm btn-flat btn-block btn-danger" type="button" onclick="disponibilidad_reserva();"><i class="fa fa-search"></i> BUSCAR DISPONIBILIDAD</button>
+                                <button class="btn btn-sm btn-flat btn-block btn-danger" type="button" onclick="disponibilidad_reserva();"><i class="fa fa-search"></i> DISPONIBLE</button>
                             </div>
                             
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

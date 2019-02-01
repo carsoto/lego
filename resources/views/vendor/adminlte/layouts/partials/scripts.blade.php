@@ -709,7 +709,7 @@
     	var fecha_reserva = $('#reserva_fecha_alquiler').val();
     	var error_message = '<div class="text-left">Su formulario presenta errores<ul>';
     	var valido = true;
-
+    	var locacion = document.querySelector('input[name="reserva_locacion"]:checked');
 		document.getElementById('reserva_fecha').innerHTML = fecha_reserva;
 		document.getElementById('reserva_h_inicio').innerHTML = hora_inicio;
 		document.getElementById('reserva_h_fin').innerHTML = hora_fin;
@@ -725,12 +725,19 @@
     		valido = false;
     	}
 
+    	if(locacion == null){
+    		error_message += '<li>No ha seleccionado el lugar de la reserva.</li>';
+    		valido = false;
+    	}else{
+    		locacion = document.querySelector('input[name="reserva_locacion"]:checked').value;
+    	}
+
     	if(valido){
     		$.ajax({
 	           	url: 'alquiler/reserva/buscar-disponibilidad',
 	            dataType: "JSON",
 	            type: 'GET',
-	            data: {fecha_reserva: fecha_reserva, h_inicio: hora_inicio, h_fin: hora_fin},
+	            data: {fecha_reserva: fecha_reserva, h_inicio: hora_inicio, h_fin: hora_fin, locacion: locacion},
 	            success: function (response) {
 	            	if(response.status == 'disponible'){
 	            		document.getElementById('cancha_asignada').value = response.cancha;
@@ -842,7 +849,8 @@
 
     function validar_form_alquiler(){
     	var valido = true;
-
+    	var cantidad_invitados = $('#lista-invitados tbody').children().length;
+    	var min_personas = $('#min_personas').text();
 		var text1 = document.getElementById('responsable_cedula').value;
 		var text2 = document.getElementById('responsable_nombre').value;
 		var text3 = document.getElementById('responsable_apellido').value;
@@ -876,7 +884,10 @@
 			valido = false;
 		}
 
-		valido = true;
+		if(cantidad_invitados < parseInt(min_personas)){
+			error_message += "<li>La cantidad mínima de personas para reservar es de: <strong>"+parseInt(min_personas)+"</strong>.</li>";
+			valido = false;
+		}
 
     	if(valido){
     		document.getElementById('form-alquiler').submit();
