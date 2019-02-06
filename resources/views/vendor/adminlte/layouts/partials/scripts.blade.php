@@ -362,8 +362,6 @@
 
     	$('div.setup-panel div a.btn-danger').trigger('click');
 
-
-
 		$('input[name="check_horario"]').on('ifChecked', function() {
 
 			var tarifa = $(this).attr('tarifa');
@@ -419,6 +417,14 @@
 		$('input[name="check_ubicacion_vacacional"]').on('ifUnchecked', function() {
 			document.getElementById('ubicacion-'+this.value).style.display = 'none';
 		});
+
+		$('.datatable').DataTable({
+            responsive: true,
+            order: [[ 3, "asc" ]],
+            language: {
+                url: '../../public/js/datatable-spanish.json' //Ubicacion del archivo con el json del idioma.
+            }
+        });
 
     })(jQuery);
 
@@ -895,6 +901,47 @@
 			error_message += '</ul></div>';
     		swal("Ocurrió un error!", error_message, "error");
 		}
+    }
+
+    function registrar_pago_alquiler(idalquiler, id){
+    	swal({
+            title: "Registrar pago",
+			text: "¿Ya recibió el pago de este alquiler?",
+			icon: "success",
+            showCancelButton: true,
+            confirmButtonColor: '#DD4B39',
+            cancelButtonColor: '#00C0EF',
+            buttons: ["Cancelar", true],
+            closeOnConfirm: false
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+				$.ajax({
+		           	url: 'registrar/pago/'+idalquiler,
+		            dataType: "JSON",
+		            type: 'GET',
+		            success: function (response) {
+		            	//console.log(response);
+		            	if(response.status == 'success'){
+		            		swal("Hecho!", response.msg, "success");
+		            		console.log(document.getElementById("status_" + id));
+		            		if(document.getElementById("status_" + id).className.match(/(?:^|\s)label-warning(?!\S)/)){
+								document.getElementById("status_" + id).className = document.getElementById("status_" + id).className.replace( /(?:^|\s)label-warning(?!\S)/g , '');
+								document.getElementById("status_" + id).className += ' label-success';
+		            			document.getElementById("status_" + id).innerHTML = 'Pagado';
+		            			document.getElementById("link_" + id).innerHTML = '-';
+		            		}
+
+		            	}else{
+		            		swal("Ocurrió un error!", response.msg, "error");
+		            	}
+		                
+		            },
+		            error: function (xhr, ajaxOptions, thrownError) {
+		                swal("Ocurrió un error!", "Por favor, intente de nuevo", "error");
+		            }
+		        });
+            }
+        });
     }
 
 </script>

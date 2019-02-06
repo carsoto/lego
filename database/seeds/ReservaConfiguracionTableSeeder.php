@@ -19,6 +19,7 @@ class ReservaConfiguracionTableSeeder extends Seeder
 			array('propiedad' => 'Cantidad de canchas', 'valor' => '3', 'created_at' => date('Y-m-d')),
 			array('propiedad' => 'Hora inicio', 'valor' => '8', 'created_at' => date('Y-m-d')),
 			array('propiedad' => 'Hora fin', 'valor' => '21', 'created_at' => date('Y-m-d')),
+            array('propiedad' => 'Locaciones', 'valor' => '1,2', 'created_at' => date('Y-m-d')),
         );
 
         foreach (array_chunk($array_records, 100) as $records) {

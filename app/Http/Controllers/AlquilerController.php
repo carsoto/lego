@@ -9,6 +9,7 @@ use App\Invitado;
 use App\Locacion;
 use Funciones;
 use Response;
+use DB;
 
 class AlquilerController extends Controller
 {
@@ -61,7 +62,7 @@ class AlquilerController extends Controller
 
         $reserva = Alquiler::create([
             'fecha' => $request->reserva_fecha,
-            'locacion_id' => $request->reserva_locacion,
+            'locaciones_id' => $request->reserva_locacion,
             'hora_inicio' => $request->reserva_hora_inicio.':00',
             'hora_fin' => $request->reserva_hora_fin.':00',
             'cancha' => $request->cancha_asignada,
@@ -150,7 +151,7 @@ class AlquilerController extends Controller
     }
 
     public function buscardisponibilidad(Request $request){
-        $reservas = Alquiler::where('fecha', '=', $request->fecha_reserva)->where('locacion_id', '=', $request->locacion)->get();
+        $reservas = Alquiler::where('fecha', '=', $request->fecha_reserva)->where('locaciones_id', '=', $request->locacion)->get();
         $cantd_canchas = Funciones::configuracion_reserva('Cantidad de canchas');
         $canchas_ocupadas = array();
         $cancha = 0;
@@ -180,5 +181,26 @@ class AlquilerController extends Controller
             $status = 'disponible';
         }
         return Response::json(array('status' => $status, 'cancha' => $cancha));
+    }
+
+    public function dashboard(){
+        //$alquileres = Alquiler::where(DB::raw('MONTH(fecha)'), '=', date('m'))->get();
+        $alquileres = Alquiler::all();
+        return view('adminlte::alquiler.dashboard', ['alquileres' => $alquileres]);
+    }
+
+    public function registrarpago($idalquiler){
+        $alquiler = Alquiler::findOrFail(decrypt($idalquiler));
+        $alquiler->status = 'Pagado';
+
+        if($alquiler->save()){
+            $status = 'success';
+            $msg = 'El pago fue registrado exitosamente!';
+        } else {
+            $status = 'failed';
+            $msg = 'Disculpe, el pago no pudo ser registrado!';
+        }    
+
+        return Response::json(array('status' => $status, 'msg' => $msg));
     }
 }

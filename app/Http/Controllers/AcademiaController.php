@@ -51,7 +51,12 @@ class AcademiaController extends Controller
         }*/
 
         //dd($datos_tarifas);
-        return view('adminlte::academia.prueba', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas));
+
+        for ($i=8; $i <= 19; $i++) { 
+            $horas[$i] = $i.':00';
+        }
+
+        return view('adminlte::academia.prueba', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'horas' => $horas));
     }
     public function inscripcionacademia(){
         $locaciones = Locacion::where('activo', '=', 1)->get();

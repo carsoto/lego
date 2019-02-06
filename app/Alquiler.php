@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Fri, 01 Feb 2019 16:32:52 +0000.
+ * Date: Mon, 04 Feb 2019 16:20:38 +0000.
  */
 
 namespace App;
@@ -13,7 +13,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * Class Alquiler
  * 
  * @property int $id
- * @property int $locacion_id
+ * @property int $locaciones_id
  * @property \Carbon\Carbon $fecha
  * @property string $hora_inicio
  * @property string $hora_fin
@@ -23,6 +23,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * 
+ * @property \App\Locacione $locacione
  * @property \Illuminate\Database\Eloquent\Collection $invitados
  *
  * @package App
@@ -32,7 +33,7 @@ class Alquiler extends Eloquent
 	protected $table = 'alquiler';
 
 	protected $casts = [
-		'locacion_id' => 'int',
+		'locaciones_id' => 'int',
 		'cancha' => 'int',
 		'pago' => 'float'
 	];
@@ -42,7 +43,7 @@ class Alquiler extends Eloquent
 	];
 
 	protected $fillable = [
-		'locacion_id',
+		'locaciones_id',
 		'fecha',
 		'hora_inicio',
 		'hora_fin',
@@ -50,6 +51,11 @@ class Alquiler extends Eloquent
 		'status',
 		'pago'
 	];
+
+	public function locacion()
+	{
+		return $this->belongsTo(\App\Locacion::class, 'locaciones_id');
+	}
 
 	public function invitados()
 	{

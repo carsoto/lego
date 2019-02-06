@@ -61,5 +61,7 @@ Route::group(['middleware' => 'auth'], function () {
 		});
 
 		Route::get('vacacional/resumen', 'VacacionalController@dashboard')->name('vacacional.dashboard');
+		Route::get('alquiler/resumen', 'AlquilerController@dashboard')->name('alquiler.dashboard');
+		Route::get('alquiler/registrar/pago/{id}', 'AlquilerController@registrarpago')->name('alquiler.registrar.pago');
 	});
 });

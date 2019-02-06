@@ -56,4 +56,9 @@ class Locacion extends Eloquent
 	{
 		return $this->hasMany(\App\Vacacional::class, 'locaciones_id');
 	}
+
+	public function alquileres()
+	{
+		return $this->hasMany(\App\Alquiler::class, 'locaciones_id');
+	}
 }
