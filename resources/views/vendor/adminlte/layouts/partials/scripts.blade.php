@@ -914,7 +914,7 @@
             buttons: ["Cancelar", true],
             closeOnConfirm: false
         }).then(function(isConfirm) {
-            if (isConfirm) {
+            if (isConfirm.value) {
 				$.ajax({
 		           	url: 'registrar/pago/'+idalquiler,
 		            dataType: "JSON",
@@ -943,6 +943,151 @@
             }
         });
     }
+
+    function pago_vacacional(id){
+    	swal({
+            title: "Registrar pago",
+			text: "¿Ya fue recibido y confirmado el pago de este alumno?",
+			icon: "success",
+            showCancelButton: true,
+            confirmButtonColor: '#DD4B39',
+            cancelButtonColor: '#00C0EF',
+            buttons: ["Cancelar", true],
+            closeOnConfirm: false
+        }).then(function(isConfirm) {
+            if (isConfirm.value) {
+				$.ajax({
+		           	url: 'registrar/pago/'+id,
+		            dataType: "JSON",
+		            type: 'GET',
+		            success: function (response) {
+		            	if(response.status == 'success'){
+		            		swal("Hecho!", response.msg, "success");
+		            		if(document.getElementById("status_" + id).className.match(/(?:^|\s)label-warning(?!\S)/)){
+								document.getElementById("status_" + id).className = document.getElementById("status_" + id).className.replace( /(?:^|\s)label-warning(?!\S)/g , '');
+								document.getElementById("status_" + id).className += ' label-success';
+		            			document.getElementById("status_" + id).innerHTML = 'Pagado';
+		            			document.getElementById("link_" + id).innerHTML = '<a href="#" onclick="deshabilitar_inscripcion_vacacional('+id+');"><i class="fa fa-trash"></i></a>';
+		            		}
+
+		            	}else{
+		            		swal("Ocurrió un error!", response.msg, "error");
+		            	}
+		                
+		            },
+		            error: function (xhr, ajaxOptions, thrownError) {
+		                swal("Ocurrió un error!", "Por favor, intente de nuevo", "error");
+		            }
+		        });
+            }
+        });
+    }
+
+	function deshabilitar_inscripcion_vacacional(id){
+		swal({
+            title: "Deshabilitar inscripción",
+			text: "¿Está seguro de inhabilitar a este alumno?",
+			icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#DD4B39',
+            cancelButtonColor: '#00C0EF',
+            buttons: ["Cancelar", true],
+            closeOnConfirm: false
+        }).then(function(isConfirm) {
+        	
+            if (isConfirm.value) {
+				$.ajax({
+		           	url: 'deshabilitar/inscripcion/'+id,
+		            dataType: "JSON",
+		            type: 'GET',
+		            success: function (response) {
+		            	if(response.status == 'success'){
+		            		swal("Hecho!", response.msg, "success");
+		            		location.reload();
+		            	}else{
+		            		swal("Ocurrió un error!", response.msg, "error");
+		            	}
+		                
+		            },
+		            error: function (xhr, ajaxOptions, thrownError) {
+		                swal("Ocurrió un error!", "Por favor, intente de nuevo", "error");
+		            }
+		        });
+            }
+        });
+	}
+
+    function pago_campamento(id){
+    	swal({
+            title: "Registrar pago",
+			text: "¿Ya fue recibido y confirmado el pago de este alumno?",
+			icon: "success",
+            showCancelButton: true,
+            confirmButtonColor: '#DD4B39',
+            cancelButtonColor: '#00C0EF',
+            buttons: ["Cancelar", true],
+            closeOnConfirm: false
+        }).then(function(isConfirm) {
+            if (isConfirm.value) {
+				$.ajax({
+		           	url: 'registrar/pago/'+id,
+		            dataType: "JSON",
+		            type: 'GET',
+		            success: function (response) {
+		            	if(response.status == 'success'){
+		            		swal("Hecho!", response.msg, "success");
+		            		if(document.getElementById("status_" + id).className.match(/(?:^|\s)label-warning(?!\S)/)){
+								document.getElementById("status_" + id).className = document.getElementById("status_" + id).className.replace( /(?:^|\s)label-warning(?!\S)/g , '');
+								document.getElementById("status_" + id).className += ' label-success';
+		            			document.getElementById("status_" + id).innerHTML = 'Pagado';
+		            			document.getElementById("link_" + id).innerHTML = '<a href="#" onclick="deshabilitar_inscripcion_campamento('+id+');"><i class="fa fa-trash"></i></a>';
+		            		}
+
+		            	}else{
+		            		swal("Ocurrió un error!", response.msg, "error");
+		            	}
+		                
+		            },
+		            error: function (xhr, ajaxOptions, thrownError) {
+		                swal("Ocurrió un error!", "Por favor, intente de nuevo", "error");
+		            }
+		        });
+            }
+        });
+    }
+
+	function deshabilitar_inscripcion_campamento(id){
+		swal({
+            title: "Deshabilitar inscripción",
+			text: "¿Está seguro de inhabilitar a este alumno?",
+			icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#DD4B39',
+            cancelButtonColor: '#00C0EF',
+            buttons: ["Cancelar", true],
+            closeOnConfirm: false
+        }).then(function(isConfirm) {
+            if (isConfirm.value) {
+				$.ajax({
+		           	url: 'deshabilitar/inscripcion/'+id,
+		            dataType: "JSON",
+		            type: 'GET',
+		            success: function (response) {
+		            	if(response.status == 'success'){
+		            		swal("Hecho!", response.msg, "success");
+		            		location.reload();
+		            	}else{
+		            		swal("Ocurrió un error!", response.msg, "error");
+		            	}
+		                
+		            },
+		            error: function (xhr, ajaxOptions, thrownError) {
+		                swal("Ocurrió un error!", "Por favor, intente de nuevo", "error");
+		            }
+		        });
+            }
+        });
+	}
 
 </script>
 

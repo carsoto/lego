@@ -41,7 +41,7 @@
                                                     if($i->pivot->responsable){
                                                         $responsable = $alquiler->invitados->where('id', '=', $i->pivot->invitados_id);
                                                         $responsable = $responsable[0];
-                                                        echo $responsable->nombres.' '.$responsable->apellidos;
+                                                        echo ucwords($responsable->apellidos).', '.ucwords($responsable->nombres);
                                                     }
                                                 }
                                             ?>  

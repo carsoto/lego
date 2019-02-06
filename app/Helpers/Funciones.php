@@ -31,7 +31,7 @@ class Funciones{
 
     public static function inscritos_vacacional(){
         $inscritos = DB::select(DB::raw("
-            SELECT a.id, CONCAT(r.nombres, ', ', r.apellidos) AS representante, CONCAT(a.apellido, ', ', a.nombre) AS alumno, a.fecha_nacimiento, TIMESTAMPDIFF(YEAR, a.fecha_nacimiento, CURDATE()) AS edad, i.fecha_inscripcion, a.instituto AS colegio, CONCAT(h.hora_inicio, ' - ', h.hora_fin) AS horario, l.ubicacion AS locacion
+        SELECT a.id, CONCAT(r.apellidos, ', ', r.nombres) AS representante, CONCAT(a.apellido, ', ', a.nombre) AS alumno, a.fecha_nacimiento, TIMESTAMPDIFF(YEAR, a.fecha_nacimiento, CURDATE()) AS edad, i.fecha_inscripcion, a.instituto AS colegio, CONCAT(h.hora_inicio, ' - ', h.hora_fin) AS horario, l.ubicacion AS locacion, i.pago AS pago, i.estatus_pago AS status
         FROM
             inscripciones_vacacional i
         INNER JOIN vacacional_horarios h ON i.vacacional_horarios_id = h.id
@@ -40,7 +40,24 @@ class Funciones{
         INNER JOIN representantes r ON ra.representantes_id = r.id  
         INNER JOIN vacacional v ON h.vacacional_id = v.id
         INNER JOIN locaciones l ON l.id = v.locaciones_id
-        ORDER BY i.fecha_inscripcion"));
+        WHERE i.activo = 1
+        ORDER BY i.fecha_inscripcion, r.apellidos"));
+        return $inscritos;
+    }
+
+    public static function inscritos_campamento(){
+        $inscritos = DB::select(DB::raw("
+            SELECT a.id, CONCAT(r.apellidos, ', ', r.nombres) AS representante, CONCAT(a.apellido, ', ', a.nombre) AS alumno, a.fecha_nacimiento, TIMESTAMPDIFF(YEAR, a.fecha_nacimiento, CURDATE()) AS edad, i.fecha_inscripcion, a.instituto AS colegio, h.descripcion AS horario, l.ubicacion AS locacion, i.pago AS pago, i.estatus_pago AS status
+            FROM
+                inscripciones_campamento i
+            INNER JOIN campamentos_horarios h ON i.campamentos_horarios_id = h.id
+            INNER JOIN atletas a ON a.id = i.atletas_id
+            INNER JOIN representantes_atletas ra ON ra.atletas_id = a.id
+            INNER JOIN representantes r ON ra.representantes_id = r.id  
+            INNER JOIN campamentos c ON h.campamentos_id = c.id
+            INNER JOIN locaciones l ON l.id = c.locaciones_id
+            WHERE i.activo = 1
+            ORDER BY i.fecha_inscripcion, r.apellidos"));
         return $inscritos;
     }
 }

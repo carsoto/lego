@@ -13,6 +13,7 @@ use App\AtletasInformacionAdicional;
 use App\InscripcionesVacacional;
 use Carbon\Carbon;
 use Funciones;
+use Response;
 use DB;
 
 class VacacionalController extends Controller
@@ -124,7 +125,7 @@ class VacacionalController extends Controller
                     'descuento' => $request->pago_descuento,
                     'fecha_inscripcion' => date('Y-m-d'),
                     'pago' => $pago,
-                    'activo' => 0
+                    'activo' => 1
                 ]);
             }
             $msg = 'Proceso finalizado con éxito, te esperamos en la academia.';
@@ -140,6 +141,36 @@ class VacacionalController extends Controller
     public function dashboard(){
         $inscritos = Funciones::inscritos_vacacional();
         return view('adminlte::vacacional.dashboard', array('inscritos' => $inscritos));
+    }
+
+    public function registrarpago($id){
+        $vacacional = InscripcionesVacacional::findOrFail($id);
+        $vacacional->estatus_pago = 'Pagado';
+
+        if($vacacional->save()){
+            $status = 'success';
+            $msg = 'El pago fue registrado exitosamente!';
+        } else {
+            $status = 'failed';
+            $msg = 'Disculpe, el pago no pudo ser registrado!';
+        }    
+
+        return Response::json(array('status' => $status, 'msg' => $msg));
+    }
+
+    public function deshabilitar_inscripcion($id){
+        $vacacional = InscripcionesVacacional::findOrFail($id);
+        $vacacional->activo = 0;
+
+        if($vacacional->save()){
+            $status = 'success';
+            $msg = 'Alumno inhabilitado exitosamente!';
+        } else {
+            $status = 'failed';
+            $msg = 'Disculpe, ocurrió un error y no pudo ser inhabilitado!';
+        }    
+
+        return Response::json(array('status' => $status, 'msg' => $msg));
     }
 
     /**

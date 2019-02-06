@@ -22,6 +22,7 @@ class CreateInscripcionesCampamentoTable extends Migration
             $table->decimal('tarifa', 9, 2);
             $table->integer('descuento')->nullable();
             $table->decimal('pago', 9, 2);
+            $table->string('estatus_pago')->default('Pendiente');
             $table->date('fecha_inscripcion');
             $table->integer('activo')->default(1);
         

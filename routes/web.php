@@ -61,7 +61,15 @@ Route::group(['middleware' => 'auth'], function () {
 		});
 
 		Route::get('vacacional/resumen', 'VacacionalController@dashboard')->name('vacacional.dashboard');
+		Route::get('vacacional/registrar/pago/{id}', 'VacacionalController@registrarpago')->name('vacacional.registrar.pago');
+		Route::get('vacacional/deshabilitar/inscripcion/{id}', 'VacacionalController@deshabilitar_inscripcion')->name('vacacional.deshabilitar.inscripcion');
+
 		Route::get('alquiler/resumen', 'AlquilerController@dashboard')->name('alquiler.dashboard');
 		Route::get('alquiler/registrar/pago/{id}', 'AlquilerController@registrarpago')->name('alquiler.registrar.pago');
+		
+		Route::get('campamento/resumen', 'CampamentoController@dashboard')->name('campamento.dashboard');
+		Route::get('campamento/registrar/pago/{id}', 'CampamentoController@registrarpago')->name('campamento.registrar.pago');
+		Route::get('campamento/deshabilitar/inscripcion/{id}', 'CampamentoController@deshabilitar_inscripcion')->name('campamento.deshabilitar.inscripcion');
+		
 	});
 });

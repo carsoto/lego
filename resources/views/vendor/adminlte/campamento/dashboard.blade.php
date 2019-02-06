@@ -1,11 +1,11 @@
 @extends('adminlte::layouts.app')
 
 @section('htmlheader_title')
-    Vacacional
+    Campamento
 @endsection
 
 @section('contentheader_title')
-    Vacacional
+    Campamento
 @endsection
 
 @section('main-content')
@@ -15,7 +15,7 @@
             <div class="box box-danger">
                 <div class="box-body">
                     <div class="table-responsive" style="padding-top: 15px;">
-                        <table id='tabla_vacacional' class="table table-hover table-bordered table-striped datatable" style="width:100%; font-size: 11px;">
+                        <table id='tabla_campamento' class="table table-hover table-bordered table-striped datatable" style="width:100%; font-size: 11px;">
                             <thead>
                                 <tr>
                                     <th class="text-center" colspan='10'>INSCRITOS</th>
@@ -54,9 +54,9 @@
 
                                         <td>
                                             @if($inscrito->status == 'Pendiente')
-                                                <span id="link_{{ $inscrito->id }}"><a href="#" onclick="pago_vacacional('{{ $inscrito->id }}');"><i class="fa fa-dollar"></i></a> <a href="#" onclick="deshabilitar_inscripcion_vacacional('{{ $inscrito->id }}');"><i class="fa fa-trash"></i></a></span>
+                                                <span id="link_{{ $inscrito->id }}"><a href="#" onclick="pago_campamento('{{ $inscrito->id }}');"><i class="fa fa-dollar"></i></a> <a href="#" onclick="deshabilitar_inscripcion_campamento('{{ $inscrito->id }}');"><i class="fa fa-trash"></i></a></span>
                                             @else
-                                                <span id="link_{{ $inscrito->id }}"><a href="#" onclick="deshabilitar_inscripcion_vacacional('{{ $inscrito->id }}');"><i class="fa fa-trash"></i></a></span>
+                                                <span id="link_{{ $inscrito->id }}"><a href="#" onclick="deshabilitar_inscripcion_campamento('{{ $inscrito->id }}');"><i class="fa fa-trash"></i></a></span>
                                             @endif
                                         </td>
                                     </tr>
