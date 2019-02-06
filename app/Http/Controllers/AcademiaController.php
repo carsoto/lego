@@ -9,6 +9,9 @@ use App\Representante;
 use App\Atleta;
 use App\AtletasInformacionAdicional;
 use Carbon\Carbon;
+use Funciones;
+use DB;
+use Response;
 
 class AcademiaController extends Controller
 {
@@ -19,20 +22,13 @@ class AcademiaController extends Controller
      */
     public function index()
     {
-        /*$representante = new Representante();
-        $atleta = new Atleta();
-        //$redes_sociales = RedesSociales::where('activo', '=', 1)->get();
-        $preguntas = InformacionAdicional::all();
-        $tallas = array('0' => 'Seleccionar talla', '32' => '32', '34' => '34', '36' => '36', '38' => '38', '40' => '40', '42' => '42');
-
-        return view('adminlte::academia.index', array('representante' => $representante, 'atleta' => $atleta, 'preguntas' => $preguntas, 'tallas' => $tallas));*/
         return view('adminlte::academia.index');
     }
 
     public function inscripcionprueba(){
         $locaciones = Locacion::where('activo', '=', 1)->get();
         $preguntas = InformacionAdicional::all();
-        $tallas = array('0' => 'Seleccionar talla', '32' => '32', '34' => '34', '36' => '36', '38' => '38', '40' => '40', '42' => '42');
+        $tallas = Funciones::tallas();
         $datos_tarifas = array();
 
         /*foreach($locaciones AS $key => $locacion){
@@ -52,16 +48,12 @@ class AcademiaController extends Controller
 
         //dd($datos_tarifas);
 
-        for ($i=8; $i <= 19; $i++) { 
-            $horas[$i] = $i.':00';
-        }
-
-        return view('adminlte::academia.prueba', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'horas' => $horas));
+        return view('adminlte::academia.prueba', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas));
     }
     public function inscripcionacademia(){
         $locaciones = Locacion::where('activo', '=', 1)->get();
         $preguntas = InformacionAdicional::all();
-        $tallas = array('0' => 'Seleccionar talla', '32' => '32', '34' => '34', '36' => '36', '38' => '38', '40' => '40', '42' => '42');
+        $tallas = Funciones::tallas();
         $datos_tarifas = array();
 
         return view('adminlte::academia.inscripcion', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas));

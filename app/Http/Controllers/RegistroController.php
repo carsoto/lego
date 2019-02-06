@@ -9,6 +9,9 @@ use App\RedesSociales;
 use App\InformacionAdicional;
 use App\Locacion;
 use Carbon;
+use Funciones;
+use Response;
+use DB;
 
 class RegistroController extends Controller
 {
@@ -33,7 +36,7 @@ class RegistroController extends Controller
 		$atleta = new Atleta();
 		$redes_sociales = array();
 		$preguntas = InformacionAdicional::all();
-		$tallas = array('0' => 'Seleccionar talla', '32' => '32', '34' => '34', '36' => '36', '38' => '38', '40' => '40', '42' => '42');
+		$tallas = Funciones::tallas();
     	
     	if($tipo == 'niños'){
 	        return view('adminlte::atleta.ficha-registro-ninos', array('representante' => $representante, 'atleta' => $atleta, 'redes_sociales' => $redes_sociales, 'preguntas' => $preguntas, 'tallas' => $tallas));

@@ -29,6 +29,11 @@ class Funciones{
         return $configuraciones[0]->valor;
     }
 
+    public static function tallas(){
+        $tallas = array('0' => 'Seleccionar talla', '32' => '32', '34' => '34', '36' => '36', '38' => '38', '40' => '40', '42' => '42');
+        return $tallas;
+    }
+
     public static function inscritos_vacacional(){
         $inscritos = DB::select(DB::raw("
         SELECT a.id, CONCAT(r.apellidos, ', ', r.nombres) AS representante, CONCAT(a.apellido, ', ', a.nombre) AS alumno, a.fecha_nacimiento, TIMESTAMPDIFF(YEAR, a.fecha_nacimiento, CURDATE()) AS edad, i.fecha_inscripcion, a.instituto AS colegio, CONCAT(h.hora_inicio, ' - ', h.hora_fin) AS horario, l.ubicacion AS locacion, i.pago AS pago, i.estatus_pago AS status

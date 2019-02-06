@@ -32,7 +32,7 @@ class CampamentoController extends Controller
     public function registro($campamento_id){
         $locaciones = Locacion::where('activo', '=', 1)->get();
         $preguntas = InformacionAdicional::all();
-        $tallas = array('0' => 'Seleccionar talla', '32' => '32', '34' => '34', '36' => '36', '38' => '38', '40' => '40', '42' => '42');
+        $tallas = Funciones::tallas();
         $datos_tarifas = array();
 
         foreach ($locaciones AS $key => $locacion){
