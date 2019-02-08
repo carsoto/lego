@@ -15,6 +15,7 @@ class CreateAcademiaConfiguracionTable extends Migration
     {
         Schema::create('academia_configuracion', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('tipo');
             $table->string('configuracion');
             $table->string('valor');
             $table->timestamps();

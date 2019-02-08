@@ -87,11 +87,11 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
 
         <h3 style="font-family: Verdana;">¡Bienvenidos a nuestra academia!</h3>    
         
-        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-info" href="{{ route('academia.index') }}">ACADEMIA</a></div>
-        <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-warning" href="{{ route('alquiler.index') }}">ALQUILER</a></div>
-        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-danger" href="{{ route('torneo.index') }}">TORNEOS</a></div>
-        <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-success" href="{{ route('campamento.index') }}">CAMPAMENTOS</a></div>
-        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-primary" href="{{ route('vacacional.index') }}">VACACIONALES</a></div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-block btn-info" href="{{ route('academia.index') }}">ACADEMIA</a></div>
+        <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-block btn-warning" href="{{ route('alquiler.index') }}">ALQUILER</a></div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-block btn-danger" href="{{ route('torneo.index') }}">TORNEOS</a></div>
+        <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-block btn-success" href="{{ route('campamento.index') }}">CAMPAMENTOS</a></div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-block btn-primary" href="{{ route('vacacional.index') }}">VACACIONALES</a></div>
     </div>
 </div>
 

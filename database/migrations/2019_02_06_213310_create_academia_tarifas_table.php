@@ -16,8 +16,6 @@ class CreateAcademiaTarifasTable extends Migration
         Schema::create('academia_tarifas', function (Blueprint $table) {
             $table->increments('id');
             $table->string('frecuencia');
-            $table->integer('edad_inicio')->nullable();
-            $table->integer('edad_fin')->nullable();
             $table->integer('cant_clases');
             $table->decimal('tarifa_individual', 9, 2);
             $table->decimal('tarifa_dupla', 9, 2);

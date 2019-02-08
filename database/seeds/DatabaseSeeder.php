@@ -38,5 +38,11 @@ class DatabaseSeeder extends Seeder
         $this->call(CampamentosFechasTableSeeder::class);
 
         $this->call(ReservaConfiguracionTableSeeder::class);
+
+        $this->call(AcademiaConfiguracionTableSeeder::class);
+
+        $this->call(AcademiaTarifasTableSeeder::class);
+
+        $this->call(AcademiaHorariosTableSeeder::class);
     }
 }
