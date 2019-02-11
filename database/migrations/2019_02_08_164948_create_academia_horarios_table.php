@@ -14,7 +14,7 @@ class CreateAcademiaHorariosTable extends Migration
     public function up()
     {
         Schema::create('academia_horarios', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->unsigned();
             $table->integer('locaciones_id')->unsigned();
             $table->integer('edad_inicio')->nullable();
             $table->integer('edad_fin')->nullable();

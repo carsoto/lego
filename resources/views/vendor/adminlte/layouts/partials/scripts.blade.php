@@ -82,7 +82,6 @@
 		    });
 
 
-
 			$(document).on('click', ".eliminar_usuario", function(e) {
 
 		        var _this = $(this);
@@ -554,7 +553,7 @@
 
 
 
-    function agregar_nino(preguntas, datos_tarifa){
+    function agregar_nino(preguntas, datos_tarifa, servicio){
 
     	var cantidad_alumnos = $('#lista-atletas tbody').children().length;
     	var cabecera = 1;
@@ -581,16 +580,33 @@
 
 		}else{
 			var edad = calcularEdad(text1);	
-			console.log(edad);
-			if(datos_tarifa.edad_fin != null){
-				if((edad < datos_tarifa.edad_inicio) || (edad > datos_tarifa.edad_fin)){
-					error_message += '<li>El alumno no cumple con el requisito. Edad requerida: '+ datos_tarifa.edad_inicio +'-'+ datos_tarifa.edad_fin +' años.</li>';
-					valido = false;
-				}	
-			}else{
-				if((edad < datos_tarifa.edad_inicio)){
-					error_message += '<li>El alumno no cumple con el requisito. Edad requerida: mayor o igual a '+ datos_tarifa.edad_inicio +' años.</li>';
-					valido = false;
+			if((servicio == 'Vacacional') || (servicio == 'Campamento'))
+				if(datos_tarifa.edad_fin != null){
+					if((edad < datos_tarifa.edad_inicio) || (edad > datos_tarifa.edad_fin)){
+						error_message += '<li>El alumno no cumple con el requisito. Edad requerida: '+ datos_tarifa.edad_inicio +'-'+ datos_tarifa.edad_fin +' años.</li>';
+						valido = false;
+					}	
+				}else{
+					if((edad < datos_tarifa.edad_inicio)){
+						error_message += '<li>El alumno no cumple con el requisito. Edad requerida: mayor o igual a '+ datos_tarifa.edad_inicio +' años.</li>';
+						valido = false;
+					}
+				
+			}
+			else if(servicio == 'Prueba Academia'){
+				var h_edad_inicio = $("#atleta_horario_prueba option:selected").attr('edad_inicio');
+				var h_edad_fin = $("#atleta_horario_prueba option:selected").attr('edad_fin');
+
+				if(h_edad_fin != ""){
+					if((edad < h_edad_inicio) && (edad > h_edad_fin)){
+						error_message += '<li>La edad del alumno no corresponde al horario seleccionado</li>';
+						valido = false;
+					}
+				}else{
+					if(edad < h_edad_inicio){
+						error_message += '<li>La edad del alumno no corresponde al horario seleccionado</li>';
+						valido = false;
+					}
 				}
 			}
 		}
@@ -662,7 +678,22 @@
 
 			c++;
 			var cell9 = row.insertCell(c);
-			cell9.innerHTML = '<a href="#" name="remove" onclick="eliminar_atleta(this, \''+datos_tarifa.fecha_limite+'\', \''+datos_tarifa.porc_individual+'\', \''+datos_tarifa.porc_grupal+'\')"><i class="fa fa-times"></i></a>';
+
+			if((servicio == 'Vacacional') || (servicio == 'Campamento')){
+				cell9.innerHTML = '<a href="#" name="remove" onclick="eliminar_atleta(this, \''+datos_tarifa.fecha_limite+'\', \''+datos_tarifa.porc_individual+'\', \''+datos_tarifa.porc_grupal+'\')"><i class="fa fa-times"></i></a>';
+			}
+
+			else if(servicio == 'Prueba Academia'){
+				/*var form_inscripcion = document.getElementById('form-inscripcion');
+				var horario_seleccionado = $("#atleta_horario_prueba option:selected").attr('horario_id');
+				var fecha_prueba = document.getElementById('atleta_fecha_prueba').value;
+
+				form_inscripcion.appendTo('<input value="'+fecha_prueba+'" type="text" name="form_atleta['+ array_form +'][fecha_prueba]" style="border: 0px solid; display: none;" readonly="readonly">');
+				form_inscripcion.appendTo('<input value="'+horario_seleccionado+'" type="text" name="form_atleta['+ array_form +'][horario_prueba]" style="border: 0px solid; display: none;" readonly="readonly">');*/
+
+				cell9.innerHTML = '<a href="#" name="remove" onclick="eliminar_invitado(this)"><i class="fa fa-times"></i></a>';
+			}
+			
 
 			document.getElementById('atleta_fecha_nacimiento').value = "";
 			document.getElementById('atleta_nombre').value = "";
@@ -696,11 +727,8 @@
 
 	    	recalcular_resumen(count, fecha_limite, porc_individual, porc_grupal);
 
-	    	document.getElementById('button-datos-sig').style.display = "block";	
-
+	    	document.getElementById('button-datos-sig').style.display = "block";
     	}
-
-    	
 
     	$(obj).closest('tr').remove();
 
@@ -1088,6 +1116,5 @@
             }
         });
 	}
-
 </script>
 

@@ -59,14 +59,34 @@ class Atleta extends Eloquent
 		'talla_camiseta'
 	];
 
-	public function informacion_adicionals()
+	public function academia_asistencia_pruebas()
+	{
+		return $this->hasMany(\App\AcademiaAsistenciaPrueba::class, 'atletas_id');
+	}
+
+	public function academia_matriculas()
+	{
+		return $this->hasMany(\App\AcademiaMatricula::class, 'atletas_id');
+	}
+
+	public function informacion_adicional()
 	{
 		return $this->belongsToMany(\App\InformacionAdicional::class, 'atletas_informacion_adicional', 'atletas_id')
 					->withPivot('id', 'respuesta')
 					->withTimestamps();
 	}
 
-	public function inscripciones_vacacionals()
+	public function inscripciones_academia()
+	{
+		return $this->hasMany(\App\InscripcionesAcademia::class, 'atletas_id');
+	}
+
+	public function inscripciones_campamentos()
+	{
+		return $this->hasMany(\App\InscripcionesCampamento::class, 'atletas_id');
+	}
+
+	public function inscripciones_vacacional()
 	{
 		return $this->hasMany(\App\InscripcionesVacacional::class, 'atletas_id');
 	}

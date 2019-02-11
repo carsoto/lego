@@ -37,6 +37,16 @@ class Locacion extends Eloquent
 		'activo'
 	];
 
+	public function academia_horarios()
+	{
+		return $this->hasMany(\App\AcademiaHorario::class, 'locaciones_id');
+	}
+
+	public function alquileres()
+	{
+		return $this->hasMany(\App\Alquiler::class, 'locaciones_id');
+	}
+
 	public function campamentos()
 	{
 		return $this->hasMany(\App\Campamento::class, 'locaciones_id');
@@ -47,6 +57,11 @@ class Locacion extends Eloquent
 		return $this->hasMany(\App\Horario::class, 'locaciones_id');
 	}
 
+	public function inscripciones_academia()
+	{
+		return $this->hasMany(\App\InscripcionesAcademia::class, 'prueba_locacion_id');
+	}
+
 	public function tarifas()
 	{
 		return $this->hasMany(\App\Tarifa::class, 'locaciones_id');
@@ -55,10 +70,5 @@ class Locacion extends Eloquent
 	public function vacacional()
 	{
 		return $this->hasMany(\App\Vacacional::class, 'locaciones_id');
-	}
-
-	public function alquileres()
-	{
-		return $this->hasMany(\App\Alquiler::class, 'locaciones_id');
 	}
 }

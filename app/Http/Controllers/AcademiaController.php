@@ -31,22 +31,13 @@ class AcademiaController extends Controller
         $tallas = Funciones::tallas();
         $datos_tarifas = array();
 
-        /*foreach($locaciones AS $key => $locacion){
-            if(count($locacion->vacacional()->where('activo', '=', 1)->get()) > 0){
-                foreach($locacion->vacacional()->where('activo', '=', 1)->get() AS $key => $vacacional){
-                    foreach($vacacional->vacacional_horarios()->where('activo', '=', 1)->get() AS $key => $horario){
-                        $datos_tarifas['vacacional'][$locacion->id][$vacacional->id][$horario->id] = number_format($horario->tarifa_ins, 2, '.', '');
-                    }
+        foreach($locaciones AS $key => $locacion){
+            if(count($locacion->academia_horarios()->where('activo', '=', 1)->get()) > 0){
+                foreach($locacion->academia_horarios()->where('activo', '=', 1)->get() AS $key => $horario){
+                    $datos_tarifas[] = array('horario_id' => $horario->id, 'locacion_id' => $horario->locaciones_id, 'locacion' => $locacion->ubicacion, 'edad_inicio' => $horario->edad_inicio, 'edad_fin' => $horario->edad_fin, 'horario' => $horario->hora_inicio.' - '.$horario->hora_fin);
                 }
-                $datos_tarifas['edad_inicio'] = $vacacional->edad_inicio;
-                $datos_tarifas['edad_fin'] = $vacacional->edad_fin;
-                $datos_tarifas['porc_individual'] = $vacacional->porcentaje_individual;
-                $datos_tarifas['porc_grupal'] = $vacacional->porcentaje_grupal;
-                $datos_tarifas['fecha_limite'] = Carbon::parse($vacacional->fecha_limite)->format('Y-m-d');
             }
-        }*/
-
-        //dd($datos_tarifas);
+        }
 
         return view('adminlte::academia.prueba', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas));
     }
@@ -57,6 +48,10 @@ class AcademiaController extends Controller
         $datos_tarifas = array();
 
         return view('adminlte::academia.inscripcion', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas));
+    }
+
+    public function registrarprueba(Request $request){
+        dd($request);
     }
 
     /**

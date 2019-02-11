@@ -44,5 +44,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AcademiaTarifasTableSeeder::class);
 
         $this->call(AcademiaHorariosTableSeeder::class);
+
+        $this->call(AcademiaHorariosTarifasTableSeeder::class);
     }
 }

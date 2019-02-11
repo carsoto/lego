@@ -36,7 +36,7 @@
                         {!! Form::open(['route' => 'campamento.store', 'role' => 'form', 'id' => 'form-inscripcion']) !!}
                             <div class="row setup-content" id="step-1">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    @include('adminlte::atleta.registro-ninos', ['tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas])
+                                    @include('adminlte::atleta.registro-ninos', ['tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'servicio' => 'Campamento'])
                                     <button class="btn btn-danger nextBtn btn-md pull-right" type="button" style="display: none;" id="button-datos-sig">Siguiente <i class="fa fa-angle-double-right"></i></button>
                                 </div>
                             </div>

@@ -16,9 +16,12 @@
                             <h3 style="font-family: Verdana;">¡Inscríbete en tu primera clase es totalmente <span class="label label-success">GRATIS</span>!</h3>
                         </div>
                         
-                        {!! Form::open(['route' => 'vacacional.store', 'role' => 'form', 'id' => 'form-inscripcion']) !!}
+                        {!! Form::open(['route' => 'academia.inscripcion.prueba', 'role' => 'form', 'id' => 'form-inscripcion']) !!}
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                @include('adminlte::atleta.registro-ninos-prueba', ['tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas])
+                                @include('adminlte::atleta.registro-ninos', ['tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'servicio' => 'Prueba Academia'])
+                            </div>
+                            <div class="pull-right">
+                                <button class="btn btn-danger btn-md" type="submit">Inscribir</button>
                             </div>
                          {!! Form::close() !!}
                     </div>
