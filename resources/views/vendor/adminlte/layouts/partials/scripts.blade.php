@@ -571,6 +571,7 @@
 		var text6 = document.getElementById('atleta_talla_top').value;
 		var text7 = document.getElementById('atleta_talla_camiseta').value;
 		var text8 = document.getElementById('atleta_red_social').value;
+		var f_prueba = document.getElementById('atleta_fecha_prueba').value;
 
 		var error_message = '<div class="text-left">Su formulario presenta errores<ul>';
 
@@ -596,9 +597,10 @@
 			else if(servicio == 'Prueba Academia'){
 				var h_edad_inicio = $("#atleta_horario_prueba option:selected").attr('edad_inicio');
 				var h_edad_fin = $("#atleta_horario_prueba option:selected").attr('edad_fin');
+				
 
 				if(h_edad_fin != ""){
-					if((edad < h_edad_inicio) && (edad > h_edad_fin)){
+					if((edad < h_edad_inicio) || (edad > h_edad_fin)){
 						error_message += '<li>La edad del alumno no corresponde al horario seleccionado</li>';
 						valido = false;
 					}
@@ -623,6 +625,11 @@
 
 		if(text9 == ""){
 			error_message += '<li>El apellido del alumno es obligatorio</li>';
+			valido = false;
+		}
+
+		if(f_prueba == ""){
+			error_message += '<li>Debe seleccionar una fecha para su prueba</li>';
 			valido = false;
 		}
 
