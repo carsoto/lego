@@ -1,8 +1,10 @@
+<input type="hidden" name="dias_no_academia" id="dias_no_academia" value="{{ $dias_deshabilitados }}"> 
+
 <div class="col-lg-6 col-md-6" style="padding: 5px;">
 
     {!! Form::label('fecha_prueba', 'Fecha de prueba') !!}<strong><span style='color: red;'>*</span></strong>
 
-    {!! Form::text('atleta[fecha_prueba]', null, array('class' => 'form-control input-sm datepicker', 'id' => 'atleta_fecha_prueba', 'readonly'=>"readonly", "style" => "background: white;")) !!}
+    {!! Form::text('atleta[fecha_prueba]', null, array('class' => 'form-control input-sm datepicker-academia', 'id' => 'atleta_fecha_prueba', 'readonly'=>"readonly", "style" => "background: white;")) !!}
 
 </div>
 

@@ -152,18 +152,21 @@ class AlquilerController extends Controller
 
     public function buscardisponibilidad(Request $request){
         $reservas = Alquiler::where('fecha', '=', $request->fecha_reserva)->where('locaciones_id', '=', $request->locacion)->get();
+        //dd(count($reservas));
         $cantd_canchas = Funciones::configuracion_reserva('Cantidad de canchas');
+        //dd($cantd_canchas);
         $canchas_ocupadas = array();
         $cancha = 0;
         
         if(count($reservas) > 0){
             foreach ($reservas as $key => $reserva) {
+                
                 if ($reserva->hora_inicio == $request->h_inicio) {
-                    $canchas_ocupadas[$reserva->cancha] = 'ocupada';
+                    array_push($canchas_ocupadas, $reserva->cancha);
                 }else if($request->h_inicio < $reserva->hora_fin){
-                    $canchas_ocupadas[$reserva->cancha] = 'ocupada';
+                    array_push($canchas_ocupadas, $reserva->cancha);
                 }else if(($request->h_inicio > $reserva->hora_inicio) && ($request->h_inicio < $reserva->hora_fin)){
-                    $canchas_ocupadas[$reserva->cancha] = 'ocupada';
+                    array_push($canchas_ocupadas, $reserva->cancha);
                 }
             }
 
@@ -171,11 +174,12 @@ class AlquilerController extends Controller
                 $cancha = 0;
                 $status = 'no disponible';
             }else{
-                while(!array_key_exists($cancha, $canchas_ocupadas)){
+                do{
                     $cancha = rand(1, $cantd_canchas);
-                }
+                }while(in_array($cancha, $canchas_ocupadas));
                 $status = 'disponible';
             }
+            
         }else{
             $cancha = 1;
             $status = 'disponible';

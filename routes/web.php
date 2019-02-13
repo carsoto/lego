@@ -26,6 +26,7 @@ Route::group(['prefix' => 'academia'], function () {
 	Route::get('inscripcion/', 'AcademiaController@inscripcionacademia')->name('academia.inscripcion');
 
 	Route::post('inscripcion/prueba', 'AcademiaController@registrarprueba')->name('academia.inscripcion.prueba');
+	Route::post('inscripcion/academia', 'AcademiaController@registrarinscripcion')->name('academia.inscripcion');
 });
 
 Route::resource('servicios', 'ServiciosController');
@@ -61,6 +62,9 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('eliminar/{usuario}', 'UserController@destroy')->name('usuarios.borrar');
 			Route::get('table/listado', 'UserController@list')->name('usuarios.listado');
 		});
+
+		Route::get('academia/resumen-prueba', 'AcademiaController@dashboardprueba')->name('academia.prueba.dashboard');
+		Route::get('academia/resumen', 'AcademiaController@dashboard')->name('academia.dashboard');
 
 		Route::get('vacacional/resumen', 'VacacionalController@dashboard')->name('vacacional.dashboard');
 		Route::get('vacacional/registrar/pago/{id}', 'VacacionalController@registrarpago')->name('vacacional.registrar.pago');

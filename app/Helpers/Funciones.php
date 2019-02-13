@@ -5,6 +5,7 @@ namespace App\Helpers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\ReservaConfiguracion;
+use App\AcademiaConfiguracion;
 use DB;
 
 class Funciones{
@@ -30,7 +31,7 @@ class Funciones{
     }
 
     public static function tallas(){
-        $tallas = array('0' => 'Seleccionar talla', '32' => '32', '34' => '34', '36' => '36', '38' => '38', '40' => '40', '42' => '42');
+        $tallas = array('0' => 'Seleccionar talla', '32' => 'XS', '34' => 'S', '36' => 'M', '38' => 'L', '40' => 'XL', '42' => 'XXL');
         return $tallas;
     }
 
@@ -64,5 +65,28 @@ class Funciones{
             WHERE i.activo = 1
             ORDER BY i.fecha_inscripcion, r.apellidos"));
         return $inscritos;
+    }
+
+    public static function inscritos_academia($modalidad){
+
+        $inscritos = DB::select(DB::raw("
+            SELECT a.id, CONCAT(r.apellidos, ', ', r.nombres) AS representante, CONCAT(a.apellido, ', ', a.nombre) AS alumno, a.fecha_nacimiento, TIMESTAMPDIFF(YEAR, a.fecha_nacimiento, CURDATE()) AS edad, i.fecha_inscripcion, a.instituto AS colegio, CONCAT(h.hora_inicio, ' - ', h.hora_fin) AS horario, l.ubicacion AS locacion, i.prueba_fecha
+            FROM
+                inscripciones_academia i
+            INNER JOIN academia_horarios h ON i.prueba_horario_id = h.id
+            INNER JOIN atletas a ON a.id = i.atletas_id
+            INNER JOIN representantes_atletas ra ON ra.atletas_id = a.id
+            INNER JOIN representantes r ON ra.representantes_id = r.id  
+            INNER JOIN locaciones l ON l.id = h.locaciones_id
+            WHERE i.estatus = '".$modalidad."'
+            ORDER BY i.fecha_inscripcion, r.apellidos"));
+
+        
+        return $inscritos;
+    }
+
+    public static function configuracion_academia($tipo, $propiedad){
+        $configuraciones = AcademiaConfiguracion::where('tipo', '=', $tipo)->where('configuracion', '=', $propiedad)->get();
+        return $configuraciones[0]->valor;
     }
 }

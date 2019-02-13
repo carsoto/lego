@@ -284,6 +284,37 @@
 
 		    //daysOfWeekDisabled: [0],
     	});
+
+    	var inhabilitar = $('#dias_no_academia').val();
+    	if(inhabilitar != undefined){
+	    	var arr_days = inhabilitar.split(",");
+			var dias_no_academia = arr_days.map(function (x) { 
+				return parseInt(x, 10); 
+			});	
+    	}else{
+    		var dias_no_academia = [];
+    	}
+    	
+
+    	$('.datepicker-academia').datepicker({
+    		language: "es",
+
+			format: 'yyyy-mm-dd',
+
+		    orientation: "auto left",
+
+		    forceParse: false,
+
+		    autoclose: true,
+
+		    todayHighlight: true,
+
+		    toggleActive: true,
+
+		    startDate: fecha_actual,
+
+		    daysOfWeekDisabled: dias_no_academia,
+    	});
 		
 
 
@@ -414,6 +445,14 @@
 		});
 
 		$('input[name="check_ubicacion_vacacional"]').on('ifUnchecked', function() {
+			document.getElementById('ubicacion-'+this.value).style.display = 'none';
+		});
+
+		$('input[name="check_ubicacion_academia"]').on('ifChecked', function() {
+			document.getElementById('ubicacion-'+this.value).style.display = 'block';
+		});
+
+		$('input[name="check_ubicacion_academia"]').on('ifUnchecked', function() {
 			document.getElementById('ubicacion-'+this.value).style.display = 'none';
 		});
 
@@ -571,8 +610,11 @@
 		var text6 = document.getElementById('atleta_talla_top').value;
 		var text7 = document.getElementById('atleta_talla_camiseta').value;
 		var text8 = document.getElementById('atleta_red_social').value;
-		var f_prueba = document.getElementById('atleta_fecha_prueba').value;
-
+		
+		if(servicio == 'Prueba Academia'){
+			var f_prueba = document.getElementById('atleta_fecha_prueba').value;
+		}
+		
 		var error_message = '<div class="text-left">Su formulario presenta errores<ul>';
 
 		if(text1 == ""){
@@ -594,6 +636,7 @@
 					}
 				
 			}
+
 			else if(servicio == 'Prueba Academia'){
 				var h_edad_inicio = $("#atleta_horario_prueba option:selected").attr('edad_inicio');
 				var h_edad_fin = $("#atleta_horario_prueba option:selected").attr('edad_fin');
@@ -642,9 +685,15 @@
 		}
 
 		if(valido){
-			var cell1 = row.insertCell(0);
-			cell1.innerHTML = '<input value="'+text1+'" type="text" name="form_atleta['+ array_form +'][fecha_nacimiento]" style="border: 0px solid;" readonly="readonly">';
+			var horario_seleccionado = $("#atleta_horario_prueba option:selected").val();
 
+			var cell1 = row.insertCell(0);
+			if(servicio == 'Prueba Academia'){
+				cell1.innerHTML = '<input type="hidden" value="'+f_prueba+'" name="form_atleta['+ array_form +'][fecha_prueba]" readonly="readonly" /><input type="hidden" value="'+horario_seleccionado+'" name="form_atleta['+ array_form +'][horario_prueba]" readonly="readonly" /><input value="'+text1+'" type="text" name="form_atleta['+ array_form +'][fecha_nacimiento]" style="border: 0px solid;" readonly="readonly">';
+			}else{
+				cell1.innerHTML = '<input value="'+text1+'" type="text" name="form_atleta['+ array_form +'][fecha_nacimiento]" style="border: 0px solid;" readonly="readonly">';
+			}
+			
 			var cell2 = row.insertCell(1);
 			cell2.innerHTML = '<input value="'+text2+'" type="text" name="form_atleta['+ array_form +'][nombre]" style="border: 0px solid;" readonly="readonly">';
 
@@ -690,16 +739,7 @@
 				cell9.innerHTML = '<a href="#" name="remove" onclick="eliminar_atleta(this, \''+datos_tarifa.fecha_limite+'\', \''+datos_tarifa.porc_individual+'\', \''+datos_tarifa.porc_grupal+'\')"><i class="fa fa-times"></i></a>';
 			}
 
-			else if(servicio == 'Prueba Academia'){
-				/*var form_inscripcion = document.getElementById('form-inscripcion');
-				var horario_seleccionado = $("#atleta_horario_prueba option:selected").attr('horario_id');
-				var fecha_prueba = document.getElementById('atleta_fecha_prueba').value;
-
-				form_inscripcion.appendTo('<input value="'+fecha_prueba+'" type="text" name="form_atleta['+ array_form +'][fecha_prueba]" style="border: 0px solid; display: none;" readonly="readonly">');
-				form_inscripcion.appendTo('<input value="'+horario_seleccionado+'" type="text" name="form_atleta['+ array_form +'][horario_prueba]" style="border: 0px solid; display: none;" readonly="readonly">');*/
-
-				cell9.innerHTML = '<a href="#" name="remove" onclick="eliminar_invitado(this)"><i class="fa fa-times"></i></a>';
-			}
+			cell9.innerHTML = '<a href="#" name="remove" onclick="eliminar_invitado(this)"><i class="fa fa-times"></i></a>';
 			
 
 			document.getElementById('atleta_fecha_nacimiento').value = "";
@@ -741,6 +781,13 @@
 
     }
 
+	function agregarZero(i) {
+	    if (i < 10) {
+	        i = '0' + i;
+	    }
+	    return i;
+	}
+
     function disponibilidad_reserva(){
     	var cantidad_invitados = $('#lista-invitados tbody').children().length;
     	var h_inicio = $('select[name=reserva_hora_inicio]').val();
@@ -751,6 +798,14 @@
     	var error_message = '<div class="text-left">Su formulario presenta errores<ul>';
     	var valido = true;
     	var locacion = document.querySelector('input[name="reserva_locacion"]:checked');
+    	var today = new Date();
+		var h_actual = today.getHours();
+
+		var dd = today.getDate();
+		var mm = today.getMonth()+1;
+		var yyyy = today.getFullYear();
+		var fecha_actual = yyyy+'-'+agregarZero(mm)+'-'+agregarZero(dd);
+
 		document.getElementById('reserva_fecha').innerHTML = fecha_reserva;
 		document.getElementById('reserva_h_inicio').innerHTML = hora_inicio;
 		document.getElementById('reserva_h_fin').innerHTML = hora_fin;
@@ -758,6 +813,11 @@
 
     	if(fecha_reserva == ""){
     		error_message += '<li>La fecha de reserva no puede estar en blanco.</li>';
+    		valido = false;
+    	}
+
+    	if((fecha_reserva == fecha_actual) && (parseInt(h_inicio) < h_actual)){
+    		error_message += '<li>La hora de inicio no puede ser menor a la hora actual.</li>';
     		valido = false;
     	}
 

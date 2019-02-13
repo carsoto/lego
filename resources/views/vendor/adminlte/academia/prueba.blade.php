@@ -18,10 +18,10 @@
                         
                         {!! Form::open(['route' => 'academia.inscripcion.prueba', 'role' => 'form', 'id' => 'form-inscripcion']) !!}
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                @include('adminlte::atleta.registro-ninos', ['tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'servicio' => 'Prueba Academia'])
+                                @include('adminlte::atleta.registro-ninos', ['tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'servicio' => 'Prueba Academia', 'dias_deshabilitados' => $dias_deshabilitados])
                             </div>
                             <div class="pull-right">
-                                <button class="btn btn-danger btn-md" type="submit">Inscribir</button>
+                                <button class="btn btn-danger btn-md" type="submit" style="display: none;" id="button-datos-sig">Inscribir</button>
                             </div>
                          {!! Form::close() !!}
                     </div>

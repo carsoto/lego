@@ -31,9 +31,10 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class InscripcionesAcademia extends Eloquent
 {
+	protected $table = 'inscripciones_academia';
+	
 	protected $casts = [
 		'atletas_id' => 'int',
-		'prueba_locacion_id' => 'int',
 		'prueba_horario_id' => 'int',
 		'activo' => 'int'
 	];
@@ -48,7 +49,6 @@ class InscripcionesAcademia extends Eloquent
 		'fecha_inscripcion',
 		'estatus',
 		'prueba_fecha',
-		'prueba_locacion_id',
 		'prueba_horario_id',
 		'activo'
 	];
@@ -61,10 +61,5 @@ class InscripcionesAcademia extends Eloquent
 	public function academia_horario()
 	{
 		return $this->belongsTo(\App\AcademiaHorario::class, 'prueba_horario_id');
-	}
-
-	public function locacion()
-	{
-		return $this->belongsTo(\App\Locacion::class, 'prueba_locacion_id');
 	}
 }

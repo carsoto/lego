@@ -21,7 +21,7 @@
 
 @if($servicio == 'Prueba Academia')
 	<div class="col-lg-12 col-md-12">
-		@include('adminlte::academia.datos_prueba', ['locaciones' => $locaciones])	
+		@include('adminlte::academia.datos_prueba', ['locaciones' => $locaciones, 'dias_deshabilitados' => $dias_deshabilitados])	
 	</div>
 @endif
 

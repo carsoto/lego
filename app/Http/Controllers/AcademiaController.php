@@ -8,6 +8,7 @@ use App\InformacionAdicional;
 use App\Representante;
 use App\Atleta;
 use App\AtletasInformacionAdicional;
+use App\InscripcionesAcademia;
 use Carbon\Carbon;
 use Funciones;
 use DB;
@@ -30,6 +31,10 @@ class AcademiaController extends Controller
         $preguntas = InformacionAdicional::all();
         $tallas = Funciones::tallas();
         $datos_tarifas = array();
+        $dias_de_clases = explode(",", Funciones::configuracion_academia('Prueba', 'Dias de clases'));
+        $dias_semana = array(1,2,3,4,5,6,0);
+        $deshabilitar_dias = array_diff($dias_semana, $dias_de_clases);
+        $deshabilitar_dias = implode(",", array_values($deshabilitar_dias));
 
         foreach($locaciones AS $key => $locacion){
             if(count($locacion->academia_horarios()->where('activo', '=', 1)->get()) > 0){
@@ -39,8 +44,9 @@ class AcademiaController extends Controller
             }
         }
 
-        return view('adminlte::academia.prueba', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas));
+        return view('adminlte::academia.prueba', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'dias_deshabilitados' => $deshabilitar_dias));
     }
+
     public function inscripcionacademia(){
         $locaciones = Locacion::where('activo', '=', 1)->get();
         $preguntas = InformacionAdicional::all();
@@ -51,7 +57,73 @@ class AcademiaController extends Controller
     }
 
     public function registrarprueba(Request $request){
-        dd($request);
+        try {
+            $cantidad_alumnos = count($request->form_atleta);
+            $representante = Representante::firstOrCreate(['cedula' => $request->representante["cedula"]], [ 
+                'cedula' => $request->representante["cedula"],
+                'nombres' => $request->representante["nombres"],
+                'apellidos' => $request->representante["apellidos"],
+                'telf_contacto' => $request->representante["telf_contacto"],
+                'email' => $request->representante["email"],
+                'red_social' => $request->representante["red_social"],
+            ]);
+
+            foreach($request->form_atleta AS $key => $atleta){
+                if($atleta["cedula"] != ""){
+                    $atleta_reg = Atleta::firstOrCreate(['cedula' => $atleta["cedula"]], [ 
+                        'cedula' => $atleta["cedula"],
+                        'nombre' => $atleta["nombre"],
+                        'apellido' => $atleta["apellido"],
+                        'genero' => $atleta["genero"],
+                        'fecha_nacimiento' => $atleta["fecha_nacimiento"],
+                        'red_social' => $atleta["red_social"],
+                        'instituto' => $atleta["instituto"],
+                        'talla_top' => $atleta["talla_top"],
+                        'talla_camiseta' => $atleta["talla_camiseta"]
+                    ]);    
+                }else{
+                    $atleta_reg = Atleta::create([ 
+                        'cedula' => $atleta["cedula"],
+                        'nombre' => $atleta["nombre"],
+                        'apellido' => $atleta["apellido"],
+                        'genero' => $atleta["genero"],
+                        'fecha_nacimiento' => $atleta["fecha_nacimiento"],
+                        'red_social' => $atleta["red_social"],
+                        'instituto' => $atleta["instituto"],
+                        'talla_top' => $atleta["talla_top"],
+                        'talla_camiseta' => $atleta["talla_camiseta"]
+                    ]);
+                }
+
+                $representante->atletas()->sync($atleta_reg->id, false);
+
+                InscripcionesAcademia::create([ 
+                    'atletas_id' => $atleta_reg->id,
+                    'fecha_inscripcion' => date('Y-m-d'),
+                    'estatus' => 'Prueba',
+                    'prueba_fecha' => $atleta["fecha_prueba"],
+                    'prueba_horario_id' => $atleta["horario_prueba"],
+                    'activo' => 1
+                ]);
+            }
+            $msg = 'Proceso finalizado con éxito, te esperamos en la academia.';
+            $status = true;
+        } catch (Exception $e) {
+            $msg = $e;
+            $status = false;
+        }
+
+        return view('adminlte::academia.inscripcion_finalizada', array('message' => $msg, 'status' => $status));
+    }
+
+    public function dashboardprueba(){
+        $inscritos_prueba = Funciones::inscritos_academia('Prueba');
+        return view('adminlte::academia.dashboard_prueba', array('inscritos_prueba' => $inscritos_prueba));
+    }
+
+    public function dashboard(){
+        $inscritos = Funciones::inscritos_academia('Regular');
+        return view('adminlte::academia.dashboard', array('inscritos' => $inscritos));
     }
 
     /**
