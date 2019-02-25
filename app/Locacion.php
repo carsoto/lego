@@ -37,9 +37,9 @@ class Locacion extends Eloquent
 		'activo'
 	];
 
-	public function academia_horarios()
+	public function academia_horarios_disponibles()
 	{
-		return $this->hasMany(\App\AcademiaHorario::class, 'locaciones_id');
+		return $this->hasMany(\App\AcademiaHorariosDisponible::class, 'locaciones_id');
 	}
 
 	public function alquileres()

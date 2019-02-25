@@ -13,21 +13,18 @@ class CreateAcademiaHorariosTable extends Migration
      */
     public function up()
     {
-        Schema::create('academia_horarios', function (Blueprint $table) {
-            $table->increments('id')->unsigned();
-            $table->integer('locaciones_id')->unsigned();
-            $table->integer('edad_inicio')->nullable();
-            $table->integer('edad_fin')->nullable();
-            $table->string('hora_inicio');
-            $table->string('hora_fin');
-            $table->integer('activo')->default(1);
-
-            $table->index('locaciones_id','fk_locaciones_academia_horarios_idx');
+        Schema::create('academia_horarios', function(Blueprint $table) {
+            $table->engine = 'InnoDB';
         
-            $table->foreign('locaciones_id')
-                ->references('id')->on('locaciones');
-
+            $table->increments('id')->unsigned();
+            $table->integer('edad_inicio')->nullable()->default(null);
+            $table->integer('edad_fin')->nullable()->default(null);
+            $table->string('hora_inicio', 191);
+            $table->string('hora_fin', 191);
+            $table->integer('activo')->default('1');
+        
             $table->timestamps();
+        
         });
     }
 

@@ -9,16 +9,13 @@
 </div>
 
 <div class="col-lg-6 col-md-6" style="padding: 5px;">
+    {!! Form::label('locacion_prueba', 'Locación') !!}
 
-    {!! Form::label('horario_prueba', 'Horario') !!}<strong><span style='color: red;'>*</span></strong>
-    
-    <select name="atleta[horario_prueba]" class="form-control input-sm" id="atleta_horario_prueba">
-        @foreach($locaciones AS $key => $locacion)
-            @if(count($locacion->academia_horarios()->where('activo', '=', 1)->get()) > 0)
-                @foreach($locacion->academia_horarios()->where('activo', '=', 1)->get() AS $key => $horario)
-                    <option edad_inicio="{{ $horario->edad_inicio }}" edad_fin="{{ $horario->edad_fin }}" value="{{ $horario->id }}">{{ $locacion->ubicacion }} ({{ $horario->hora_inicio }} - {{ $horario->hora_fin }})</option>
-                @endforeach
-            @endif
-        @endforeach
-    </select>
+    <div class="iradio icheck">
+    @foreach($locaciones AS $key => $locacion)
+        <label>
+            <input value="{{ $locacion->id }}" type="radio" name="atleta[locacion_prueba]"> {{ $locacion->ubicacion }}
+        </label>
+    @endforeach
+    </div>
 </div>

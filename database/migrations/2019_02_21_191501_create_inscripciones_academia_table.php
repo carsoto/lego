@@ -19,20 +19,21 @@ class CreateInscripcionesAcademiaTable extends Migration
             $table->increments('id')->unsigned();
             $table->integer('atletas_id')->unsigned();
             $table->date('fecha_inscripcion');
-            $table->string('estatus')->default('Regular');
-            $table->date('prueba_fecha')->nullable();
-            $table->integer('prueba_horario_id')->unsigned()->nullable();
-            $table->integer('activo')->default(1);
+            $table->string('estatus', 191)->default('Regular');
+            $table->integer('locaciones_id')->unsigned();
+            $table->date('prueba_fecha')->nullable()->default(null);
+            $table->integer('activo')->default('1');
         
             $table->index('atletas_id','fk_academia_horarios_has_atletas_atletas1_idx');
-            $table->index('prueba_horario_id','fk_prueba_horario_academia1_idx');
+
+            $table->index('locaciones_id','fk_academia_horarios_has_locaciones1_idx');
         
             $table->foreign('atletas_id')
                 ->references('id')->on('atletas');
 
-            $table->foreign('prueba_horario_id')
-                ->references('id')->on('academia_horarios');
-
+            $table->foreign('locaciones_id')
+                ->references('id')->on('locaciones');
+        
             $table->timestamps();
         
         });

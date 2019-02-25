@@ -590,8 +590,6 @@
 
 	}
 
-
-
     function agregar_nino(preguntas, datos_tarifa, servicio){
 
     	var cantidad_alumnos = $('#lista-atletas tbody').children().length;
@@ -637,11 +635,14 @@
 				
 			}
 
-			else if(servicio == 'Prueba Academia'){
-				var h_edad_inicio = $("#atleta_horario_prueba option:selected").attr('edad_inicio');
+			else if((servicio == 'Prueba Academia') || (servicio == 'Prueba Academia')){
+				if((edad < datos_tarifa.edad_inicio)){
+					error_message += '<li>El alumno no cumple con el requisito. Edad requerida: mayor o igual a '+ datos_tarifa.edad_inicio +' años.</li>';
+					valido = false;
+				}
+				/*var h_edad_inicio = $("#atleta_horario_prueba option:selected").attr('edad_inicio');
 				var h_edad_fin = $("#atleta_horario_prueba option:selected").attr('edad_fin');
 				
-
 				if(h_edad_fin != ""){
 					if((edad < h_edad_inicio) || (edad > h_edad_fin)){
 						error_message += '<li>La edad del alumno no corresponde al horario seleccionado</li>';
@@ -652,7 +653,7 @@
 						error_message += '<li>La edad del alumno no corresponde al horario seleccionado</li>';
 						valido = false;
 					}
-				}
+				}*/
 			}
 		}
 
@@ -685,11 +686,11 @@
 		}
 
 		if(valido){
-			var horario_seleccionado = $("#atleta_horario_prueba option:selected").val();
-
 			var cell1 = row.insertCell(0);
 			if(servicio == 'Prueba Academia'){
-				cell1.innerHTML = '<input type="hidden" value="'+f_prueba+'" name="form_atleta['+ array_form +'][fecha_prueba]" readonly="readonly" /><input type="hidden" value="'+horario_seleccionado+'" name="form_atleta['+ array_form +'][horario_prueba]" readonly="readonly" /><input value="'+text1+'" type="text" name="form_atleta['+ array_form +'][fecha_nacimiento]" style="border: 0px solid;" readonly="readonly">';
+				var locacion_seleccionada = document.querySelector('input[name="atleta[locacion_prueba]"]:checked').value;
+				console.log(locacion_seleccionada);
+				cell1.innerHTML = '<input type="hidden" value="'+f_prueba+'" name="form_atleta['+ array_form +'][fecha_prueba]" readonly="readonly" /><input type="hidden" value="'+locacion_seleccionada+'" name="form_atleta['+ array_form +'][locacion_prueba]" readonly="readonly" /><input value="'+text1+'" type="text" name="form_atleta['+ array_form +'][fecha_nacimiento]" style="border: 0px solid;" readonly="readonly">';
 			}else{
 				cell1.innerHTML = '<input value="'+text1+'" type="text" name="form_atleta['+ array_form +'][fecha_nacimiento]" style="border: 0px solid;" readonly="readonly">';
 			}

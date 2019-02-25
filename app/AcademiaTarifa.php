@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 11 Feb 2019 16:03:43 +0000.
+ * Date: Thu, 21 Feb 2019 20:32:03 +0000.
  */
 
 namespace App;
@@ -21,7 +21,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * 
- * @property \Illuminate\Database\Eloquent\Collection $academia_horarios_tarifas
+ * @property \Illuminate\Database\Eloquent\Collection $academia_horarios_disponibles
  *
  * @package App
  */
@@ -42,8 +42,8 @@ class AcademiaTarifa extends Eloquent
 		'activo'
 	];
 
-	public function academia_horarios_tarifas()
+	public function academia_horarios_disponibles()
 	{
-		return $this->hasMany(\App\AcademiaHorariosTarifa::class, 'academia_tarifas_id');
+		return $this->hasMany(\App\AcademiaHorariosDisponible::class, 'academia_tarifas_id');
 	}
 }

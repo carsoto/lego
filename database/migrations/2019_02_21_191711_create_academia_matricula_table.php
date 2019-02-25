@@ -17,26 +17,28 @@ class CreateAcademiaMatriculaTable extends Migration
             $table->engine = 'InnoDB';
         
             $table->increments('id')->unsigned();
-            $table->integer('atletas_id')->unsigned();
-            $table->integer('academia_horarios_tarifas_id')->unsigned();
+            $table->integer('inscripciones_academia_id')->unsigned();
+            $table->integer('academia_horarios_disponibles_id')->unsigned();
             $table->date('fecha');
             $table->integer('mes');
             $table->integer('anyo');
-            $table->string('codigo_dupla', 45)->nullable();
-            $table->integer('activo')->default(1);
+            $table->string('dias_asistencia', 45);
+            $table->string('codigo_dupla', 45)->nullable()->default(null);
+            $table->integer('activo')->default('1');
         
-            $table->index('academia_horarios_tarifas_id','fk_academia_matricula_academia_horarios_tarifas1_idx');
-            $table->index('atletas_id','fk_academia_matricula_atletas1_idx');
+            $table->index('academia_horarios_disponibles_id','fk_academia_matricula_academia_horarios_disponibles1_idx');
+            $table->index('inscripciones_academia_id','fk_academia_matricula_inscripciones_academia1_idx');
         
-            $table->foreign('academia_horarios_tarifas_id')
-                ->references('id')->on('academia_horarios_tarifas');
+            $table->foreign('academia_horarios_disponibles_id')
+                ->references('id')->on('academia_horarios_disponibles');
         
-            $table->foreign('atletas_id')
-                ->references('id')->on('atletas');
+            $table->foreign('inscripciones_academia_id')
+                ->references('id')->on('inscripciones_academia');
         
             $table->timestamps();
         
         });
+
     }
 
     /**

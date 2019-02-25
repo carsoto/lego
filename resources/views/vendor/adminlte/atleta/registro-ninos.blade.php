@@ -69,7 +69,7 @@
 					<th>Cédula</th>
 
 					<th>Colegio</th>
-
+					
 					<th><i class="fa fa-gears"></i></th>
 
 				</tr>

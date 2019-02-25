@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 11 Feb 2019 16:07:22 +0000.
+ * Date: Thu, 21 Feb 2019 20:32:23 +0000.
  */
 
 namespace App;
@@ -17,25 +17,22 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Carbon\Carbon $fecha_inscripcion
  * @property string $estatus
  * @property \Carbon\Carbon $prueba_fecha
- * @property int $prueba_locacion_id
- * @property int $prueba_horario_id
  * @property int $activo
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * 
  * @property \App\Atleta $atleta
- * @property \App\AcademiaHorario $academia_horario
- * @property \App\Locacione $locacione
+ * @property \Illuminate\Database\Eloquent\Collection $academia_matriculas
  *
  * @package App
  */
 class InscripcionesAcademia extends Eloquent
 {
 	protected $table = 'inscripciones_academia';
-	
+
 	protected $casts = [
 		'atletas_id' => 'int',
-		'prueba_horario_id' => 'int',
+		'locaciones_id' => 'int',
 		'activo' => 'int'
 	];
 
@@ -48,8 +45,8 @@ class InscripcionesAcademia extends Eloquent
 		'atletas_id',
 		'fecha_inscripcion',
 		'estatus',
+		'locaciones_id',
 		'prueba_fecha',
-		'prueba_horario_id',
 		'activo'
 	];
 
@@ -58,8 +55,13 @@ class InscripcionesAcademia extends Eloquent
 		return $this->belongsTo(\App\Atleta::class, 'atletas_id');
 	}
 
-	public function academia_horario()
+	public function locacion()
 	{
-		return $this->belongsTo(\App\AcademiaHorario::class, 'prueba_horario_id');
+		return $this->belongsTo(\App\Locacion::class, 'locaciones_id');
+	}
+
+	public function academia_matriculas()
+	{
+		return $this->hasMany(\App\AcademiaMatricula::class, 'inscripciones_academia_id');
 	}
 }

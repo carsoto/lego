@@ -13,12 +13,15 @@ class CreateAcademiaConfiguracionTable extends Migration
      */
     public function up()
     {
-        Schema::create('academia_configuracion', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('tipo');
-            $table->string('configuracion');
-            $table->string('valor');
+        Schema::create('academia_configuracion', function(Blueprint $table) {
+            $table->engine = 'InnoDB';
+        
+            $table->increments('id')->unsigned();
+            $table->string('configuracion', 191);
+            $table->string('valor', 191);
+        
             $table->timestamps();
+        
         });
     }
 

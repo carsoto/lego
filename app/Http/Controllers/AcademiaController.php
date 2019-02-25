@@ -9,6 +9,7 @@ use App\Representante;
 use App\Atleta;
 use App\AtletasInformacionAdicional;
 use App\InscripcionesAcademia;
+use App\AcademiaHorariosDisponible;
 use Carbon\Carbon;
 use Funciones;
 use DB;
@@ -27,38 +28,53 @@ class AcademiaController extends Controller
     }
 
     public function inscripcionprueba(){
-        $locaciones = Locacion::where('activo', '=', 1)->get();
+        $configuraciones = Funciones::configuracion_academia();
         $preguntas = InformacionAdicional::all();
         $tallas = Funciones::tallas();
         $datos_tarifas = array();
-        $dias_de_clases = explode(",", Funciones::configuracion_academia('Prueba', 'Dias de clases'));
+        $dias_de_clases = explode(",", $configuraciones['Dias de clases']);
         $dias_semana = array(1,2,3,4,5,6,0);
         $deshabilitar_dias = array_diff($dias_semana, $dias_de_clases);
         $deshabilitar_dias = implode(",", array_values($deshabilitar_dias));
+        $horarios = AcademiaHorariosDisponible::where('activo', '=', 1)->get();
+        $locaciones = array();
 
-        foreach($locaciones AS $key => $locacion){
-            if(count($locacion->academia_horarios()->where('activo', '=', 1)->get()) > 0){
-                foreach($locacion->academia_horarios()->where('activo', '=', 1)->get() AS $key => $horario){
-                    $datos_tarifas[] = array('horario_id' => $horario->id, 'locacion_id' => $horario->locaciones_id, 'locacion' => $locacion->ubicacion, 'edad_inicio' => $horario->edad_inicio, 'edad_fin' => $horario->edad_fin, 'horario' => $horario->hora_inicio.' - '.$horario->hora_fin);
-                }
-            }
+        foreach ($horarios as $key => $horario) {
+            $datos_tarifas['horario'][$horario->academia_horario->edad_inicio] = array('edad_inicio' => $horario->academia_horario->edad_inicio, 'edad_fin' => $horario->academia_horario->edad_fin, 'hora' => $horario->academia_horario->hora_inicio.' - '.$horario->academia_horario->hora_fin);
+            $locaciones[$horario->locaciones_id] = $horario->locacion;
         }
 
+        $datos_tarifas['edad_inicio'] = $configuraciones['Edad minima'];
         return view('adminlte::academia.prueba', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'dias_deshabilitados' => $deshabilitar_dias));
     }
 
     public function inscripcionacademia(){
-        $locaciones = Locacion::where('activo', '=', 1)->get();
+        $preguntas = InformacionAdicional::all();
+        $configuraciones = Funciones::configuracion_academia();
         $preguntas = InformacionAdicional::all();
         $tallas = Funciones::tallas();
         $datos_tarifas = array();
+        $dias_de_clases = explode(",", $configuraciones['Dias de clases']);
+        $dias_semana = array(1,2,3,4,5,6,0);
+        $deshabilitar_dias = array_diff($dias_semana, $dias_de_clases);
+        $deshabilitar_dias = implode(",", array_values($deshabilitar_dias));
+        $horarios = AcademiaHorariosDisponible::where('activo', '=', 1)->get();
+        $locaciones = array();
+        $datos_tarifas['edad_inicio'] = $configuraciones['Edad minima'];
 
-        return view('adminlte::academia.inscripcion', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas));
+        $horarios_academia = array();
+
+        foreach ($horarios as $key => $horario) {
+            $horarios_academia[$horario->locaciones_id][$horario->academia_horario->edad_inicio][$horario->academia_horario->edad_fin][] = $horario->academia_tarifa;
+        }
+        return view('adminlte::academia.inscripcion', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'horarios' => $horarios));
     }
 
     public function registrarprueba(Request $request){
+
         try {
             $cantidad_alumnos = count($request->form_atleta);
+            $atletas_registrados = array();
             $representante = Representante::firstOrCreate(['cedula' => $request->representante["cedula"]], [ 
                 'cedula' => $request->representante["cedula"],
                 'nombres' => $request->representante["nombres"],
@@ -102,10 +118,26 @@ class AcademiaController extends Controller
                     'fecha_inscripcion' => date('Y-m-d'),
                     'estatus' => 'Prueba',
                     'prueba_fecha' => $atleta["fecha_prueba"],
-                    'prueba_horario_id' => $atleta["horario_prueba"],
+                    'locaciones_id' => $atleta["locacion_prueba"],
                     'activo' => 1
                 ]);
+
+                $edad_atleta = Carbon::parse($atleta["fecha_nacimiento"])->age;
+                $horarios = AcademiaHorariosDisponible::where('activo', '=', 1)->where('locaciones_id', '=', $atleta["locacion_prueba"])->get();
+                $ubicacion = '';
+
+                foreach ($horarios as $key => $horario) {
+                    if($horario->locaciones_id == $atleta["locacion_prueba"]){
+                        $ubicacion = $horario->locacion->ubicacion;
+                    }
+                    
+                    if(($edad_atleta >= $horario->academia_horario->edad_inicio) && ($edad_atleta <= $horario->academia_horario->edad_fin)){
+                        $h = $horario->academia_horario->hora_inicio.' - '.$horario->academia_horario->hora_fin;
+                    }
+                }
+                $atletas_registrados[] = array('nombre' => $atleta["nombre"].' '.$atleta["apellido"], 'edad' => $edad_atleta, 'fecha_prueba' => $atleta["fecha_prueba"], 'locacion' => $ubicacion, 'horario' => $h);
             }
+
             $msg = 'Proceso finalizado con éxito, te esperamos en la academia.';
             $status = true;
         } catch (Exception $e) {
@@ -113,7 +145,7 @@ class AcademiaController extends Controller
             $status = false;
         }
 
-        return view('adminlte::academia.inscripcion_finalizada', array('message' => $msg, 'status' => $status));
+        return view('adminlte::academia.inscripcion_finalizada', array('message' => $msg, 'status' => $status, 'atletas_registrados' => $atletas_registrados));
     }
 
     public function dashboardprueba(){

@@ -18,6 +18,31 @@
                             <h3 style="font-family: Verdana;">¡Te esperamos en LEGO!</h3>    
                         </div>
                         @if($status)
+                            El horario está determinado por la aplicación en base a la edad del atleta...
+
+                            <div class="table-responsive">
+                                <table class="table table-stripped">
+                                    <thead>
+                                        <th>Nombre</th>
+                                        <th>Edad</th>
+                                        <th>Fecha</th>
+                                        <th>Locación</th>
+                                        <th>Horario</th>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($atletas_registrados AS $key => $atleta)
+                                            <tr>
+                                                <td>{{ $atleta['nombre'] }}</td>
+                                                <td>{{ $atleta['edad'] }} años</td>
+                                                <td>{{ $atleta['fecha_prueba'] }}</td>
+                                                <td>{{ $atleta['locacion'] }}</td>
+                                                <td>{{ $atleta['horario'] }}</td>
+                                            </tr>  
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            
                             <div style="text-align: center;">
                                 <img src="{{ asset('public/images/gif-success.gif') }}" width="120px">
                                 <h3 style="font-family: Verdana;">{{ $message }}</h3>

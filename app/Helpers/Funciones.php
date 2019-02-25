@@ -69,7 +69,7 @@ class Funciones{
 
     public static function inscritos_academia($modalidad){
 
-        $inscritos = DB::select(DB::raw("
+        /*$inscritos = DB::select(DB::raw("
             SELECT a.id, CONCAT(r.apellidos, ', ', r.nombres) AS representante, CONCAT(a.apellido, ', ', a.nombre) AS alumno, a.fecha_nacimiento, TIMESTAMPDIFF(YEAR, a.fecha_nacimiento, CURDATE()) AS edad, i.fecha_inscripcion, a.instituto AS colegio, CONCAT(h.hora_inicio, ' - ', h.hora_fin) AS horario, l.ubicacion AS locacion, i.prueba_fecha
             FROM
                 inscripciones_academia i
@@ -79,14 +79,25 @@ class Funciones{
             INNER JOIN representantes r ON ra.representantes_id = r.id  
             INNER JOIN locaciones l ON l.id = h.locaciones_id
             WHERE i.estatus = '".$modalidad."'
-            ORDER BY i.fecha_inscripcion, r.apellidos"));
+            ORDER BY i.fecha_inscripcion, r.apellidos"));*/
+        $inscritos = array();
 
-        
         return $inscritos;
     }
 
-    public static function configuracion_academia($tipo, $propiedad){
-        $configuraciones = AcademiaConfiguracion::where('tipo', '=', $tipo)->where('configuracion', '=', $propiedad)->get();
-        return $configuraciones[0]->valor;
+    public static function configuracion_academia($propiedad = null){
+        $academia = array();
+        
+        if($propiedad != null){
+            $configuraciones = AcademiaConfiguracion::where('configuracion', '=', $propiedad)->get();    
+        }else{
+            $configuraciones = AcademiaConfiguracion::all();
+        }
+        
+        foreach ($configuraciones as $key => $conf) {
+            $academia[$conf->configuracion] = $conf->valor;
+        }
+
+        return $academia;
     }
 }

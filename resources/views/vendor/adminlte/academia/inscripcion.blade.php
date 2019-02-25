@@ -37,16 +37,6 @@
                                 </div>
                                 <div class="row setup-content" id="step-2">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="text-center"><h3> Locación </h3></div>
-                                        <hr>
-                                        
-                                        <div class="text-center">
-                                            @foreach($locaciones AS $key => $locacion)
-                                                @if(count($locacion->academia_horarios()->where('activo', '=', 1)->get()) > 0)
-                                                    <input type="radio" name="check_ubicacion_academia" value="{{ $locacion->id }}"> {{ $locacion->ubicacion }}    
-                                                @endif
-                                            @endforeach
-                                        </div>
 
                                         <div class="text-center"><h3> Horarios </h3></div>
                                         <hr>

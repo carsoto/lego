@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 11 Feb 2019 16:03:19 +0000.
+ * Date: Thu, 21 Feb 2019 20:31:51 +0000.
  */
 
 namespace App;
@@ -13,7 +13,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * Class AcademiaHorario
  * 
  * @property int $id
- * @property int $locaciones_id
  * @property int $edad_inicio
  * @property int $edad_fin
  * @property string $hora_inicio
@@ -22,23 +21,19 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * 
- * @property \App\Locacione $locacione
- * @property \Illuminate\Database\Eloquent\Collection $academia_horarios_tarifas
- * @property \Illuminate\Database\Eloquent\Collection $inscripciones_academia
+ * @property \Illuminate\Database\Eloquent\Collection $academia_horarios_disponibles
  *
  * @package App
  */
 class AcademiaHorario extends Eloquent
 {
 	protected $casts = [
-		'locaciones_id' => 'int',
 		'edad_inicio' => 'int',
 		'edad_fin' => 'int',
 		'activo' => 'int'
 	];
 
 	protected $fillable = [
-		'locaciones_id',
 		'edad_inicio',
 		'edad_fin',
 		'hora_inicio',
@@ -46,18 +41,8 @@ class AcademiaHorario extends Eloquent
 		'activo'
 	];
 
-	public function locacion()
+	public function academia_horarios_disponibles()
 	{
-		return $this->belongsTo(\App\Locacion::class, 'locaciones_id');
-	}
-
-	public function academia_horarios_tarifas()
-	{
-		return $this->hasMany(\App\AcademiaHorariosTarifa::class, 'academia_horarios_id');
-	}
-
-	public function inscripciones_academia()
-	{
-		return $this->hasMany(\App\InscripcionesAcademia::class, 'prueba_horario_id');
+		return $this->hasMany(\App\AcademiaHorariosDisponible::class, 'academia_horarios_id');
 	}
 }
