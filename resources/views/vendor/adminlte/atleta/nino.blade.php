@@ -7,7 +7,7 @@
 </div>
 
 
-<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" style="padding: 5px;">
+<div class="col-lg-3 col-md-3 col-sm-4" style="padding: 5px;">
 
 	{!! Form::label('nombres', 'Nombres') !!}<strong><span style='color: red;'>*</span></strong>
 
@@ -15,7 +15,7 @@
 
 </div>
 
-<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" style="padding: 5px;">
+<div class="col-lg-3 col-md-3 col-sm-4" style="padding: 5px;">
 
 	{!! Form::label('apellidos', 'Apellidos') !!}<strong><span style='color: red;'>*</span></strong>
 
@@ -35,7 +35,7 @@
 
 
 
-<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" style="padding: 5px;">
+<div class="col-lg-3 col-md-3 col-sm-4" style="padding: 5px;">
 
 	{!! Form::label('genero', 'Género') !!}<strong><span style='color: red;'>*</span></strong>
 
@@ -59,7 +59,7 @@
 
 
 
-<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" style="padding: 5px;">
+<div class="col-lg-3 col-md-3 col-sm-4" style="padding: 5px;">
 
 	{!! Form::label('institucion', 'Colegio') !!}<strong><span id="instituto-atleta" style='color: red;'>*</span></strong>
 
@@ -69,7 +69,7 @@
 
 
 
-<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12" style="padding: 5px;">
+<div class="col-lg-2 col-md-2 col-sm-3" style="padding: 5px;">
 
 	{!! Form::label('talla-top', 'Talla top') !!}
 
@@ -79,7 +79,7 @@
 
 
 
-<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12" style="padding: 5px;">
+<div class="col-lg-2 col-md-2 col-sm-3" style="padding: 5px;">
 
 	{!! Form::label('talla-camiseta', 'Talla camiseta') !!}
 
@@ -89,7 +89,7 @@
 
 
 
-<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12" style="padding: 5px;">
+<div class="col-lg-2 col-md-2 col-sm-6" style="padding: 5px;">
 
     {!! Form::label('red_social', 'Instagram/Facebook') !!}<!--<strong><span id="red-social-atleta" style='color: red;'>*</span></strong>-->
 

@@ -64,10 +64,13 @@ class AcademiaController extends Controller
 
         $horarios_academia = array();
 
+        $dias_semana_desc = array(1 => 'Lunes', 2 => 'Martes', 3 => 'Miércoles', 4 => 'Jueves', 5 => 'Viernes', 6 => 'Sábado', 0 => 'Domingo') ;
+
         foreach ($horarios as $key => $horario) {
-            $horarios_academia[$horario->locaciones_id][$horario->academia_horario->edad_inicio][$horario->academia_horario->edad_fin][] = $horario->academia_tarifa;
+            $tarifas[$horario->locaciones_id][$horario->academia_horario->edad_inicio.'_'.$horario->academia_horario->edad_fin][$horario->id] = $horario->academia_tarifa;
+            $horarios_academia[$horario->locaciones_id][$horario->locacion->ubicacion][$horario->academia_horario->edad_inicio.'_'.$horario->academia_horario->edad_fin] = array('edad_inicio' => $horario->academia_horario->edad_inicio, 'edad_fin' => $horario->academia_horario->edad_fin, 'tarifas' => $tarifas[$horario->locaciones_id][$horario->academia_horario->edad_inicio.'_'.$horario->academia_horario->edad_fin]);
         }
-        return view('adminlte::academia.inscripcion', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'horarios' => $horarios));
+        return view('adminlte::academia.inscripcion', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'horarios' => $horarios_academia, 'dias_de_clases' => $dias_de_clases, 'dias_semana_desc' => $dias_semana_desc));
     }
 
     public function registrarprueba(Request $request){

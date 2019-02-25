@@ -30,18 +30,29 @@
                             </div>
                             {!! Form::open(['route' => 'academia.inscripcion', 'role' => 'form', 'id' => 'form-inscripcion']) !!}
                                 <div class="row setup-content" id="step-1">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         @include('adminlte::atleta.registro-ninos', ['tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'servicio' => 'Academia'])
                                         <button class="btn btn-danger nextBtn btn-md pull-right" type="button" style="display: none;" id="button-datos-sig">Siguiente <i class="fa fa-angle-double-right"></i></button>
                                     </div>
                                 </div>
+
                                 <div class="row setup-content" id="step-2">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        
+                                        <div class="text-center"><h3> Locación </h3></div>
+                                        <hr>
+                                        
+                                        <div class="text-center">
+                                            @foreach($horarios AS $key => $locacion)
+                                                @foreach($locacion AS $key1 => $horario)
+                                                    <input type="radio" name="check_ubicacion_academia" value="{{ $key }}"> {{ $key1 }}
+                                                @endforeach
+                                            @endforeach
+                                        </div>
 
                                         <div class="text-center"><h3> Horarios </h3></div>
                                         <hr>
                                         
-                                        @include('adminlte::academia.horarios', ['locaciones' => $locaciones])
+                                        @include('adminlte::academia.horarios', ['locaciones' => $locaciones, 'dias_de_clases' => $dias_de_clases, 'dias_semana_desc' => $dias_semana_desc])
                                         
                                         <div id="resumen_pago" style="display: none; padding-top-top: 40px;">
                                             @include('adminlte::academia.resumen_pago')
@@ -53,6 +64,7 @@
                                         
                                     </div>
                                 </div>
+                                
                             {!! Form::close() !!}
                         </div>
                     </div>
