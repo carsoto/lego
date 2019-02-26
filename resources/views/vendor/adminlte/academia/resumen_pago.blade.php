@@ -2,54 +2,21 @@
 
 <hr>
 
-<table class="table">
+Cantidad de alumnos por inscribir: <strong><span id="cantd_atletas_ins"></span></strong>
 
+<table class="table" id="resumen-pago-academia">
     <thead>
-
-        <th>Cantidad de alumnos a inscribir</th>
-
+        <th>Nombre del atleta</th>
+        <th>Edad</th>
+        <th>Ubicación</th>
+        <th>Días de clase</th>
         <th>Horario</th>
-
         <th>Tarifa</th>
-
-        <th>Subtotal</th>
-
     </thead>
 
     <tbody>
-
-        <tr>
-
-            <td><span id="resumen_cantd_alumnos"></span></td>
-
-            <td><span id="resumen_horario"></span></td>
-
-            <td><input type="text" name="pago_tarifa" id="pago_tarifa" style="display: none;"><span id="resumen_tarifa"></span></td>
-
-            <td><span id="resumen_subtotal"></span></td>
-
-        </tr>
-
-        <tr id="tr_descuento" style="display: none;">
-
-            <td colspan="3" class="text-right"><input type="text" name="pago_descuento" id="pago_descuento" style="display: none;"><span id="descuento_aplicado" style="display: none;"></span><span id="resumen_descuento_aplicado"></span></td>
-
-
-
-            <td><span id="resumen_descuento"></span></td>
-
-        </tr>
-
-        <tr>
-
-            <td colspan="3" class="text-right"><strong>Total a pagar</strong></td>
-
-            <td><input type="text" name="pago_monto" id="pago_monto" style="display: none;"><span id="resumen_total"></span></td>
-
-        </tr>
-
+        
     </tbody>
-
 </table>
 
 @include('adminlte::layouts.datos_pago')

@@ -10,8 +10,6 @@
 
 <script src="{{ asset('/public/plugins/datatables/dataTables.bootstrap.min.js') }}" type="text/javascript"></script>
 
-<!--<script src="{{ asset('/public/plugins/sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>-->
-
 <script src="{{ asset('/public/plugins/sweetalert/sweetalert2.all.js') }}" type="text/javascript"></script>
 
 <script src="{{ asset('/public/js/moment.min.js') }}" type="text/javascript"></script>
@@ -19,16 +17,6 @@
 <script src="{{ asset('/public/plugins/datepicker/bootstrap-datepicker.js') }}" type="text/javascript"></script>
 
 <script src="{{ asset('/public/plugins/datepicker/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
-
-
-
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-
-      Both of these plugins are recommended to enhance the
-
-      user experience. Slimscroll is required when using the
-
-      fixed layout. -->
 
 <script>
 
@@ -50,8 +38,6 @@
             increaseArea: '10%' // optional
 
         });
-
-
 
     	var table_user = document.getElementById('tabla_usuarios');
 
@@ -110,8 +96,6 @@
 
 		            if (isConfirm) {
 
-
-
 						$.ajax({
 
 				           	url: 'admin/usuarios/eliminar/'+_this.attr("data-id"),
@@ -121,8 +105,6 @@
 				            type: 'GET',
 
 				            success: function (response) {
-
-				            
 
 				            	if(response.status == 'success'){
 
@@ -136,8 +118,6 @@
 
 				            	}
 
-				                
-
 				            },
 
 				            error: function (xhr, ajaxOptions, thrownError) {
@@ -145,9 +125,6 @@
 				                swal("Ocurrió un error!", "Por favor, intente de nuevo", "error");
 
 				            }
-
-
-
 				        });
 
 		            }
@@ -157,8 +134,6 @@
 		    });	
 
     	}
-
-
 
     	/*$('.datepicker-nac').datepicker({
 
@@ -189,8 +164,6 @@
 			var fecha2 = moment(h);
 
 			var edad = fecha2.diff(fecha1, 'years');
-
-
 
 			if(edad < 18){
 
@@ -241,8 +214,6 @@
 		    endDate: "today",
 
 		});
-
-
 
     	$('.datepicker').datepicker({
 
@@ -316,13 +287,17 @@
 		    daysOfWeekDisabled: dias_no_academia,
     	});
 		
-
+		$('.datatable').DataTable({
+            responsive: true,
+            order: [[ 3, "asc" ]],
+            language: {
+                url: '../../public/js/datatable-spanish.json' //Ubicacion del archivo con el json del idioma.
+            }
+        });
 
 		var navListItems = $('div.setup-panel div a'), allWells = $('.setup-content'), allNextBtn = $('.nextBtn');
 
 		allWells.hide();
-
-
 
 		navListItems.click(function (e) {
 
@@ -331,8 +306,6 @@
 	        var $target = $($(this).attr('href')),
 
 	        	$item = $(this);
-
-
 
 	        if (!$item.hasClass('disabled')) {
 
@@ -350,8 +323,6 @@
 
 	    });
 
-
-
 	    allNextBtn.click(function(){
 
 	        var curStep = $(this).closest(".setup-content"),
@@ -363,7 +334,6 @@
 	            curInputs = curStep.find("input[type='text'],input[type='url']"),
 
 	            isValid = true;
-
 
 
 	        $(".form-group").removeClass("has-error");
@@ -380,15 +350,11 @@
 
 	        }
 
-
-
 	        if (isValid)
 
 	            nextStepWizard.removeAttr('disabled').trigger('click');
 
 	    });
-
-
 
     	$('div.setup-panel div a.btn-danger').trigger('click');
 
@@ -406,8 +372,6 @@
 
 			var total = parseInt(subtotal, 10);
 
-
-
 			if((v_descuento != "") && (v_descuento != 'null')){
 
 				descuento = (parseInt(subtotal, 10) * parseInt(v_descuento, 10))/100;
@@ -416,15 +380,11 @@
 
 			}
 
-
-
 			document.getElementById('pago_tarifa').value = parseInt(tarifa, 10);
 
 			document.getElementById('pago_descuento').value = descuento;
 
 			document.getElementById('pago_monto').value = total;
-
-
 
 			document.getElementById('resumen_pago').style.display = "block";
 
@@ -448,21 +408,13 @@
 			document.getElementById('ubicacion-'+this.value).style.display = 'none';
 		});
 
-		$('input[name="check_ubicacion_academia"]').on('ifChecked', function() {
+		/*$('input[name="check_ubicacion_academia"]').on('ifChecked', function() {
 			document.getElementById('ubicacion-'+this.value).style.display = 'block';
 		});
 
 		$('input[name="check_ubicacion_academia"]').on('ifUnchecked', function() {
 			document.getElementById('ubicacion-'+this.value).style.display = 'none';
-		});
-
-		$('.datatable').DataTable({
-            responsive: true,
-            order: [[ 3, "asc" ]],
-            language: {
-                url: '../../public/js/datatable-spanish.json' //Ubicacion del archivo con el json del idioma.
-            }
-        });
+		});*/
 
     })(jQuery);
 
@@ -516,8 +468,6 @@
 
 	}
 
-
-
 	function recalcular_resumen(cantidad_alumnos, fecha_limite, porc_individual, porc_grupal){
 
 		$('input[name="check_horario"]').iCheck('uncheck');
@@ -564,8 +514,6 @@
 
 	}
 
-
-
 	function calcularEdad(fecha) {
 
 	    var hoy = new Date();
@@ -591,7 +539,6 @@
 	}
 
     function agregar_nino(preguntas, datos_tarifa, servicio){
-
     	var cantidad_alumnos = $('#lista-atletas tbody').children().length;
     	var cabecera = 1;
     	var array_form = 0;
@@ -608,11 +555,7 @@
 		var text6 = document.getElementById('atleta_talla_top').value;
 		var text7 = document.getElementById('atleta_talla_camiseta').value;
 		var text8 = document.getElementById('atleta_red_social').value;
-		
-		if(servicio == 'Prueba Academia'){
-			var f_prueba = document.getElementById('atleta_fecha_prueba').value;
-		}
-		
+
 		var error_message = '<div class="text-left">Su formulario presenta errores<ul>';
 
 		if(text1 == ""){
@@ -635,25 +578,12 @@
 				
 			}
 
-			else if((servicio == 'Prueba Academia') || (servicio == 'Prueba Academia')){
+			else if((servicio == 'Prueba Academia') || (servicio == 'Academia')){
 				if((edad < datos_tarifa.edad_inicio)){
 					error_message += '<li>El alumno no cumple con el requisito. Edad requerida: mayor o igual a '+ datos_tarifa.edad_inicio +' años.</li>';
 					valido = false;
 				}
-				/*var h_edad_inicio = $("#atleta_horario_prueba option:selected").attr('edad_inicio');
-				var h_edad_fin = $("#atleta_horario_prueba option:selected").attr('edad_fin');
-				
-				if(h_edad_fin != ""){
-					if((edad < h_edad_inicio) || (edad > h_edad_fin)){
-						error_message += '<li>La edad del alumno no corresponde al horario seleccionado</li>';
-						valido = false;
-					}
-				}else{
-					if(edad < h_edad_inicio){
-						error_message += '<li>La edad del alumno no corresponde al horario seleccionado</li>';
-						valido = false;
-					}
-				}*/
+			
 			}
 		}
 
@@ -672,9 +602,31 @@
 			valido = false;
 		}
 
-		if(f_prueba == ""){
-			error_message += '<li>Debe seleccionar una fecha para su prueba</li>';
-			valido = false;
+		if(servicio == 'Prueba Academia'){
+			var f_prueba = document.getElementById('atleta_fecha_prueba').value;
+			if(f_prueba == ""){
+				error_message += '<li>Debe seleccionar una fecha para su prueba</li>';
+				valido = false;
+			}
+		}
+
+		if(servicio == 'Academia'){
+			var locacion = document.querySelector('input[name="check_ubicacion_academia"]:checked');
+			var dias = document.querySelector('input[name="check_dias_horario[]"]:checked');
+			
+			if(locacion == null){
+				error_message += '<li>No ha seleccionado la ubicación de la academia</li>';
+				valido = false;
+			}
+
+			if(dias == null){
+				error_message += '<li>Debe seleccionar al menos un día para el horario de clases</li>';
+				valido = false;
+			}else{
+				var dias_seleccionados = $('input[name="check_dias_horario[]"]:checked').map(function(){
+					return $(this).val();
+				});
+			}
 		}
 
 		error_message += '</ul></div>';
@@ -686,12 +638,45 @@
 		}
 
 		if(valido){
+
+			if(servicio == 'Academia'){
+				var table_resume = document.getElementById("resumen-pago-academia");
+				var row_resume = table_resume.insertRow(0);
+
+				var cell_resume1 = row_resume.insertCell(0);
+				cell_resume1.innerHTML = text9 + ', ' + text2;
+
+				var cell_resume2 = row_resume.insertCell(1);
+				cell_resume2.innerHTML = edad + ' años';
+
+				var cell_resume3 = row_resume.insertCell(2);
+				cell_resume3.innerHTML = locacion.value;
+
+				var cell_resume4 = row_resume.insertCell(3);
+				cell_resume4.innerHTML = "";
+
+				var cell_resume5 = row_resume.insertCell(4);
+				cell_resume5.innerHTML = "";
+
+				var cell_resume6 = row_resume.insertCell(5);
+				cell_resume6.innerHTML = "";
+
+				$('#resumen-pago-academia tbody').append(row_resume);
+			}
+
 			var cell1 = row.insertCell(0);
+			
 			if(servicio == 'Prueba Academia'){
 				var locacion_seleccionada = document.querySelector('input[name="atleta[locacion_prueba]"]:checked').value;
-				console.log(locacion_seleccionada);
 				cell1.innerHTML = '<input type="hidden" value="'+f_prueba+'" name="form_atleta['+ array_form +'][fecha_prueba]" readonly="readonly" /><input type="hidden" value="'+locacion_seleccionada+'" name="form_atleta['+ array_form +'][locacion_prueba]" readonly="readonly" /><input value="'+text1+'" type="text" name="form_atleta['+ array_form +'][fecha_nacimiento]" style="border: 0px solid;" readonly="readonly">';
-			}else{
+			}
+
+			else if(servicio == 'Academia'){
+				document.getElementById('cantd_atletas_ins').html = cantidad_alumnos;
+				cell1.innerHTML = '<input type="hidden" value="'+locacion.value+'" name="form_atleta['+ array_form +'][locacion_academia]" readonly="readonly" /><input type="hidden" value="'+dias_seleccionados.get()+'" name="form_atleta['+ array_form +'][dias_horario]" readonly="readonly" /><input value="'+text1+'" type="text" name="form_atleta['+ array_form +'][fecha_nacimiento]" style="border: 0px solid;" readonly="readonly">';
+			}
+
+			else{
 				cell1.innerHTML = '<input value="'+text1+'" type="text" name="form_atleta['+ array_form +'][fecha_nacimiento]" style="border: 0px solid;" readonly="readonly">';
 			}
 			
@@ -742,7 +727,6 @@
 
 			cell9.innerHTML = '<a href="#" name="remove" onclick="eliminar_invitado(this)"><i class="fa fa-times"></i></a>';
 			
-
 			document.getElementById('atleta_fecha_nacimiento').value = "";
 			document.getElementById('atleta_nombre').value = "";
 			document.getElementById('atleta_apellido').value = "";
@@ -753,6 +737,7 @@
 			document.getElementById('atleta_red_social').value = "";
 
 			$('#lista-atletas tbody').append(row);
+
 			document.getElementById('button-datos-sig').style.display = "block";
 			recalcular_resumen(cantidad_alumnos, datos_tarifa.fecha_limite, datos_tarifa.porc_individual, datos_tarifa.porc_grupal);
 
@@ -1185,4 +1170,3 @@
         });
 	}
 </script>
-

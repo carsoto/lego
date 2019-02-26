@@ -25,6 +25,14 @@
 	</div>
 @endif
 
+@if($servicio == 'Academia')
+	<div class="col-lg-12 col-md-12" id="academia-horario" style="padding-top: 15px;">
+
+		@include('adminlte::academia.horarios')	
+
+	</div>
+@endif
+
 @if($servicio != 'Prueba Academia')
 	<div class="col-lg-12 col-md-12" id="informacion-adicional" style="padding-top: 15px;">
 

@@ -18,6 +18,7 @@ class CreateAcademiaTarifasTable extends Migration
         
             $table->increments('id')->unsigned();
             $table->string('frecuencia', 191);
+            $table->integer('cant_dias');
             $table->integer('cant_clases');
             $table->decimal('tarifa_individual', 9, 2);
             $table->decimal('tarifa_dupla', 9, 2);
