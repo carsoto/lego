@@ -21,7 +21,7 @@
                                 @include('adminlte::atleta.registro-ninos', ['tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'servicio' => 'Prueba Academia', 'dias_deshabilitados' => $dias_deshabilitados])
                             </div>
                             <div class="pull-right">
-                                <button class="btn btn-danger btn-md" type="submit" style="display: none;" id="button-datos-sig">Inscribir</button>
+                                <button class="btn btn-danger btn-md" type="submit" style="display: none;" id="button-datos-sig">Registrar</button>
                             </div>
                          {!! Form::close() !!}
                     </div>

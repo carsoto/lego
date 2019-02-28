@@ -10,6 +10,7 @@ use App\Atleta;
 use App\AtletasInformacionAdicional;
 use App\InscripcionesAcademia;
 use App\AcademiaHorariosDisponible;
+use App\AcademiaTarifa;
 use Carbon\Carbon;
 use Funciones;
 use DB;
@@ -59,6 +60,7 @@ class AcademiaController extends Controller
         $deshabilitar_dias = array_diff($dias_semana, $dias_de_clases);
         $deshabilitar_dias = implode(",", array_values($deshabilitar_dias));
         $horarios = AcademiaHorariosDisponible::where('activo', '=', 1)->get();
+        $tarifas = AcademiaTarifa::where('activo', '=', 1)->get();
         $locaciones = array();
         $datos_tarifas['edad_inicio'] = $configuraciones['Edad minima'];
 
@@ -66,10 +68,14 @@ class AcademiaController extends Controller
 
         $dias_semana_desc = array(1 => 'Lun.', 2 => 'Mar.', 3 => 'Miér.', 4 => 'Jue.', 5 => 'Vie.', 6 => 'Sáb.', 0 => 'Dom.') ;
         $datos_tarifas['edades'] = array();
-
+        $datos_tarifas['tarifas'] = $tarifas;
+        $datos_tarifas['descuento'] = $configuraciones['Descuento mas de 1'];
+        
         foreach ($horarios as $key => $horario) {
             $datos_tarifas['edades'][$horario->academia_horario->edad_inicio.'_'.$horario->academia_horario->edad_fin] = "";
-            $tarifas[$horario->locaciones_id][$horario->academia_horario->edad_inicio.'_'.$horario->academia_horario->edad_fin][$horario->id] = $horario->academia_tarifa;
+            $datos_tarifas['horario'][$horario->academia_horario->edad_inicio] = array('edad_inicio' => $horario->academia_horario->edad_inicio, 'edad_fin' => $horario->academia_horario->edad_fin, 'hora' => $horario->academia_horario->hora_inicio.' - '.$horario->academia_horario->hora_fin);
+            
+            //$tarifas[$horario->locaciones_id][$horario->academia_horario->edad_inicio.'_'.$horario->academia_horario->edad_fin][$horario->id] = $horario->academia_tarifa;
             $horarios_academia[$horario->locaciones_id][$horario->locacion->ubicacion][$horario->academia_horario->edad_inicio.'_'.$horario->academia_horario->edad_fin] = array('edad_inicio' => $horario->academia_horario->edad_inicio, 'edad_fin' => $horario->academia_horario->edad_fin, 'hora' => $horario->academia_horario->hora_inicio.' - '.$horario->academia_horario->hora_fin, 'tarifas' => $tarifas[$horario->locaciones_id][$horario->academia_horario->edad_inicio.'_'.$horario->academia_horario->edad_fin]);
         }
 

@@ -1,22 +1,37 @@
 <div class="text-center bg-red disabled color-palette" style="margin-top: 20px;"><h3> Resumen de pago </h3></div>
 
 <hr>
+<div class="col-xs">
+    <div class="table-responsive">
+        <table class="table" id="resumen-pago-academia">
+            <thead>
+                <th>Nombre del atleta</th>
+                <th>Edad</th>
+                <th>Ubicación</th>
+                <th>Días de clase</th>
+                <th>Horario</th>
+                <th>Tarifa</th>
+            </thead>
 
-Cantidad de alumnos por inscribir: <strong><span id="cantd_atletas_ins"></span></strong>
-
-<table class="table" id="resumen-pago-academia">
-    <thead>
-        <th>Nombre del atleta</th>
-        <th>Edad</th>
-        <th>Ubicación</th>
-        <th>Días de clase</th>
-        <th>Horario</th>
-        <th>Tarifa</th>
-    </thead>
-
-    <tbody>
-        
-    </tbody>
-</table>
+            <tbody>
+                
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5" class="text-right"><strong>Subtotal:</strong></td>
+                    <td><span id="academia_subtotal"></span></td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="text-right"><strong>Descuento:</strong></td>
+                    <td><span id="academia_descuento"></span></td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="text-right"><strong>Total:</strong></td>
+                    <td><span id="academia_total"></span></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
 
 @include('adminlte::layouts.datos_pago')

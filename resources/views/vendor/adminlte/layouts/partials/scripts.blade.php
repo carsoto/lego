@@ -468,50 +468,38 @@
 
 	}
 
-	function recalcular_resumen(cantidad_alumnos, fecha_limite, porc_individual, porc_grupal){
+	function recalcular_resumen(cantidad_alumnos, fecha_limite, porc_individual, porc_grupal, servicio){
 
-		$('input[name="check_horario"]').iCheck('uncheck');
+		if((servicio == 'Vacacional') || (servicio == 'Campamento')){
+			$('input[name="check_horario"]').iCheck('uncheck');
+			document.getElementById('resumen_pago').style.display = "none";
+			document.getElementById('resumen_cantd_alumnos').innerHTML = cantidad_alumnos;
 
-		document.getElementById('resumen_pago').style.display = "none";
+			if(cantidad_alumnos == 1){
+				var hoy = new Date();
+				var limite = fecha_limite;
+				hoy = formatDate(hoy, '-');
 
-		document.getElementById('resumen_cantd_alumnos').innerHTML = cantidad_alumnos;
+				if(hoy <= limite){
+					document.getElementById('tr_descuento').style.display = "";
+					document.getElementById('resumen_descuento_aplicado').innerHTML = '<strong>Descuento '+ porc_individual +'%</strong>';
+					document.getElementById('descuento_aplicado').innerHTML = porc_individual;
+				}
 
-
-
-		if(cantidad_alumnos == 1){
-
-			var hoy = new Date();
-
-			var limite = fecha_limite;
-
-			hoy = formatDate(hoy, '-');
-
-
-
-			if(hoy <= limite){
-
-				document.getElementById('tr_descuento').style.display = "";
-
-				document.getElementById('resumen_descuento_aplicado').innerHTML = '<strong>Descuento '+ porc_individual +'%</strong>';
-
-				document.getElementById('descuento_aplicado').innerHTML = porc_individual;
-
+			}else{
+				document.getElementById('tr_descuento').style.display = "none";
+				document.getElementById('descuento_aplicado').innerHTML = 0;	
+				
+				if(porc_grupal != null){
+					document.getElementById('tr_descuento').style.display = "";
+					document.getElementById('resumen_descuento_aplicado').innerHTML = '<strong>Descuento '+ porc_grupal +'%</strong>';
+					document.getElementById('descuento_aplicado').innerHTML = porc_grupal;	
+				}
 			}
-
-		}else{
-			document.getElementById('tr_descuento').style.display = "none";
-			document.getElementById('descuento_aplicado').innerHTML = 0;	
-			if(porc_grupal != null){
-				document.getElementById('tr_descuento').style.display = "";
-
-				document.getElementById('resumen_descuento_aplicado').innerHTML = '<strong>Descuento '+ porc_grupal +'%</strong>';
-
-				document.getElementById('descuento_aplicado').innerHTML = porc_grupal;	
-			}
-			
+		}
+		else if(servicio == 'Academia'){
 
 		}
-
 	}
 
 	function calcularEdad(fecha) {
@@ -538,7 +526,57 @@
 
 	}
 
+	/*function calcularSemanaRestantes(date){
+		var week_number = 0;
+    	var result = date / 7;
+
+    	if(date > 15){
+    		week_number = Math.round(result);
+    	} else {
+    		week_number = Math.floor(result);
+    	}
+
+    	week_number = 4 - week_number;
+    	if(week_number == 0){
+    		week_number = 1;
+    	}
+    	return week_number;
+	}*/
+
+	function calcularSemanaRestantes(date){
+		
+		var semana = new Array();
+
+		var week_number = 0;
+    	var result = date/7;
+    	var mod_result = date%7;
+
+    	if((mod_result == 0)){
+    		week_number = Math.round(result);
+    	}else {
+    		week_number = Math.ceil(result);
+    	}
+
+    	semana['fecha'] = date;
+
+		semana['actual'] = week_number;
+
+		if(week_number > 1){
+			week_number = 5 - week_number;
+		}else{
+			week_number = 4;
+		}
+    	
+
+    	semana['restantes'] = week_number;
+    	
+    	return semana;
+	}
+
     function agregar_nino(preguntas, datos_tarifa, servicio){
+
+    	var dia_actual = new Date().getDate();
+    	dia_actual = 23;
     	var cantidad_alumnos = $('#lista-atletas tbody').children().length;
     	var cabecera = 1;
     	var array_form = 0;
@@ -564,7 +602,7 @@
 
 		}else{
 			var edad = calcularEdad(text1);	
-			if((servicio == 'Vacacional') || (servicio == 'Campamento'))
+			if((servicio == 'Vacacional') || (servicio == 'Campamento')){
 				if(datos_tarifa.edad_fin != null){
 					if((edad < datos_tarifa.edad_inicio) || (edad > datos_tarifa.edad_fin)){
 						error_message += '<li>El alumno no cumple con el requisito. Edad requerida: '+ datos_tarifa.edad_inicio +'-'+ datos_tarifa.edad_fin +' años.</li>';
@@ -575,9 +613,8 @@
 						error_message += '<li>El alumno no cumple con el requisito. Edad requerida: mayor o igual a '+ datos_tarifa.edad_inicio +' años.</li>';
 						valido = false;
 					}
-				
+				}
 			}
-
 			else if((servicio == 'Prueba Academia') || (servicio == 'Academia')){
 				if((edad < datos_tarifa.edad_inicio)){
 					error_message += '<li>El alumno no cumple con el requisito. Edad requerida: mayor o igual a '+ datos_tarifa.edad_inicio +' años.</li>';
@@ -620,12 +657,20 @@
 			}
 
 			if(dias == null){
-				error_message += '<li>Debe seleccionar al menos un día para el horario de clases</li>';
+				error_message += '<li>Debe seleccionar los días que desea la clase</li>';
 				valido = false;
 			}else{
-				var dias_seleccionados = $('input[name="check_dias_horario[]"]:checked').map(function(){
-					return $(this).val();
+				var horario_valores = new Array();
+				var horario_descripciones = new Array();
+				$('input[name="check_dias_horario[]"]:checked').map(function(){
+					horario_valores.push($(this).val());
+					horario_descripciones.push($(this).attr('descripcion'));
 				});
+
+				if(horario_valores == 1){
+					error_message += '<li>Debe seleccionar al menos 2 días para las clases</li>';
+					valido = false;
+				}
 			}
 		}
 
@@ -639,10 +684,16 @@
 
 		if(valido){
 
+			var cell1 = row.insertCell(0);
+			
 			if(servicio == 'Academia'){
+				cell1.innerHTML = '<input type="hidden" value="'+locacion.value+'" name="form_atleta['+ array_form +'][locacion_academia]" readonly="readonly" /><input type="hidden" value="'+horario_valores.join(',')+'" name="form_atleta['+ array_form +'][dias_horario]" readonly="readonly" /><input value="'+text1+'" type="text" name="form_atleta['+ array_form +'][fecha_nacimiento]" style="border: 0px solid;" readonly="readonly">';
+				var hora = "";
+
 				var table_resume = document.getElementById("resumen-pago-academia");
 				var row_resume = table_resume.insertRow(0);
-
+				row_resume.id = array_form;
+				row_resume.style.text_align = 'left';
 				var cell_resume1 = row_resume.insertCell(0);
 				cell_resume1.innerHTML = text9 + ', ' + text2;
 
@@ -650,30 +701,43 @@
 				cell_resume2.innerHTML = edad + ' años';
 
 				var cell_resume3 = row_resume.insertCell(2);
-				cell_resume3.innerHTML = locacion.value;
+				cell_resume3.innerHTML = $(locacion).attr('descripcion');
 
 				var cell_resume4 = row_resume.insertCell(3);
-				cell_resume4.innerHTML = "";
+				cell_resume4.innerHTML = horario_descripciones.join(' - ');
 
 				var cell_resume5 = row_resume.insertCell(4);
-				cell_resume5.innerHTML = "";
+
+				$.each(datos_tarifa.horario, function(key, horario) {
+					if((parseInt(edad) >= parseInt(horario.edad_inicio)) && (parseInt(edad) <= parseInt(horario.edad_fin))){
+						cell_resume5.innerHTML = horario.hora;
+					}
+				});
 
 				var cell_resume6 = row_resume.insertCell(5);
-				cell_resume6.innerHTML = "";
+				var info_semana = calcularSemanaRestantes(dia_actual);
+				
+				if((info_semana.actual > 0) && (info_semana.actual <= 3)){
+
+					$.each(datos_tarifa.tarifas, function(key, tarifa) {
+						if(parseInt(horario_descripciones.length) == parseInt(tarifa.cant_dias)){
+							var proporcional = tarifa.tarifa_individual/4;
+							proporcional = proporcional*info_semana.restantes;
+							cell_resume6.innerHTML = '$ '+ proporcional.toFixed(2);
+							$(cell_resume6).attr('subtotal', proporcional.toFixed(2));
+						}
+					});
+				}else{
+					console.log('CLASES POR DIA');
+				}
 
 				$('#resumen-pago-academia tbody').append(row_resume);
+				recalcularTarifaAcademia("resumen-pago-academia", dia_actual, datos_tarifa.descuento, cantidad_alumnos);
 			}
-
-			var cell1 = row.insertCell(0);
 			
-			if(servicio == 'Prueba Academia'){
+			else if(servicio == 'Prueba Academia'){
 				var locacion_seleccionada = document.querySelector('input[name="atleta[locacion_prueba]"]:checked').value;
 				cell1.innerHTML = '<input type="hidden" value="'+f_prueba+'" name="form_atleta['+ array_form +'][fecha_prueba]" readonly="readonly" /><input type="hidden" value="'+locacion_seleccionada+'" name="form_atleta['+ array_form +'][locacion_prueba]" readonly="readonly" /><input value="'+text1+'" type="text" name="form_atleta['+ array_form +'][fecha_nacimiento]" style="border: 0px solid;" readonly="readonly">';
-			}
-
-			else if(servicio == 'Academia'){
-				document.getElementById('cantd_atletas_ins').html = cantidad_alumnos;
-				cell1.innerHTML = '<input type="hidden" value="'+locacion.value+'" name="form_atleta['+ array_form +'][locacion_academia]" readonly="readonly" /><input type="hidden" value="'+dias_seleccionados.get()+'" name="form_atleta['+ array_form +'][dias_horario]" readonly="readonly" /><input value="'+text1+'" type="text" name="form_atleta['+ array_form +'][fecha_nacimiento]" style="border: 0px solid;" readonly="readonly">';
 			}
 
 			else{
@@ -721,11 +785,11 @@
 			c++;
 			var cell9 = row.insertCell(c);
 
-			if((servicio == 'Vacacional') || (servicio == 'Campamento')){
-				cell9.innerHTML = '<a href="#" name="remove" onclick="eliminar_atleta(this, \''+datos_tarifa.fecha_limite+'\', \''+datos_tarifa.porc_individual+'\', \''+datos_tarifa.porc_grupal+'\')"><i class="fa fa-times"></i></a>';
+			if((servicio == 'Vacacional') || (servicio == 'Campamento') || (servicio == 'Academia')){
+				cell9.innerHTML = '<a href="#" name="remove" onclick="eliminar_atleta(this, \''+array_form+'\', \''+dia_actual+'\', \''+datos_tarifa.fecha_limite+'\', \''+datos_tarifa.porc_individual+'\', \''+datos_tarifa.porc_grupal+'\', \''+servicio+'\', \''+datos_tarifa.descuento+'\')"><i class="fa fa-times"></i></a>';
+			}else{
+				cell9.innerHTML = '<a href="#" name="remove" onclick="eliminar_invitado(this)"><i class="fa fa-times"></i></a>';
 			}
-
-			cell9.innerHTML = '<a href="#" name="remove" onclick="eliminar_invitado(this)"><i class="fa fa-times"></i></a>';
 			
 			document.getElementById('atleta_fecha_nacimiento').value = "";
 			document.getElementById('atleta_nombre').value = "";
@@ -739,18 +803,51 @@
 			$('#lista-atletas tbody').append(row);
 
 			document.getElementById('button-datos-sig').style.display = "block";
-			recalcular_resumen(cantidad_alumnos, datos_tarifa.fecha_limite, datos_tarifa.porc_individual, datos_tarifa.porc_grupal);
-
+			recalcular_resumen(cantidad_alumnos, datos_tarifa.fecha_limite, datos_tarifa.porc_individual, datos_tarifa.porc_grupal, servicio);
 		}else{
 			swal("Oops...", error_message, "error");
 		}
     }
 
-    function eliminar_atleta(obj, fecha_limite, porc_individual, porc_grupal){
+    function recalcularTarifaAcademia(id_table, date, descuento_academia, cantd_alumnos){
+    	var subtotal = 0;
+		var total = 0;
+		var descuento = 0;
+
+		$("table#" + id_table + " tr td").map(function () {
+			var s = $(this).attr('subtotal');
+			if(!isNaN(parseFloat(s)) || (s != undefined)){
+				subtotal += parseFloat(s);
+			}
+    	});
+
+		if(cantd_alumnos > 1){
+			var info_semana = calcularSemanaRestantes(date);
+			if(info_semana.actual == 1){
+				if((cantd_alumnos % 2) == 1){
+					var alumnos_par = cantd_alumnos - 1;
+					descuento = descuento_academia * alumnos_par;
+				}else{
+					descuento = descuento_academia * cantd_alumnos;
+				}
+			}
+		}
+
+		total = subtotal - descuento;
+		document.getElementById('academia_subtotal').innerHTML = '$ ' + parseFloat(subtotal).toFixed(2);
+		document.getElementById('academia_descuento').innerHTML = '$  ' + parseFloat(descuento).toFixed(2);
+		document.getElementById('academia_total').innerHTML = '$ ' + parseFloat(total).toFixed(2);
+    }
+
+    function eliminar_atleta(obj, id_atleta, date, fecha_limite, porc_individual, porc_grupal, servicio, descuento_academia){
 
     	var count = $('#lista-atletas tbody').children().length;
 
-    	count = count - 2;
+    	if(servicio == 'Academia'){
+
+    		$('table#resumen-pago-academia tr#'+id_atleta).remove();
+    		recalcularTarifaAcademia("resumen-pago-academia", date, descuento_academia, count);
+    	}
 
     	if(count == 2){
 
@@ -758,7 +855,7 @@
 
     	}else{
 
-	    	recalcular_resumen(count, fecha_limite, porc_individual, porc_grupal);
+	    	recalcular_resumen(count, fecha_limite, porc_individual, porc_grupal, servicio);
 
 	    	document.getElementById('button-datos-sig').style.display = "block";
     	}

@@ -30,8 +30,9 @@
                             </div>
                             {!! Form::open(['route' => 'academia.inscripcion', 'role' => 'form', 'id' => 'form-inscripcion']) !!}
                                 <div class="row setup-content" id="step-1">
-                                        @include('adminlte::atleta.registro-ninos', ['tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'servicio' => 'Academia', 'horarios' => $horarios, 'locaciones' => $locaciones, 'dias_de_clases' => $dias_de_clases, 'dias_semana_desc' => $dias_semana_desc])
-                                        <button class="btn btn-danger nextBtn btn-md pull-right" type="button" style="display: none;" id="button-datos-sig">Siguiente <i class="fa fa-angle-double-right"></i></button>
+                                    @include('adminlte::atleta.registro-ninos', ['tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'servicio' => 'Academia', 'horarios' => $horarios, 'locaciones' => $locaciones, 'dias_de_clases' => $dias_de_clases, 'dias_semana_desc' => $dias_semana_desc])
+                                    <div class="col-lg-12 text-right">
+                                        <button class="btn btn-danger nextBtn btn-md" type="button" style="display: none;" id="button-datos-sig">Siguiente <i class="fa fa-angle-double-right"></i></button>
                                     </div>
                                 </div>
 

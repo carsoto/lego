@@ -162,34 +162,35 @@
                                     <li><span class="label label-warning"> Tarifa por persona $ <span id='tarifa_hora'>{{ $tarifa_standard_hora }}</span> por hora</span></li>
                                 </ul>
                                
-                                <div class="table table-responsive">
-                                    <table id="lista-alquiler" class="table table-striped" style="font-size: 11px;">
-                                        <thead>
-                                            <th colspan="8" class="text-center"> RESUMEN DE RESERVA </th>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th class="text-center">Cantidad de personas</th>
-                                                <th class="text-center">Cancha Asignada</th>
-                                                <th class="text-center">Fecha de reserva</th>
-                                                <th class="text-center">Hora de inicio</th>
-                                                <th class="text-center">Hora de fin</th>
-                                                <th class="text-center">Cantidad de horas</th>
-                                                <th class="text-center">Valor a pagar</th>
-                                            </tr>
-                                            <tr>
-                                                <th class="text-center"><span id='reserva_cantidad_invitados'></span></th>
-                                                <th class="text-center"><input type="text" name="cancha_asignada" id="cancha_asignada" readonly="readonly" style="display: none;"><span id='reserva_cancha'></span></th>
-                                                <th class="text-center"><span id='reserva_fecha'></span></th>
-                                                <th class="text-center"><span id='reserva_h_inicio'></span></th>
-                                                <th class="text-center"><span id='reserva_h_fin'></span></th>
-                                                <th class="text-center"><span id='reserva_cantidad_horas'></span></th>
-                                                <th class="text-center"><span id='reserva_pago'></span></th>
-                                            </tr>
-                                        </tbody>
-                                    </table>    
+                                <div class="col-xs">
+                                    <div class="table-responsive">
+                                        <table id="lista-alquiler" class="table table-bordered" style="font-size: 11px;">
+                                            <thead>
+                                                <th colspan="7" class="text-center bg-red disabled color-palette" style="font-size: 13px;"> RESUMEN DE RESERVA </th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th class="text-center">Cantidad de personas</th>
+                                                    <th class="text-center">Cancha Asignada</th>
+                                                    <th class="text-center">Fecha de reserva</th>
+                                                    <th class="text-center">Hora de inicio</th>
+                                                    <th class="text-center">Hora de fin</th>
+                                                    <th class="text-center">Cantidad de horas</th>
+                                                    <th class="text-center">Valor a pagar</th>
+                                                </tr>
+                                                <tr>
+                                                    <th class="text-center"><span id='reserva_cantidad_invitados'></span></th>
+                                                    <th class="text-center"><input type="text" name="cancha_asignada" id="cancha_asignada" readonly="readonly" style="display: none;"><span id='reserva_cancha'></span></th>
+                                                    <th class="text-center"><span id='reserva_fecha'></span></th>
+                                                    <th class="text-center"><span id='reserva_h_inicio'></span></th>
+                                                    <th class="text-center"><span id='reserva_h_fin'></span></th>
+                                                    <th class="text-center"><span id='reserva_cantidad_horas'></span></th>
+                                                    <th class="text-center"><span id='reserva_pago'></span></th>
+                                                </tr>
+                                            </tbody>
+                                        </table>  
+                                    </div>
                                 </div>
-
                                 @include('adminlte::layouts.datos_pago')
 
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
