@@ -1,4 +1,4 @@
-<div class="col-lg-12 col-md-12" id="ficha-representante">
+<div class="col-lg-12" id="ficha-representante">
 
 	<div class="text-center"><h3> Información del representante </h3></div>
 
@@ -9,24 +9,24 @@
 </div>
 
 
-<div class="col-lg-12 col-md-12" id="ficha-atleta" style="padding-top: 15px;">
+<div class="col-lg-12" id="ficha-atleta" style="padding-top: 15px;">
 
 	<div class="text-center"><h3> Información del alumno </h3></div>
 
     <hr>
 
-	@include('adminlte::atleta.nino', ['tallas' => $tallas, 'preguntas' => $preguntas])
+	@include('adminlte::atleta.nino', ['tallas' => $tallas, 'preguntas' => $preguntas, 'servicio' => $servicio])
 
 </div>
 
 @if($servicio == 'Prueba Academia')
-	<div class="col-lg-12 col-md-12">
+	<div class="col-lg-12">
 		@include('adminlte::academia.datos_prueba', ['locaciones' => $locaciones, 'dias_deshabilitados' => $dias_deshabilitados])	
 	</div>
 @endif
 
 @if($servicio == 'Academia')
-	<div class="col-lg-12 col-md-12" id="academia-horario" style="padding-top: 15px;">
+	<div class="col-lg-12" id="academia-horario" style="padding-top: 15px;">
 
 		@include('adminlte::academia.horarios')	
 
@@ -34,27 +34,26 @@
 @endif
 
 @if($servicio != 'Prueba Academia')
-	<div class="col-lg-12 col-md-12" id="informacion-adicional" style="padding-top: 15px;">
+	<div class="col-lg-12" id="informacion-adicional" style="padding-top: 15px;">
 
 		@include('adminlte::atleta.informacion-adicional', ['preguntas' => $preguntas])	
 
 	</div>
 @endif
-<div class="col-lg-12 col-md-12">
+<div class="col-lg-12">
 
 	<div class="text-right">
 
-		<button type="button" class="btn btn-sm btn-primary" onclick="agregar_nino({{ $preguntas }}, {{ json_encode($datos_tarifas) }}, '{{ $servicio }}');"><i class="fa fa-plus"></i> Agregar atleta</button>
+		<button type="button" class="btn btn-sm btn-flat btn-primary" onclick="agregar_nino({{ $preguntas }}, {{ json_encode($datos_tarifas) }}, '{{ $servicio }}');"><i class="fa fa-plus"></i> Agregar atleta</button>
 
 	</div>	
 
 </div>
 
 
+<div class="col-lg-12" style="padding-top: 20px;">
 
-<div class="col-lg-12 col-md-12" style="padding-top: 20px;">
-
-	<div class="table table-responsive">
+	<div class="table-responsive">
 
 		<table id="lista-atletas" class="table table-bordered" style="font-size: 11px;">
 

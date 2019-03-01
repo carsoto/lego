@@ -408,6 +408,14 @@
 			document.getElementById('ubicacion-'+this.value).style.display = 'none';
 		});
 
+		$('input[name="atleta_check_uniforme"]').on('ifChecked', function() {
+			if($(this).val() == "true"){
+				document.getElementById('tallas-uniforme').style.display = 'block';
+			}else{
+				document.getElementById('tallas-uniforme').style.display = 'none';
+			}
+		});
+
 		/*$('input[name="check_ubicacion_academia"]').on('ifChecked', function() {
 			document.getElementById('ubicacion-'+this.value).style.display = 'block';
 		});
@@ -576,7 +584,7 @@
     function agregar_nino(preguntas, datos_tarifa, servicio){
 
     	var dia_actual = new Date().getDate();
-    	dia_actual = 23;
+    	//gdia_actual = 23;
     	var cantidad_alumnos = $('#lista-atletas tbody').children().length;
     	var cabecera = 1;
     	var array_form = 0;
@@ -588,11 +596,17 @@
 		var text2 = document.getElementById('atleta_nombre').value;
 		var text9 = document.getElementById('atleta_apellido').value;
 		var text3 = document.getElementById('atleta_cedula').value;
-		var text4 = document.querySelector('input[name="atleta_genero"]:checked').value;
+		//var text4 = document.querySelector('input[name="atleta_genero"]:checked').value;
+		var text4 = "";
 		var text5 = document.getElementById('atleta_instituto').value;
 		var text6 = document.getElementById('atleta_talla_top').value;
 		var text7 = document.getElementById('atleta_talla_camiseta').value;
 		var text8 = document.getElementById('atleta_red_social').value;
+		var text10 = "";
+
+		if(document.getElementById('atleta_telf_contacto') != undefined){
+			text10 = document.getElementById('atleta_telf_contacto').value;
+		}
 
 		var error_message = '<div class="text-left">Su formulario presenta errores<ul>';
 
@@ -687,7 +701,7 @@
 			var cell1 = row.insertCell(0);
 			
 			if(servicio == 'Academia'){
-				cell1.innerHTML = '<input type="hidden" value="'+locacion.value+'" name="form_atleta['+ array_form +'][locacion_academia]" readonly="readonly" /><input type="hidden" value="'+horario_valores.join(',')+'" name="form_atleta['+ array_form +'][dias_horario]" readonly="readonly" /><input value="'+text1+'" type="text" name="form_atleta['+ array_form +'][fecha_nacimiento]" style="border: 0px solid;" readonly="readonly">';
+				cell1.innerHTML = '<input type="hidden" value="'+locacion.value+'" name="form_atleta['+ array_form +'][locacion_academia]" readonly="readonly" /><input type="hidden" value="'+horario_valores.join(',')+'" name="form_atleta['+ array_form +'][dias_horario]" readonly="readonly" /><input type="hidden" value="'+text10+'" name="form_atleta['+ array_form +'][telf_contacto]" readonly="readonly" /><input value="'+text1+'" type="text" name="form_atleta['+ array_form +'][fecha_nacimiento]" style="border: 0px solid;" readonly="readonly">';
 				var hora = "";
 
 				var table_resume = document.getElementById("resumen-pago-academia");
@@ -799,6 +813,10 @@
 			document.getElementById('atleta_talla_top').value = "0";
 			document.getElementById('atleta_talla_camiseta').value = "0";
 			document.getElementById('atleta_red_social').value = "";
+
+			if(document.getElementById('atleta_telf_contacto') != undefined){
+				document.getElementById('atleta_telf_contacto').value = "";
+			}
 
 			$('#lista-atletas tbody').append(row);
 

@@ -53,6 +53,7 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
     <!-- Custom styles for this template -->
 
     <link href="{{ asset('/public/css/all-landing.css') }}" rel="stylesheet">
+    <link href="{{ asset('/public/css/all-public.css') }}" rel="stylesheet">
 
     <link rel="icon" href='{{ asset('/public/images/logo-lego.ico') }}' type="image/x-icon">
     <link rel="shortcut icon" href='{{ asset('/public/images/logo-lego.ico') }}' type="image/x-icon"> 
@@ -89,10 +90,10 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
         
         <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-flat btn-block btn-info" href="{{ route('academia.index') }}">ACADEMIA</a></div>
         <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-flat btn-block btn-warning" href="{{ route('alquiler.index') }}">ALQUILER</a></div>
-        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-flat btn-block btn-danger" href="{{ route('torneo.index') }}">TORNEOS</a></div>
-        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-flat btn-block btn-success" href="{{ route('campamento.index') }}">CAMPAMENTOS</a></div>
-        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-flat btn-block btn-primary" href="{{ route('vacacional.index') }}">VACACIONALES</a></div>
-        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-flat btn-block btn-danger" href="{{ route('torneo.index') }}">UNIFORMES</a></div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-flat btn-block btn-success" href="{{ route('torneo.index') }}">TORNEOS</a></div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-flat btn-block btn-primary" href="{{ route('campamento.index') }}">CAMPAMENTOS</a></div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-flat btn-block btn-danger" href="{{ route('vacacional.index') }}">VACACIONALES</a></div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-bottom: 10px;"><a class="btn btn-flat btn-block bg-purple" href="{{ route('torneo.index') }}">UNIFORMES</a></div>
     </div>
 </div>
 

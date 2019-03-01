@@ -1,4 +1,4 @@
-<h4>Seleccionar</h4>
+<div class="text-center"><h4>Seleccionar</h4></div>
 <div class="col-lg-6 col-md-6">
 	{!! Form::label('locacion', 'Locación') !!}<strong><span style='color: red;'>*</span></strong>
 	<br>
@@ -10,7 +10,7 @@
 </div>
 
 <div class="col-lg-6 col-md-6">
-	{!! Form::label('dias', 'Días de clase') !!}<strong><span style='color: red;'>*</span></strong>
+	{!! Form::label('dias', 'Días de asistencia a la academia') !!}<strong><span style='color: red;'>*</span></strong>
 	<br>
 	@for ($i=0; $i < count($dias_de_clases); $i++)
 		<input type="checkbox" name="check_dias_horario[]" value="{{ $dias_de_clases[$i] }}" style="padding-right: 10px;" descripcion="{{ $dias_semana_desc[$dias_de_clases[$i]] }}"> {{ $dias_semana_desc[$dias_de_clases[$i]] }}

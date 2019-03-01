@@ -33,9 +33,7 @@
 
 </div>
 
-
-
-<div class="col-lg-3 col-md-3 col-sm-4" style="padding: 5px;">
+<!--<div class="col-lg-3 col-md-3 col-sm-4" style="padding: 5px;">
 
 	{!! Form::label('genero', 'Género') !!}<strong><span style='color: red;'>*</span></strong>
 
@@ -55,8 +53,7 @@
 
     </div>
 
-</div>
-
+</div>-->
 
 
 <div class="col-lg-3 col-md-3 col-sm-4" style="padding: 5px;">
@@ -67,32 +64,87 @@
 
 </div>
 
+@if(($servicio != 'Academia') && ($servicio != 'Prueba Academia'))
+	<div class="col-lg-3" style="padding: 5px;">
 
+		{!! Form::label('talla-top', 'Talla top') !!}
 
-<div class="col-lg-2 col-md-2 col-sm-3" style="padding: 5px;">
+		{!! Form::select('atleta[talla_top]', $tallas, null, array('class' => 'form-control input-sm', 'id' => 'atleta_talla_top')) !!}
 
-	{!! Form::label('talla-top', 'Talla top') !!}
+	</div>
 
-	{!! Form::select('atleta[talla_top]', $tallas, null, array('class' => 'form-control input-sm', 'id' => 'atleta_talla_top')) !!}
+	<div class="col-lg-3" style="padding: 5px;">
 
-</div>
+		{!! Form::label('talla-camiseta', 'Talla camiseta') !!}
 
+		{!! Form::select('atleta[talla_camiseta]', $tallas, null, array('class' => 'form-control input-sm', 'id' => 'atleta_talla_camiseta')) !!}
 
+	</div>
 
-<div class="col-lg-2 col-md-2 col-sm-3" style="padding: 5px;">
+	<div class="col-lg-3" style="padding: 5px;">
 
-	{!! Form::label('talla-camiseta', 'Talla camiseta') !!}
+	    {!! Form::label('red_social', 'Instagram/Facebook') !!}<!--<strong><span id="red-social-atleta" style='color: red;'>*</span></strong>-->
 
-	{!! Form::select('atleta[talla_camiseta]', $tallas, null, array('class' => 'form-control input-sm', 'id' => 'atleta_talla_camiseta')) !!}
+	    {!! Form::text('atleta[red_social]', null, array('class' => 'form-control input-sm', 'id' => 'atleta_red_social')) !!}
 
-</div>
+	</div>
+@else
+	<div class="col-lg-3 col-md-3 col-sm-6" style="padding: 5px;">
 
+	    {!! Form::label('telf_contacto', 'Teléfono de contacto') !!}<!--<strong><span id="red-social-atleta" style='color: red;'>*</span></strong>-->
 
+	    {!! Form::text('atleta[telf_contacto]', null, array('class' => 'form-control input-sm', 'id' => 'atleta_telf_contacto')) !!}
 
-<div class="col-lg-2 col-md-2 col-sm-6" style="padding: 5px;">
+	</div>
 
-    {!! Form::label('red_social', 'Instagram/Facebook') !!}<!--<strong><span id="red-social-atleta" style='color: red;'>*</span></strong>-->
+	<div class="col-lg-3 col-md-3 col-sm-6" style="padding: 5px;">
 
-    {!! Form::text('atleta[red_social]', null, array('class' => 'form-control input-sm', 'id' => 'atleta_red_social')) !!}
+	    {!! Form::label('red_social', 'Instagram/Facebook') !!}<!--<strong><span id="red-social-atleta" style='color: red;'>*</span></strong>-->
 
-</div>
+	    {!! Form::text('atleta[red_social]', null, array('class' => 'form-control input-sm', 'id' => 'atleta_red_social')) !!}
+
+	</div>
+
+	@if($servicio == 'Academia')
+		<div class="col-lg-3 col-md-3 col-sm-4" style="padding: 5px;">
+
+			{!! Form::label('uniforme', '¿Desea uniforme?') !!}
+
+			<div class="iradio icheck">
+
+		    	<label style="padding-top: 8px; padding-right: 8px;">
+
+		            <input value="true" type="radio" name="atleta_check_uniforme"> Si
+
+		        </label>
+
+		        <label>
+
+		            <input value="false" type="radio" name="atleta_check_uniforme"> No
+
+		        </label>
+
+		    </div>
+
+		</div>
+
+		<div id="tallas-uniforme" style="display: none;">
+			<div class="col-lg-3" style="padding: 5px;">
+
+				{!! Form::label('talla-top', 'Talla top') !!}
+
+				{!! Form::select('atleta[talla_top]', $tallas, null, array('class' => 'form-control input-sm', 'id' => 'atleta_talla_top')) !!}
+
+			</div>
+
+			<div class="col-lg-3" style="padding: 5px;">
+
+				{!! Form::label('talla-camiseta', 'Talla camiseta') !!}
+
+				{!! Form::select('atleta[talla_camiseta]', $tallas, null, array('class' => 'form-control input-sm', 'id' => 'atleta_talla_camiseta')) !!}
+
+			</div>
+		</div>
+	@endif
+@endif
+
