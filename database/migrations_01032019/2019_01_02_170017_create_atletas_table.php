@@ -26,6 +26,8 @@ class CreateAtletasTable extends Migration
             $table->string('telf_contacto', 15)->nullable();
             $table->string('instituto', 100)->nullable();
             $table->string('email', 150)->nullable();
+            $table->integer('talla_top')->nullable();
+            $table->integer('talla_camiseta')->nullable();
 
             $table->timestamps();
         
