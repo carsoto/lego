@@ -93,8 +93,8 @@ class AlquilerController extends Controller
                 'cedula' => $arr_invitados[$i]["cedula"],
                 'nombres' => $arr_invitados[$i]["nombre"],
                 'apellidos' => $arr_invitados[$i]["apellido"],
-                'email' => $arr_invitados[$i]["telefono"],
-                'telefono' => $arr_invitados[$i]["email"],
+                'email' => $arr_invitados[$i]["email"],
+                'telefono' => $arr_invitados[$i]["telefono"],
                 'red_social' => $arr_invitados[$i]["red_social"],
                 'activo' => 1
             ]);
@@ -206,5 +206,10 @@ class AlquilerController extends Controller
         }    
 
         return Response::json(array('status' => $status, 'msg' => $msg));
+    }
+
+    public function detallesalquiler($idalquiler){
+        $alquiler = Alquiler::findOrFail(decrypt($idalquiler));
+        return view('adminlte::alquiler.detalles',['alquiler' => $alquiler]);
     }
 }

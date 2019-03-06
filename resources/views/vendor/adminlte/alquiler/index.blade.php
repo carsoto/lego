@@ -114,7 +114,7 @@
                                 </div>
 
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding: 5px;">
-                                    {!! Form::label('telefono', 'Teléfono') !!}
+                                    {!! Form::label('telefono', 'Teléfono') !!}<strong><span style='color: red;'>*</span></strong>
                                     {!! Form::text('guest[telefono]', null, array('class' => 'form-control input-sm', 'id' => 'guest_telefono')) !!}
                                 </div>
 

@@ -72,6 +72,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::get('alquiler/resumen', 'AlquilerController@dashboard')->name('alquiler.dashboard');
 		Route::get('alquiler/registrar/pago/{id}', 'AlquilerController@registrarpago')->name('alquiler.registrar.pago');
+		Route::get('alquiler/detalles/jugadores/{id}', 'AlquilerController@detallesalquiler')->name('alquiler.detalles');
 		
 		Route::get('campamento/resumen', 'CampamentoController@dashboard')->name('campamento.dashboard');
 		Route::get('campamento/registrar/pago/{id}', 'CampamentoController@registrarpago')->name('campamento.registrar.pago');

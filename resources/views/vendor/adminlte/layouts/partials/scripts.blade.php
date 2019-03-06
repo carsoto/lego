@@ -584,7 +584,7 @@
     function agregar_nino(preguntas, datos_tarifa, servicio){
 
     	var dia_actual = new Date().getDate();
-    	//gdia_actual = 23;
+    	dia_actual = 1;
     	var cantidad_alumnos = $('#lista-atletas tbody').children().length;
     	var cabecera = 1;
     	var array_form = 0;
@@ -730,7 +730,7 @@
 
 				var cell_resume6 = row_resume.insertCell(5);
 				var info_semana = calcularSemanaRestantes(dia_actual);
-				
+					
 				if((info_semana.actual > 0) && (info_semana.actual <= 3)){
 
 					$.each(datos_tarifa.tarifas, function(key, tarifa) {
@@ -740,13 +740,13 @@
 							cell_resume6.innerHTML = '$ '+ proporcional.toFixed(2);
 							$(cell_resume6).attr('subtotal', proporcional.toFixed(2));
 						}
+
+						$('#resumen-pago-academia tbody').append(row_resume);
+						recalcularTarifaAcademia("resumen-pago-academia", dia_actual, datos_tarifa.descuento, cantidad_alumnos);
 					});
 				}else{
-					console.log('CLASES POR DIA');
+					console.log('fecha => ' + dia_actual + ' cantd_alumnos => ' + cantidad_alumnos + ' precio => PAGAR CLASES POR DÍA');
 				}
-
-				$('#resumen-pago-academia tbody').append(row_resume);
-				recalcularTarifaAcademia("resumen-pago-academia", dia_actual, datos_tarifa.descuento, cantidad_alumnos);
 			}
 			
 			else if(servicio == 'Prueba Academia'){
@@ -855,6 +855,7 @@
 		document.getElementById('academia_subtotal').innerHTML = '$ ' + parseFloat(subtotal).toFixed(2);
 		document.getElementById('academia_descuento').innerHTML = '$  ' + parseFloat(descuento).toFixed(2);
 		document.getElementById('academia_total').innerHTML = '$ ' + parseFloat(total).toFixed(2);
+		//console.log('fecha => ' + date + ' cantd_alumnos => ' + cantd_alumnos + ' precio => ' + parseFloat(total).toFixed(2));
     }
 
     function eliminar_atleta(obj, id_atleta, date, fecha_limite, porc_individual, porc_grupal, servicio, descuento_academia){
@@ -996,6 +997,11 @@
 			valido = false;
 		}
 
+		if(text4 == ""){
+			error_message += "<li>El campo <strong>teléfono</strong> es obligatorio.</li>";
+			valido = false;
+		}
+
 		if(valido){
 			var cell1 = row.insertCell(0);
 				cell1.innerHTML = '<input value="'+text1+'" type="text" name="form_guest['+ cantidad_invitados +'][cedula]" style="border: 0px solid;" readonly="readonly">';
@@ -1043,6 +1049,22 @@
 			error_message += '</ul></div>';
     		swal("Ocurrió un error!", error_message, "error");
 		}
+    }
+
+    function detalles_alquiler(alquiler_id){
+    	$.ajax({
+           	url: 'detalles/jugadores/'+alquiler_id,
+            dataType: "HTML",
+            type: 'GET',
+            success: function (response) {
+            	$('#detalles-alquiler .modal-body').html(response);
+    			$('#detalles-alquiler').modal('show');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                swal("Ocurrió un error!", "Por favor, intente de nuevo", "error");
+            }
+
+        });
     }
 
     function eliminar_invitado(obj){

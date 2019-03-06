@@ -76,6 +76,8 @@
                                             @else
                                                 -
                                             @endif
+
+                                            <a href="#" onclick="detalles_alquiler('{{ encrypt($alquiler->id) }}');"><i class="fa fa-eye"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -86,6 +88,23 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="detalles-alquiler" tabindex="-1" role="dialog" aria-labelledby="detalles-alquiler-label">
+    <div class="modal-lg modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Detalles Alquiler</h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-m btn-flat btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
     </div>
 </div>
 @stop
