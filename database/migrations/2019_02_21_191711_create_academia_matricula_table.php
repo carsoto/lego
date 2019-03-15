@@ -18,7 +18,7 @@ class CreateAcademiaMatriculaTable extends Migration
         
             $table->increments('id')->unsigned();
             $table->integer('inscripciones_academia_id')->unsigned();
-            $table->integer('academia_horarios_disponibles_id')->unsigned();
+            $table->integer('academia_horarios_id')->unsigned();
             $table->date('fecha');
             $table->integer('mes');
             $table->integer('anyo');
@@ -26,11 +26,11 @@ class CreateAcademiaMatriculaTable extends Migration
             $table->string('codigo_dupla', 45)->nullable()->default(null);
             $table->integer('activo')->default('1');
         
-            $table->index('academia_horarios_disponibles_id','fk_academia_matricula_academia_horarios_disponibles1_idx');
+            $table->index('academia_horarios_id','fk_academia_matricula_academia_horarios1_idx');
             $table->index('inscripciones_academia_id','fk_academia_matricula_inscripciones_academia1_idx');
         
-            $table->foreign('academia_horarios_disponibles_id')
-                ->references('id')->on('academia_horarios_disponibles');
+            $table->foreign('academia_horarios_id')
+                ->references('id')->on('academia_horarios');
         
             $table->foreign('inscripciones_academia_id')
                 ->references('id')->on('inscripciones_academia');

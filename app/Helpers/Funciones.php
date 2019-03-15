@@ -31,8 +31,13 @@ class Funciones{
     }
 
     public static function tallas(){
-        $tallas = array('0' => 'Seleccionar talla', '32' => 'XS', '34' => 'S', '36' => 'M', '38' => 'L', '40' => 'XL', '42' => 'XXL');
+        $tallas = array('0' => 'Seleccionar talla', 'XS' => 'XS', 'S' => 'S', 'M' => 'M', 'L' => 'L', 'XL' => 'XL', 'XXL' => 'XXL');
         return $tallas;
+    }
+
+    public static function tipos_pago(){
+        $tipos_pago = array('Efectivo' => 'Efectivo', 'Cheque' => 'Cheque', 'Depósito' => 'Depósito', 'Transferencia' => 'Transferencia');
+        return $tipos_pago;
     }
 
     public static function inscritos_vacacional(){
@@ -80,8 +85,32 @@ class Funciones{
             INNER JOIN locaciones l ON l.id = h.locaciones_id
             WHERE i.estatus = '".$modalidad."'
             ORDER BY i.fecha_inscripcion, r.apellidos"));*/
-        $inscritos = array();
+        //$inscritos = array();
 
+            /*SELECT 
+    a.id,
+    CONCAT(r.apellidos, ', ', r.nombres) AS representante,
+    CONCAT(a.apellido, ', ', a.nombre) AS alumno,
+    a.fecha_nacimiento,
+    TIMESTAMPDIFF(YEAR, a.fecha_nacimiento, CURDATE()) AS edad,
+    i.fecha_inscripcion,
+    a.instituto AS colegio,
+    l.ubicacion AS locacion,
+    CONCAT(ah.hora_inicio, ' - ', ah.hora_fin) AS horario
+FROM
+    inscripciones_academia i
+        INNER JOIN
+    atletas a ON a.id = i.atletas_id
+        INNER JOIN
+    representantes_atletas ra ON ra.atletas_id = a.id
+        INNER JOIN
+    representantes r ON ra.representantes_id = r.id
+        INNER JOIN
+    locaciones l ON l.id = i.locaciones_id 
+WHERE
+    i.estatus = 'Prueba' AND
+    ah.edad_inicio <= edad AND ah.edad_fin >= edad
+ORDER BY i.fecha_inscripcion , r.apellidos*/
         return $inscritos;
     }
 

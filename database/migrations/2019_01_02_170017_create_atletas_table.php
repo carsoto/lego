@@ -20,10 +20,11 @@ class CreateAtletasTable extends Migration
             $table->bigInteger('cedula')->unique()->nullable();
             $table->string('nombre', 80);
             $table->string('apellido', 80);
-            $table->string('genero', 50);
             $table->date('fecha_nacimiento');
             $table->string('red_social', 150)->nullable();
             $table->string('telf_contacto', 15)->nullable();
+            $table->string('talla_top')->nullable();
+            $table->string('talla_camiseta')->nullable();
             $table->string('instituto', 100)->nullable();
             $table->string('email', 150)->nullable();
 

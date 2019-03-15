@@ -18,7 +18,7 @@ class CreateAtletasUniformesTable extends Migration
         
             $table->increments('id')->unsigned();
             $table->integer('atletas_id')->unsigned();
-            $table->integer('uniformes_id')->unsigned();
+            $table->integer('uniformes_id')->unsigned()->nullable();
             $table->integer('tallas_id')->unsigned();
         
             $table->index('atletas_id','fk_table1_atletas1_idx');

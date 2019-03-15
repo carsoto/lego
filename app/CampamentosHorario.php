@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 23 Jan 2019 16:53:13 +0000.
+ * Date: Thu, 14 Mar 2019 16:02:26 +0000.
  */
 
 namespace App;
@@ -22,6 +22,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * 
  * @property \App\Campamento $campamento
  * @property \Illuminate\Database\Eloquent\Collection $campamentos_fechas
+ * @property \Illuminate\Database\Eloquent\Collection $inscripciones_campamentos
  *
  * @package App
  */
@@ -48,5 +49,10 @@ class CampamentosHorario extends Eloquent
 	public function campamentos_fechas()
 	{
 		return $this->hasMany(\App\CampamentosFecha::class, 'campamentos_horarios_id');
+	}
+
+	public function inscripciones_campamentos()
+	{
+		return $this->hasMany(\App\InscripcionesCampamento::class, 'campamentos_horarios_id');
 	}
 }

@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 17 Jan 2019 21:23:09 +0000.
+ * Date: Thu, 14 Mar 2019 16:02:26 +0000.
  */
 
 namespace App;
@@ -18,6 +18,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property float $tarifa
  * @property int $descuento
  * @property float $pago
+ * @property string $estatus_pago
  * @property \Carbon\Carbon $fecha_inscripcion
  * @property int $activo
  * @property \Carbon\Carbon $created_at
@@ -51,6 +52,7 @@ class InscripcionesVacacional extends Eloquent
 		'tarifa',
 		'descuento',
 		'pago',
+		'estatus_pago',
 		'fecha_inscripcion',
 		'activo'
 	];

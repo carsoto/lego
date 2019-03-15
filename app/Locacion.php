@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 02 Jan 2019 18:34:18 +0000.
+ * Date: Thu, 14 Mar 2019 16:02:26 +0000.
  */
 
 namespace App;
@@ -19,14 +19,20 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * 
+ * @property \Illuminate\Database\Eloquent\Collection $academia_horarios_disponibles
+ * @property \Illuminate\Database\Eloquent\Collection $alquilers
+ * @property \Illuminate\Database\Eloquent\Collection $campamentos
+ * @property \Illuminate\Database\Eloquent\Collection $horarios
+ * @property \Illuminate\Database\Eloquent\Collection $inscripciones_academia
  * @property \Illuminate\Database\Eloquent\Collection $tarifas
+ * @property \Illuminate\Database\Eloquent\Collection $vacacionals
  *
  * @package App
  */
 class Locacion extends Eloquent
 {
 	protected $table = 'locaciones';
-	
+
 	protected $casts = [
 		'activo' => 'int'
 	];
@@ -59,7 +65,7 @@ class Locacion extends Eloquent
 
 	public function inscripciones_academia()
 	{
-		return $this->hasMany(\App\InscripcionesAcademia::class, 'prueba_locacion_id');
+		return $this->hasMany(\App\InscripcionesAcademia::class, 'locaciones_id');
 	}
 
 	public function tarifas()

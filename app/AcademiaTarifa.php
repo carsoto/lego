@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 21 Feb 2019 20:32:03 +0000.
+ * Date: Thu, 14 Mar 2019 16:02:26 +0000.
  */
 
 namespace App;
@@ -14,6 +14,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * 
  * @property int $id
  * @property string $frecuencia
+ * @property int $cant_dias
  * @property int $cant_clases
  * @property float $tarifa_individual
  * @property float $tarifa_dupla
@@ -28,6 +29,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class AcademiaTarifa extends Eloquent
 {
 	protected $casts = [
+		'cant_dias' => 'int',
 		'cant_clases' => 'int',
 		'tarifa_individual' => 'float',
 		'tarifa_dupla' => 'float',
@@ -36,6 +38,7 @@ class AcademiaTarifa extends Eloquent
 
 	protected $fillable = [
 		'frecuencia',
+		'cant_dias',
 		'cant_clases',
 		'tarifa_individual',
 		'tarifa_dupla',

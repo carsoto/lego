@@ -599,8 +599,6 @@
 		//var text4 = document.querySelector('input[name="atleta_genero"]:checked').value;
 		var text4 = "";
 		var text5 = document.getElementById('atleta_instituto').value;
-		var text6 = document.getElementById('atleta_talla_top').value;
-		var text7 = document.getElementById('atleta_talla_camiseta').value;
 		var text8 = document.getElementById('atleta_red_social').value;
 		var text10 = "";
 
@@ -662,6 +660,8 @@
 		}
 
 		if(servicio == 'Academia'){
+			var text6 = document.getElementById('atleta_talla_top').value;
+			var text7 = document.getElementById('atleta_talla_camiseta').value;
 			var locacion = document.querySelector('input[name="check_ubicacion_academia"]:checked');
 			var dias = document.querySelector('input[name="check_dias_horario[]"]:checked');
 			
@@ -708,6 +708,7 @@
 				var row_resume = table_resume.insertRow(0);
 				row_resume.id = array_form;
 				row_resume.style.text_align = 'left';
+				
 				var cell_resume1 = row_resume.insertCell(0);
 				cell_resume1.innerHTML = text9 + ', ' + text2;
 
@@ -737,7 +738,7 @@
 						if(parseInt(horario_descripciones.length) == parseInt(tarifa.cant_dias)){
 							var proporcional = tarifa.tarifa_individual/4;
 							proporcional = proporcional*info_semana.restantes;
-							cell_resume6.innerHTML = '$ '+ proporcional.toFixed(2);
+							cell_resume6.innerHTML = '<input value="'+proporcional.toFixed(2)+'" type="hidden" name="form_atleta['+ array_form +'][tarifa]" style="border: 0px solid;" readonly="readonly">'+ '$ '+ proporcional.toFixed(2);
 							$(cell_resume6).attr('subtotal', proporcional.toFixed(2));
 						}
 
@@ -810,8 +811,8 @@
 			document.getElementById('atleta_apellido').value = "";
 			document.getElementById('atleta_cedula').value = "";
 			document.getElementById('atleta_instituto').value = "";
-			document.getElementById('atleta_talla_top').value = "0";
-			document.getElementById('atleta_talla_camiseta').value = "0";
+			/*document.getElementById('atleta_talla_top').value = "0";
+			document.getElementById('atleta_talla_camiseta').value = "0";*/
 			document.getElementById('atleta_red_social').value = "";
 
 			if(document.getElementById('atleta_telf_contacto') != undefined){
@@ -852,9 +853,9 @@
 		}
 
 		total = subtotal - descuento;
-		document.getElementById('academia_subtotal').innerHTML = '$ ' + parseFloat(subtotal).toFixed(2);
-		document.getElementById('academia_descuento').innerHTML = '$  ' + parseFloat(descuento).toFixed(2);
-		document.getElementById('academia_total').innerHTML = '$ ' + parseFloat(total).toFixed(2);
+		document.getElementById('academia_subtotal').innerHTML = '<input value="'+parseFloat(subtotal).toFixed(2)+'" type="hidden" name="factura[subtotal]" style="border: 0px solid;" readonly="readonly">$ ' + parseFloat(subtotal).toFixed(2);
+		document.getElementById('academia_descuento').innerHTML = '<input value="'+parseFloat(descuento).toFixed(2)+'" type="hidden" name="factura[descuento]" style="border: 0px solid;" readonly="readonly">$  ' + parseFloat(descuento).toFixed(2);
+		document.getElementById('academia_total').innerHTML = '<input value="'+parseFloat(total).toFixed(2)+'" type="hidden" name="factura[total]" style="border: 0px solid;" readonly="readonly">$ ' + parseFloat(total).toFixed(2);
 		//console.log('fecha => ' + date + ' cantd_alumnos => ' + cantd_alumnos + ' precio => ' + parseFloat(total).toFixed(2));
     }
 

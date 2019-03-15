@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 17 Jan 2019 21:23:09 +0000.
+ * Date: Thu, 14 Mar 2019 16:02:26 +0000.
  */
 
 namespace App;
@@ -61,9 +61,9 @@ class Vacacional extends Eloquent
 		'activo'
 	];
 
-	public function locacione()
+	public function locacion()
 	{
-		return $this->belongsTo(\App\Locacione::class, 'locaciones_id');
+		return $this->belongsTo(\App\Locacion::class, 'locaciones_id');
 	}
 
 	public function vacacional_horarios()

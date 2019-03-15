@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 31 Jan 2019 15:47:55 +0000.
+ * Date: Thu, 14 Mar 2019 16:02:26 +0000.
  */
 
 namespace App;
@@ -44,10 +44,10 @@ class Invitado extends Eloquent
 		'activo'
 	];
 
-	public function alquiler()
+	public function alquileres()
 	{
 		return $this->belongsToMany(\App\Alquiler::class, 'alquiler_invitados', 'invitados_id')
-					->withPivot('id')
+					->withPivot('id', 'responsable')
 					->withTimestamps();
 	}
 }

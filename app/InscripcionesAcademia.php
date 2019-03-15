@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 21 Feb 2019 20:32:23 +0000.
+ * Date: Thu, 14 Mar 2019 16:02:26 +0000.
  */
 
 namespace App;
@@ -16,12 +16,15 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $atletas_id
  * @property \Carbon\Carbon $fecha_inscripcion
  * @property string $estatus
- * @property \Carbon\Carbon $prueba_fecha
+ * @property int $locaciones_id
+ * @property int $uniformes
  * @property int $activo
+ * @property \Carbon\Carbon $prueba_fecha
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * 
  * @property \App\Atleta $atleta
+ * @property \App\Locacione $locacione
  * @property \Illuminate\Database\Eloquent\Collection $academia_matriculas
  *
  * @package App
@@ -33,6 +36,7 @@ class InscripcionesAcademia extends Eloquent
 	protected $casts = [
 		'atletas_id' => 'int',
 		'locaciones_id' => 'int',
+		'uniformes' => 'int',
 		'activo' => 'int'
 	];
 
@@ -46,8 +50,9 @@ class InscripcionesAcademia extends Eloquent
 		'fecha_inscripcion',
 		'estatus',
 		'locaciones_id',
-		'prueba_fecha',
-		'activo'
+		'uniformes',
+		'activo',
+		'prueba_fecha'
 	];
 
 	public function atleta()

@@ -27,7 +27,8 @@
                                 </div>
                             </div>
                         </div>
-                        {!! Form::open(['route' => 'academia.inscripcion', 'role' => 'form', 'id' => 'form-inscripcion']) !!}
+                        {!! Form::open(['route' => 'academia.store', 'role' => 'form', 'id' => 'form-inscripcion']) !!}
+                            {{csrf_field()}}
                             <div class="row setup-content" id="step-1">
                                 @include('adminlte::atleta.registro-ninos', ['tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'servicio' => 'Academia', 'horarios' => $horarios, 'locaciones' => $locaciones, 'dias_de_clases' => $dias_de_clases, 'dias_semana_desc' => $dias_semana_desc])
                                 <div class="col-lg-12">
@@ -37,7 +38,7 @@
 
                             <div class="row setup-content" id="step-2">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    @include('adminlte::academia.resumen_pago')
+                                    @include('adminlte::academia.resumen_pago', ['tipos_pago' => $tipos_pago])
 
                                     <div class="pull-right">
                                         <button class="btn btn-danger btn-flat btn-md" type="submit">Inscribir</button>    

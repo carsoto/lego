@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 21 Feb 2019 20:32:35 +0000.
+ * Date: Thu, 14 Mar 2019 20:27:20 +0000.
  */
 
 namespace App;
@@ -14,7 +14,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * 
  * @property int $id
  * @property int $inscripciones_academia_id
- * @property int $academia_horarios_disponibles_id
+ * @property int $academia_horarios_id
  * @property \Carbon\Carbon $fecha
  * @property int $mes
  * @property int $anyo
@@ -24,7 +24,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * 
- * @property \App\AcademiaHorariosDisponible $academia_horarios_disponible
+ * @property \App\AcademiaHorario $academia_horario
  * @property \App\InscripcionesAcademium $inscripciones_academium
  *
  * @package App
@@ -35,7 +35,7 @@ class AcademiaMatricula extends Eloquent
 
 	protected $casts = [
 		'inscripciones_academia_id' => 'int',
-		'academia_horarios_disponibles_id' => 'int',
+		'academia_horarios_id' => 'int',
 		'mes' => 'int',
 		'anyo' => 'int',
 		'activo' => 'int'
@@ -47,7 +47,7 @@ class AcademiaMatricula extends Eloquent
 
 	protected $fillable = [
 		'inscripciones_academia_id',
-		'academia_horarios_disponibles_id',
+		'academia_horarios_id',
 		'fecha',
 		'mes',
 		'anyo',
@@ -56,9 +56,9 @@ class AcademiaMatricula extends Eloquent
 		'activo'
 	];
 
-	public function academia_horarios_disponible()
+	public function academia_horario()
 	{
-		return $this->belongsTo(\App\AcademiaHorariosDisponible::class, 'academia_horarios_disponibles_id');
+		return $this->belongsTo(\App\AcademiaHorario::class, 'academia_horarios_id');
 	}
 
 	public function inscripciones_academium()

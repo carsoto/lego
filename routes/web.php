@@ -24,6 +24,7 @@ Route::group(['prefix' => 'academia'], function () {
 	Route::get('/', 'AcademiaController@index')->name('academia.index');
 	Route::get('inscripcion/prueba', 'AcademiaController@inscripcionprueba')->name('academia.inscripcion_prueba');
 	Route::get('inscripcion', 'AcademiaController@inscripcionacademia')->name('academia.inscripcion');
+	Route::post('store', 'AcademiaController@store')->name('academia.store');
 
 	Route::post('inscripcion/prueba', 'AcademiaController@registrarprueba')->name('academia.inscripcion.prueba');
 	//Route::post('inscripcion/academia', 'AcademiaController@registrarinscripcion')->name('academia.inscripcion');

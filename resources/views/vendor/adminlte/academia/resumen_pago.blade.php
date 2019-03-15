@@ -32,6 +32,13 @@
             </tfoot>
         </table>
     </div>
+    
+    <div style="padding-bottom: 15px;">
+        @foreach($tipos_pago AS $key => $tipo)
+            <input type="radio" name="factura[tipo_pago]" value="{{ $key }}" style="padding-right: 15px;"> {{ $tipo }}
+        @endforeach    
+    </div>
+    
 </div>
 
 @include('adminlte::layouts.datos_pago')

@@ -9,8 +9,12 @@ use App\Representante;
 use App\Atleta;
 use App\AtletasInformacionAdicional;
 use App\InscripcionesAcademia;
+use App\AcademiaMatricula;
 use App\AcademiaHorariosDisponible;
+use App\AcademiaHorario;
 use App\AcademiaTarifa;
+use App\AcademiaFactura;
+use App\AcademiaDetallesFactura;
 use Carbon\Carbon;
 use Funciones;
 use DB;
@@ -54,6 +58,7 @@ class AcademiaController extends Controller
         $configuraciones = Funciones::configuracion_academia();
         $preguntas = InformacionAdicional::all();
         $tallas = Funciones::tallas();
+        $tipos_pago = Funciones::tipos_pago();
         $datos_tarifas = array();
         $dias_de_clases = explode(",", $configuraciones['Dias de clases']);
         $dias_semana = array(1,2,3,4,5,6,0);
@@ -79,7 +84,7 @@ class AcademiaController extends Controller
             $horarios_academia[$horario->locaciones_id][$horario->locacion->ubicacion][$horario->academia_horario->edad_inicio.'_'.$horario->academia_horario->edad_fin] = array('edad_inicio' => $horario->academia_horario->edad_inicio, 'edad_fin' => $horario->academia_horario->edad_fin, 'hora' => $horario->academia_horario->hora_inicio.' - '.$horario->academia_horario->hora_fin, 'tarifas' => $tarifas[$horario->locaciones_id][$horario->academia_horario->edad_inicio.'_'.$horario->academia_horario->edad_fin]);
         }
 
-        return view('adminlte::academia.inscripcion', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'horarios' => $horarios_academia, 'dias_de_clases' => $dias_de_clases, 'dias_semana_desc' => $dias_semana_desc));
+        return view('adminlte::academia.inscripcion', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas, 'horarios' => $horarios_academia, 'dias_de_clases' => $dias_de_clases, 'dias_semana_desc' => $dias_semana_desc, 'tipos_pago' => $tipos_pago));
     }
 
     public function registrarprueba(Request $request){
@@ -188,7 +193,117 @@ class AcademiaController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        try {
+            $atletas_registrados = array();
+            $representante = Representante::firstOrCreate(['cedula' => $request->representante["cedula"]], [ 
+                'cedula' => $request->representante["cedula"],
+                'nombres' => $request->representante["nombres"],
+                'apellidos' => $request->representante["apellidos"],
+                'telf_contacto' => $request->representante["telf_contacto"],
+                'email' => $request->representante["email"],
+                'red_social' => $request->representante["red_social"],
+            ]);
+
+            $cantidad_atletas = count($request->form_atleta);
+            
+            $fecha_actual = date('Y-m-d');
+
+            $factura = AcademiaFactura::create([
+                'representantes_id' => $representante->id,
+                'fecha' => $fecha_actual,
+                'subtotal' => $request->factura["subtotal"],
+                'descuento' => $request->factura["descuento"],
+                'total' => $request->factura["total"],
+                'status' => 'Pendiente',
+                'tipo_pago' => $request->factura["tipo_pago"]
+            ]);
+        
+            for ($i=0; $i < $cantidad_atletas; $i++) { 
+                $atleta = $request->form_atleta[$i];
+                $uniformes = 1;
+                $edad_atleta = Carbon::parse($atleta["fecha_nacimiento"])->age;
+                $horario = AcademiaHorario::where('edad_inicio', '<=', $edad_atleta)->where('edad_fin', '>=', $edad_atleta)->get();
+                
+                if($atleta["cedula"] != ""){
+                    $atleta_reg = Atleta::firstOrCreate(['cedula' => $atleta["cedula"]], [ 
+                        'cedula' => $atleta["cedula"],
+                        'nombre' => $atleta["nombre"],
+                        'apellido' => $atleta["apellido"],
+                        'genero' => $atleta["genero"],
+                        'fecha_nacimiento' => $atleta["fecha_nacimiento"],
+                        'telf_contacto' => $atleta["telf_contacto"],
+                        'red_social' => $atleta["red_social"],
+                        'instituto' => $atleta["instituto"],
+                        'talla_top' => $atleta["talla_top"],
+                        'talla_camiseta' => $atleta["talla_camiseta"]
+                    ]);    
+                }else{
+                    $atleta_reg = Atleta::create([ 
+                        'cedula' => $atleta["cedula"],
+                        'nombre' => $atleta["nombre"],
+                        'apellido' => $atleta["apellido"],
+                        'genero' => $atleta["genero"],
+                        'fecha_nacimiento' => $atleta["fecha_nacimiento"],
+                        'telf_contacto' => $atleta["telf_contacto"],
+                        'red_social' => $atleta["red_social"],
+                        'instituto' => $atleta["instituto"],
+                        'talla_top' => $atleta["talla_top"],
+                        'talla_camiseta' => $atleta["talla_camiseta"]
+                    ]);
+                }
+
+                foreach($atleta["respuestas"]  AS $id_pregunta => $respuesta){
+                    if($respuesta != null){
+                        AtletasInformacionAdicional::firstOrCreate(['atletas_id' => $atleta_reg->id, 'informacion_adicional_id' => $id_pregunta], [ 
+                            'atletas_id' => $atleta_reg->id,
+                            'informacion_adicional_id' => $id_pregunta,
+                            'respuesta' => $respuesta
+                        ]);    
+                    }
+                }
+
+                $representante->atletas()->sync($atleta_reg->id, false);
+                if(($atleta["talla_top"] == "0") && ($atleta["talla_camiseta"] == "0")){
+                    $uniformes = 0;
+                }
+
+                $inscripcion = InscripcionesAcademia::create([
+                    'atletas_id' => $atleta_reg->id,
+                    'fecha_inscripcion' => $fecha_actual,
+                    'estatus' => 'Regular',
+                    'locaciones_id' => $atleta["locacion_academia"],
+                    'uniformes' => $uniformes,
+                    'activo' => 1,
+                ]);
+
+                $matricula = AcademiaMatricula::create([
+                    'inscripciones_academia_id' => $inscripcion->id,
+                    'academia_horarios_id' => $horario[0]->id,
+                    'fecha' => $fecha_actual,
+                    'mes' => date('m'),
+                    'anyo' => date('Y'),
+                    'dias_asistencia' => $atleta["dias_horario"],
+                    'codigo_dupla' => NULL,
+                    'activo' => 1
+                ]);
+
+                $detalles_factura = AcademiaDetallesFactura::create([
+                    'academia_factura_id' => $factura->id,
+                    'inscripciones_academia_id' => $inscripcion->id,
+                    'pago' => $atleta["tarifa"]
+                ]);
+
+                $atletas_registrados[] = array('nombre' => $atleta["nombre"].' '.$atleta["apellido"], 'edad' => $edad_atleta, 'locacion' => $atleta["locacion_academia"], 'fecha_prueba' => $fecha_actual, 'horario' => $horario[0]->hora_inicio.' - '.$horario[0]->hora_fin);
+            }
+            
+            $msg = 'Proceso finalizado con éxito, te esperamos en la academia.';
+            $status = true;
+        } catch (Exception $e) {
+            $msg = $e;
+            $status = false;
+        }
+
+        return view('adminlte::academia.inscripcion_finalizada', array('message' => $msg, 'status' => $status, 'atletas_registrados' => $atletas_registrados));
     }
 
     /**

@@ -55,6 +55,8 @@
                             </div>
                             
                         @endif
+
+                        @include('adminlte::layouts.datos_pago')
                     </div>
                 </div>
             </div>

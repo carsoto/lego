@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 17 Jan 2019 21:23:09 +0000.
+ * Date: Thu, 14 Mar 2019 17:24:47 +0000.
  */
 
 namespace App;
@@ -16,18 +16,20 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $cedula
  * @property string $nombre
  * @property string $apellido
- * @property string $genero
  * @property \Carbon\Carbon $fecha_nacimiento
  * @property string $red_social
  * @property string $telf_contacto
+ * @property string $talla_top
+ * @property string $talla_camiseta
  * @property string $instituto
  * @property string $email
- * @property int $talla_top
- * @property int $talla_camiseta
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * 
  * @property \Illuminate\Database\Eloquent\Collection $informacion_adicionals
+ * @property \Illuminate\Database\Eloquent\Collection $uniformes
+ * @property \Illuminate\Database\Eloquent\Collection $inscripciones_academia
+ * @property \Illuminate\Database\Eloquent\Collection $inscripciones_campamentos
  * @property \Illuminate\Database\Eloquent\Collection $inscripciones_vacacionals
  * @property \Illuminate\Database\Eloquent\Collection $representantes
  *
@@ -36,9 +38,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class Atleta extends Eloquent
 {
 	protected $casts = [
-		'cedula' => 'int',
-		'talla_top' => 'int',
-		'talla_camiseta' => 'int'
+		'cedula' => 'int'
 	];
 
 	protected $dates = [
@@ -49,30 +49,26 @@ class Atleta extends Eloquent
 		'cedula',
 		'nombre',
 		'apellido',
-		'genero',
 		'fecha_nacimiento',
 		'red_social',
 		'telf_contacto',
-		'instituto',
-		'email',
 		'talla_top',
-		'talla_camiseta'
+		'talla_camiseta',
+		'instituto',
+		'email'
 	];
 
-	public function academia_asistencia_pruebas()
-	{
-		return $this->hasMany(\App\AcademiaAsistenciaPrueba::class, 'atletas_id');
-	}
-
-	public function academia_matriculas()
-	{
-		return $this->hasMany(\App\AcademiaMatricula::class, 'atletas_id');
-	}
-
-	public function informacion_adicional()
+	public function informacion_adicionals()
 	{
 		return $this->belongsToMany(\App\InformacionAdicional::class, 'atletas_informacion_adicional', 'atletas_id')
 					->withPivot('id', 'respuesta')
+					->withTimestamps();
+	}
+
+	public function uniformes()
+	{
+		return $this->belongsToMany(\App\Uniforme::class, 'atletas_uniformes', 'atletas_id', 'uniformes_id')
+					->withPivot('id', 'tallas_id')
 					->withTimestamps();
 	}
 
@@ -86,7 +82,7 @@ class Atleta extends Eloquent
 		return $this->hasMany(\App\InscripcionesCampamento::class, 'atletas_id');
 	}
 
-	public function inscripciones_vacacional()
+	public function inscripciones_vacacionals()
 	{
 		return $this->hasMany(\App\InscripcionesVacacional::class, 'atletas_id');
 	}
