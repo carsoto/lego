@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Role')->withTimestamps();
     }
 
+    public function academia_asistencias()
+    {
+        return $this->hasMany(\App\AcademiaAsistencia::class, 'users_id');
+    }
+    
     public function authorizeRoles($roles)
     {
         if ($this->hasAnyRole($roles)) {

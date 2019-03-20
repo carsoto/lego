@@ -43,6 +43,11 @@ class Locacion extends Eloquent
 		'activo'
 	];
 
+	public function academia_asistencias()
+	{
+		return $this->hasMany(\App\AcademiaAsistencia::class, 'locaciones_id');
+	}
+	
 	public function academia_horarios_disponibles()
 	{
 		return $this->hasMany(\App\AcademiaHorariosDisponible::class, 'locaciones_id');

@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 14 Mar 2019 17:24:47 +0000.
+ * Date: Wed, 20 Mar 2019 19:48:34 +0000.
  */
 
 namespace App;
@@ -26,6 +26,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * 
+ * @property \Illuminate\Database\Eloquent\Collection $academia_asistencias
  * @property \Illuminate\Database\Eloquent\Collection $informacion_adicionals
  * @property \Illuminate\Database\Eloquent\Collection $uniformes
  * @property \Illuminate\Database\Eloquent\Collection $inscripciones_academia
@@ -58,7 +59,12 @@ class Atleta extends Eloquent
 		'email'
 	];
 
-	public function informacion_adicionals()
+	public function academia_asistencias()
+	{
+		return $this->hasMany(\App\AcademiaAsistencia::class, 'atletas_id');
+	}
+
+	public function informacion_adicional()
 	{
 		return $this->belongsToMany(\App\InformacionAdicional::class, 'atletas_informacion_adicional', 'atletas_id')
 					->withPivot('id', 'respuesta')
@@ -82,7 +88,7 @@ class Atleta extends Eloquent
 		return $this->hasMany(\App\InscripcionesCampamento::class, 'atletas_id');
 	}
 
-	public function inscripciones_vacacionals()
+	public function inscripciones_vacacional()
 	{
 		return $this->hasMany(\App\InscripcionesVacacional::class, 'atletas_id');
 	}

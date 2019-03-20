@@ -10,6 +10,7 @@ use App\Atleta;
 use App\AtletasInformacionAdicional;
 use App\InscripcionesAcademia;
 use App\AcademiaMatricula;
+use App\AcademiaAsistencia;
 use App\AcademiaHorariosDisponible;
 use App\AcademiaHorario;
 use App\AcademiaTarifa;
@@ -19,6 +20,7 @@ use Carbon\Carbon;
 use Funciones;
 use DB;
 use Response;
+use Auth;
 
 class AcademiaController extends Controller
 {
@@ -71,7 +73,7 @@ class AcademiaController extends Controller
 
         $horarios_academia = array();
 
-        $dias_semana_desc = array(1 => 'Lun.', 2 => 'Mar.', 3 => 'Miér.', 4 => 'Jue.', 5 => 'Vie.', 6 => 'Sáb.', 0 => 'Dom.') ;
+        $dias_semana_desc = Funciones::descripcion_semana();
         $datos_tarifas['edades'] = array();
         $datos_tarifas['tarifas'] = $tarifas;
         $datos_tarifas['descuento'] = $configuraciones['Descuento mas de 1'];
@@ -304,6 +306,109 @@ class AcademiaController extends Controller
         }
 
         return view('adminlte::academia.inscripcion_finalizada', array('message' => $msg, 'status' => $status, 'atletas_registrados' => $atletas_registrados));
+    }
+
+    public function asistencia(){
+        $modalidad = array('Academia' => 'Academia', 'Prueba' => 'Prueba');
+        $locacion = Locacion::all()->pluck('ubicacion', 'id');
+        $horario = AcademiaHorario::select(DB::raw("CONCAT(hora_inicio, ' - ', hora_fin) AS horario"),'id')->pluck('horario', 'id');
+        $dias_semana_desc = Funciones::descripcion_semana();
+        return view('adminlte::academia.asistencia', array('modalidades' => $modalidad, 'locaciones' => $locacion, 'horarios' => $horario, 'dias_semana' => $dias_semana_desc));
+    }
+
+    public function cargar_asistencia(Request $request){
+        $modalidad = $request->modalidad;
+        $mes = date('m');
+        $anyo = date('Y');
+        $locacion = $request->locacion;
+        $horario = $request->horario;
+        $dias_semana_desc = Funciones::descripcion_semana();
+        $asistencia_dia = array();
+        $error_message = "";
+        $asistencia = array();
+        $title = "";
+        $dia_consultado = $request->dia_actual;
+        $asistencia_no_regular = array();
+        $asistencia_reg = array();
+
+        if((isset($request->fecha_asistencia)) && ($request->fecha_asistencia != "")){
+            $fecha = explode('-', $request->fecha_asistencia);
+            $dia_consultado = Carbon::createFromFormat('Y-m-d', $request->fecha_asistencia)->dayOfWeek;
+            $title = $dias_semana_desc[$dia_consultado].' '.Carbon::createFromFormat('Y-m-d', $request->fecha_asistencia)->format('d-m-Y');
+            $mes = $fecha[1];
+            $anyo = $fecha[0];
+            $fecha_asistencia = $request->fecha_asistencia;
+        }else{
+            $fecha_asistencia = date('Y-m-d');
+        }
+
+        $atletas = Funciones::asistencia($modalidad, $mes, $anyo, $locacion, $horario);
+        $asistencia_registrada = AcademiaAsistencia::where('fecha', '=', $fecha_asistencia)->where('locaciones_id', '=', $locacion)->where('academia_horarios_id', '=', $horario)->where('modalidad', '=', $modalidad)->get();
+        
+        foreach ($asistencia_registrada as $key => $asistente) {
+            $asistencia_reg[] = $asistente->atletas_id;
+        }
+
+        if(count($atletas) > 0){
+            if($modalidad == 'Academia'){
+                foreach ($atletas as $key => $info) {
+                    $dias = explode(',', $info->dias_asistencia);
+                    
+                    for ($t=0; $t < count($dias); $t++) { 
+                        
+                        if($dias[$t] == $dia_consultado){
+                            $asistencia[$info->id] = $info->alumno;
+                        }
+                    }
+                    if(!array_key_exists($info->id, $asistencia)){
+                        $asistencia_no_regular[$info->id] = $info->alumno;
+                    }
+                }
+
+                if(count($asistencia) == 0){
+                    $error_message = 'No hay atletas inscritos para este día';
+                }
+
+            }else{
+                $asistencia = $atletas;
+            }
+            
+        }else{
+            $error_message = 'No hay registros para su consulta';
+        }
+
+        return Response::json(array('atletas' => $asistencia, 'error_message' => $error_message, 'title' => $title, 'asistencia_no_regular' => $asistencia_no_regular, 'asistencia_reg' => $asistencia_reg));
+    }
+
+    public function guardar_asistencia(Request $request){
+        if(isset($request->fecha_asistencia)){
+            $fecha_asistencia = $request->fecha_asistencia;
+        }else{
+            $fecha_asistencia = date('Y-m-d');
+        }
+        
+        $fecha = explode('-', $fecha_asistencia);
+
+        $modalidad = $request->modalidad;
+        $locacion = $request->locacion;
+        $horario = $request->horario;
+        $asistencia = $request->asistencia;
+
+        for ($i=0; $i < count($asistencia); $i++) { 
+            AcademiaAsistencia::updateOrCreate([
+                'atletas_id' => $asistencia[$i],
+                'fecha' => $fecha_asistencia,
+            ], [
+                'users_id' => Auth::id(),
+                'atletas_id' => $asistencia[$i],
+                'fecha' => $fecha_asistencia,
+                'mes' => $fecha[1],
+                'anyo' => $fecha[0],
+                'locaciones_id' => $locacion,
+                'academia_horarios_id' => $horario,
+                'modalidad' => $modalidad
+            ]);
+        }
     }
 
     /**

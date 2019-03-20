@@ -74,43 +74,8 @@ class Funciones{
 
     public static function inscritos_academia($modalidad){
 
-        /*$inscritos = DB::select(DB::raw("
-            SELECT a.id, CONCAT(r.apellidos, ', ', r.nombres) AS representante, CONCAT(a.apellido, ', ', a.nombre) AS alumno, a.fecha_nacimiento, TIMESTAMPDIFF(YEAR, a.fecha_nacimiento, CURDATE()) AS edad, i.fecha_inscripcion, a.instituto AS colegio, CONCAT(h.hora_inicio, ' - ', h.hora_fin) AS horario, l.ubicacion AS locacion, i.prueba_fecha
-            FROM
-                inscripciones_academia i
-            INNER JOIN academia_horarios h ON i.prueba_horario_id = h.id
-            INNER JOIN atletas a ON a.id = i.atletas_id
-            INNER JOIN representantes_atletas ra ON ra.atletas_id = a.id
-            INNER JOIN representantes r ON ra.representantes_id = r.id  
-            INNER JOIN locaciones l ON l.id = h.locaciones_id
-            WHERE i.estatus = '".$modalidad."'
-            ORDER BY i.fecha_inscripcion, r.apellidos"));*/
-        //$inscritos = array();
+        $inscritos = DB::select(DB::raw("SELECT a.id, CONCAT(r.apellidos, ', ', r.nombres) AS representante, CONCAT(a.apellido, ', ', a.nombre) AS alumno, a.fecha_nacimiento, TIMESTAMPDIFF(YEAR, a.fecha_nacimiento, CURDATE()) AS edad, i.fecha_inscripcion, i.prueba_fecha, a.instituto AS colegio, l.ubicacion AS locacion, CONCAT(ah.hora_inicio, ' - ', ah.hora_fin) AS horario FROM academia_horarios ah, inscripciones_academia i INNER JOIN atletas a ON i.atletas_id = a.id INNER JOIN representantes_atletas ra ON ra.atletas_id = a.id INNER JOIN representantes r ON ra.representantes_id = r.id INNER JOIN locaciones l ON l.id = i.locaciones_id WHERE i.estatus = '".$modalidad."' AND ah.edad_inicio <= TIMESTAMPDIFF(YEAR, a.fecha_nacimiento, CURDATE()) AND ah.edad_fin >= TIMESTAMPDIFF(YEAR, a.fecha_nacimiento, CURDATE()) ORDER BY i.fecha_inscripcion , r.apellidos"));
 
-            /*SELECT 
-    a.id,
-    CONCAT(r.apellidos, ', ', r.nombres) AS representante,
-    CONCAT(a.apellido, ', ', a.nombre) AS alumno,
-    a.fecha_nacimiento,
-    TIMESTAMPDIFF(YEAR, a.fecha_nacimiento, CURDATE()) AS edad,
-    i.fecha_inscripcion,
-    a.instituto AS colegio,
-    l.ubicacion AS locacion,
-    CONCAT(ah.hora_inicio, ' - ', ah.hora_fin) AS horario
-FROM
-    inscripciones_academia i
-        INNER JOIN
-    atletas a ON a.id = i.atletas_id
-        INNER JOIN
-    representantes_atletas ra ON ra.atletas_id = a.id
-        INNER JOIN
-    representantes r ON ra.representantes_id = r.id
-        INNER JOIN
-    locaciones l ON l.id = i.locaciones_id 
-WHERE
-    i.estatus = 'Prueba' AND
-    ah.edad_inicio <= edad AND ah.edad_fin >= edad
-ORDER BY i.fecha_inscripcion , r.apellidos*/
         return $inscritos;
     }
 
@@ -128,5 +93,21 @@ ORDER BY i.fecha_inscripcion , r.apellidos*/
         }
 
         return $academia;
+    }
+
+    public static function asistencia($modalidad, $mes, $anyo, $locacion, $horario){
+
+        if($modalidad == 'Academia'){
+            $asistencia = DB::select(DB::raw("SELECT a.id, CONCAT(a.apellido, ', ', a.nombre) AS alumno, TIMESTAMPDIFF(YEAR, a.fecha_nacimiento, CURDATE()) AS edad, i.prueba_fecha, l.id AS locacion, ah.id AS horario,  am.inscripciones_academia_id, am.dias_asistencia FROM atletas a, academia_matricula am, inscripciones_academia i, academia_horarios ah, locaciones l WHERE l.id = i.locaciones_id AND am.inscripciones_academia_id = i.id AND a.id = i.atletas_id AND am.academia_horarios_id = ah.id AND am.mes = ".$mes." AND am.anyo = ".$anyo." AND l.id = ".$locacion." AND ah.id = ".$horario." AND am.activo = 1"));     
+        }else{
+            $asistencia = DB::select(DB::raw("SELECT a.id, CONCAT(a.apellido, ', ', a.nombre) AS alumno, TIMESTAMPDIFF(YEAR, a.fecha_nacimiento, CURDATE()) AS edad, i.prueba_fecha, l.id AS locacion, ah.id AS horario FROM academia_horarios ah, inscripciones_academia i INNER JOIN atletas a ON i.atletas_id = a.id INNER JOIN representantes_atletas ra ON ra.atletas_id = a.id INNER JOIN representantes r ON ra.representantes_id = r.id INNER JOIN locaciones l ON l.id = i.locaciones_id WHERE i.prueba_fecha = CURDATE() AND ah.edad_inicio <= TIMESTAMPDIFF(YEAR, a.fecha_nacimiento, CURDATE()) AND l.id = ".$locacion." AND ah.id = ".$horario." AND ah.edad_fin >= TIMESTAMPDIFF(YEAR, a.fecha_nacimiento, CURDATE()) ORDER BY a.apellido ASC"));    
+        }
+
+        return $asistencia;
+    }
+
+    public static function descripcion_semana(){
+        $dias_semana_desc = array(1 => 'Lun.', 2 => 'Mar.', 3 => 'Miér.', 4 => 'Jue.', 5 => 'Vie.', 6 => 'Sáb.', 0 => 'Dom.');
+        return $dias_semana_desc;
     }
 }

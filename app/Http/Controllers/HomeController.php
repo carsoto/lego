@@ -38,7 +38,7 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
-        $request->user()->authorizeRoles(['admin', 'supervisor', 'agente']);
+        $request->user()->authorizeRoles(['admin', 'profesor']);
         return view('adminlte::home');
     }
 

@@ -25,7 +25,10 @@ Route::group(['prefix' => 'academia'], function () {
 	Route::get('inscripcion/prueba', 'AcademiaController@inscripcionprueba')->name('academia.inscripcion_prueba');
 	Route::get('inscripcion', 'AcademiaController@inscripcionacademia')->name('academia.inscripcion');
 	Route::post('store', 'AcademiaController@store')->name('academia.store');
-
+	Route::get('asistencia', 'AcademiaController@asistencia')->name('academia.asistencia');
+	Route::post('cargar/asistencia', 'AcademiaController@cargar_asistencia')->name('academia.cargar.asistencia');
+	Route::post('guardar/asistencia', 'AcademiaController@guardar_asistencia')->name('academia.guardar.asistencia');
+	
 	Route::post('inscripcion/prueba', 'AcademiaController@registrarprueba')->name('academia.inscripcion.prueba');
 	//Route::post('inscripcion/academia', 'AcademiaController@registrarinscripcion')->name('academia.inscripcion');
 });

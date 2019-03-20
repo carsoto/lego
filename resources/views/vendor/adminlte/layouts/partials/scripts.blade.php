@@ -18,6 +18,8 @@
 
 <script src="{{ asset('/public/plugins/datepicker/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
 <script>
 
     window.Laravel = {!! json_encode([
@@ -28,7 +30,6 @@
 
 
     (function($) {
-
     	$('input').iCheck({
 
             checkboxClass: 'icheckbox_square-red',
@@ -1306,5 +1307,169 @@
 		        });
             }
         });
+	}
+
+	function listado_asistencia(){
+		var modalidad = $("#asistencia_modalidad option:selected").val();
+		var locacion = $("#asistencia_locacion option:selected").val();
+		var horario = $("#asistencia_horario option:selected").val();
+		var error_message = '<div class="text-left"><ul>';
+    	var valido = true;
+    	var d = new Date();
+  		var n = d.getDay();
+  		var fecha_seleccionada = "";
+
+  		if(document.getElementById('asistencia_fecha') != undefined){
+  			fecha_seleccionada = document.getElementById('asistencia_fecha').value;
+  		}
+
+		if(modalidad == ""){
+			error_message += "<li>Debe elegir la modalidad que desea cargar</li>";
+			valido = false;
+		}
+
+		if(locacion == ""){
+			error_message += "<li>Debe elegir la ubicación donde se encuentra</li>";
+			valido = false;
+		}
+
+		if(horario == ""){
+			error_message += "<li>Debe elegir el horario del listado</li>";
+			valido = false;
+		}
+
+		if(valido){
+
+			$.ajax({
+	           	url: 'cargar/asistencia',
+	            dataType: "JSON",
+	            type: 'POST',
+	            headers: {
+			        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			    },
+	            data: {modalidad: modalidad, locacion: locacion, horario: horario, dia_actual: n, fecha_asistencia: fecha_seleccionada},
+	            success: function (response) {
+	            	if(response.title != ""){
+            			$("#asistencia_desc_dia_fecha").html(response.title);
+            		}
+
+	            	if(response.error_message != ""){
+						swal("Ocurrió un error!", response.error_message, "error");
+						document.getElementById('content-tabla-asistencia').style.display = 'none';
+	            	}else{
+	            		var asistencia_no_regular = response.asistencia_no_regular;
+	            		var atletas = response.atletas;
+	            		var table = document.getElementById("tabla-asistencia");
+
+						$('#tabla-asistencia').dataTable().fnDestroy();
+
+	            		$("#tabla-asistencia tbody").html("");
+
+	            		$.each(atletas, function(id, alumno) {
+	            			var row = table.insertRow(0);
+							var cell1 = row.insertCell(0);
+							cell1.innerHTML = alumno;
+
+							var cell2 = row.insertCell(1);
+							if(inArray(id, response.asistencia_reg)){
+								cell2.innerHTML = '<input value="'+id+'" type="checkbox" name="asistencia[]" checked>';	
+							}else{
+								cell2.innerHTML = '<input value="'+id+'" type="checkbox" name="asistencia[]">';	
+							}
+							
+							$('#tabla-asistencia tbody').append(row);
+						});
+
+						$.each(asistencia_no_regular, function(id, alumno) {
+							var option = document.createElement("option");
+							option.value = id;
+							option.text = alumno;
+							document.getElementById('recupera-clase').appendChild(option);
+						});
+						
+						$('input').iCheck({
+							checkboxClass: 'icheckbox_square-red',
+							radioClass: 'iradio_square-red',
+							increaseArea: '10%' // optional
+						});
+
+						$('#tabla-asistencia').DataTable({
+							responsive: true,
+							language: {
+								url: '../public/js/datatable-spanish.json' //Ubicacion del archivo con el json del idioma.
+							}
+						});
+
+	            		
+						document.getElementById('content-tabla-asistencia').style.display = 'block';
+	            	}
+	            },
+
+	            error: function (xhr, ajaxOptions, thrownError) {
+	                swal("Ocurrió un error!", "Por favor, intente de nuevo", "error");
+	            }
+	        });
+
+		}else{
+			error_message += '</ul></div>';
+	    	swal("Ocurrió un error!", error_message, "error");	
+		}
+	}
+
+	function inArray(needle, haystack) {
+	    var length = haystack.length;
+	    for(var i = 0; i < length; i++) {
+	        if(haystack[i] == needle) return true;
+	    }
+	    return false;
+	}
+
+	function empty(e) {
+		switch (e) {
+			case "":
+			case 0:
+			case "0":
+			case null:
+			case false:
+			case typeof this == "undefined":
+				return true;
+			default:
+				return false;
+		}
+	}
+
+
+	function recuperar_clase(){
+		var id_alumno_recupera_clase = $("#recupera-clase option:selected").val();
+
+		if(empty(!id_alumno_recupera_clase)){
+			$('#tabla-asistencia').dataTable().fnDestroy();
+			var alumno_recupera_clase = $("#recupera-clase option:selected").text();
+			var table = document.getElementById("tabla-asistencia");
+
+			var row = table.insertRow(0);
+			var cell1 = row.insertCell(0);
+			cell1.innerHTML = alumno_recupera_clase;
+
+			var cell2 = row.insertCell(1);
+			cell2.innerHTML = '<input value="'+id_alumno_recupera_clase+'" type="checkbox" name="asistencia[]">';
+
+			$('#tabla-asistencia > tbody:last-child').append(row);
+
+			$('input').iCheck({
+				checkboxClass: 'icheckbox_square-red',
+				radioClass: 'iradio_square-red',
+				increaseArea: '10%' // optional
+			});
+
+			$('#tabla-asistencia').DataTable({
+				responsive: true,
+				language: {
+					url: '../public/js/datatable-spanish.json' //Ubicacion del archivo con el json del idioma.
+				}
+			});
+
+			$("#recupera-clase option[value='"+id_alumno_recupera_clase+"']").remove();
+		}
 	}
 </script>

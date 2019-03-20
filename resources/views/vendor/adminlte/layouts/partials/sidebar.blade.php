@@ -49,6 +49,7 @@
                     <ul class="treeview-menu">
                         <li><a href="{{ route('academia.prueba.dashboard') }}">Clases de prueba</a></li>
                         <li><a href="{{ route('academia.dashboard') }}">Regulares</a></li>
+                        <li><a href="{{ route('academia.asistencia') }}">Asistencia</a></li>
                     </ul>
                 </li>
 
@@ -57,6 +58,17 @@
                 <li><a href="{{ route('campamento.dashboard') }}"><span>Campamento</span></a></li>
 
                 <li><a href="{{ route('usuarios.index') }}"><i class='fa fa-user'></i><span>Usuarios</span></a></li>
+            @elseif(Auth::user()->hasRole('profesor'))
+                <li>
+                    <a href="#"><span>Academia</span> <i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ route('academia.prueba.dashboard') }}">Clases de prueba</a></li>
+                        <li><a href="{{ route('academia.dashboard') }}">Regulares</a></li>
+                        <li><a href="{{ route('academia.asistencia') }}">Asistencia</a></li>
+                    </ul>
+                </li>
+                <li><a href="{{ route('vacacional.dashboard') }}"><span>Vacacional</span></a></li>
+                <li><a href="{{ route('campamento.dashboard') }}"><span>Campamento</span></a></li>
             @endif
             <!--<li><a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.anotherlink') }}</span></a></li>
             <li class="treeview">
