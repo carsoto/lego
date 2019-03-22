@@ -13,18 +13,23 @@
                     <div class="box-body">
                         <div class="text-center">
                             @foreach($locaciones AS $key => $locacion)
-                                @foreach($locacion->campamentos()->where('activo', '=', 1)->get() AS $clave => $campamento)
-                                    <a href="{{ route('campamento.registro', ['campamento_id' => $campamento->id]) }}" class="btn btn-primary">
-                                        <h3>ÍNSCRIBETE</h3>
-                                        @if($campamento->edad_fin != null)
-                                            {{ $campamento->descripcion }}
-                                            <br>[{{ $campamento->edad_inicio }} - {{ $campamento->edad_fin }}] años
-                                        @else
-                                            {{ $campamento->descripcion }}
-                                            <br>[+ {{ $campamento->edad_inicio }}] años
-                                        @endif
-                                    </a>
-                                @endforeach
+                                @if($locacion->campamentos()->where('activo', '=', 1)->count() > 0)
+                                    @foreach($locacion->campamentos()->where('activo', '=', 1)->get() AS $clave => $campamento)
+                                        <a href="{{ route('campamento.registro', ['campamento_id' => $campamento->id]) }}" class="btn btn-primary">
+                                            <h3>ÍNSCRIBETE</h3>
+                                            @if($campamento->edad_fin != null)
+                                                {{ $campamento->descripcion }}
+                                                <br>[{{ $campamento->edad_inicio }} - {{ $campamento->edad_fin }}] años
+                                            @else
+                                                {{ $campamento->descripcion }}
+                                                <br>[+ {{ $campamento->edad_inicio }}] años
+                                            @endif
+                                        </a>
+                                    @endforeach
+                                @else
+                                    @include('adminlte::layouts.servicio_inactivo')
+                                    @break
+                                @endif
                             @endforeach
                         </div>
                     </div>

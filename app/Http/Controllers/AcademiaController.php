@@ -197,6 +197,13 @@ class AcademiaController extends Controller
     {
         try {
             $atletas_registrados = array();
+            
+            if(isset($request->factura["tipo_pago"])){
+                $tipo_pago = $request->factura["tipo_pago"];2
+            }else{
+                $tipo_pago = 'Efectivo';
+            }
+
             $representante = Representante::firstOrCreate(['cedula' => $request->representante["cedula"]], [ 
                 'cedula' => $request->representante["cedula"],
                 'nombres' => $request->representante["nombres"],
@@ -217,7 +224,7 @@ class AcademiaController extends Controller
                 'descuento' => $request->factura["descuento"],
                 'total' => $request->factura["total"],
                 'status' => 'Pendiente',
-                'tipo_pago' => $request->factura["tipo_pago"]
+                'tipo_pago' => $tipo_pago
             ]);
         
             for ($i=0; $i < $cantidad_atletas; $i++) { 

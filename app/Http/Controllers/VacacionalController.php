@@ -44,8 +44,6 @@ class VacacionalController extends Controller
                 $datos_tarifas['fecha_limite'] = Carbon::parse($vacacional->fecha_limite)->format('Y-m-d');
             }
         }
-
-        //dd($datos_tarifas);
         return view('adminlte::vacacional.index', array('locaciones' => $locaciones, 'tallas' => $tallas, 'preguntas' => $preguntas, 'datos_tarifas' => $datos_tarifas));
     }
 

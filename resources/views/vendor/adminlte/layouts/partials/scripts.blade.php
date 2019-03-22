@@ -585,7 +585,6 @@
     function agregar_nino(preguntas, datos_tarifa, servicio){
 
     	var dia_actual = new Date().getDate();
-    	dia_actual = 1;
     	var cantidad_alumnos = $('#lista-atletas tbody').children().length;
     	var cabecera = 1;
     	var array_form = 0;
@@ -734,7 +733,6 @@
 				var info_semana = calcularSemanaRestantes(dia_actual);
 					
 				if((info_semana.actual > 0) && (info_semana.actual <= 3)){
-
 					$.each(datos_tarifa.tarifas, function(key, tarifa) {
 						if(parseInt(horario_descripciones.length) == parseInt(tarifa.cant_dias)){
 							var proporcional = tarifa.tarifa_individual/4;
