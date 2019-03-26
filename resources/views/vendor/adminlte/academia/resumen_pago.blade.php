@@ -1,7 +1,10 @@
 <div class="text-center bg-red disabled color-palette" style="margin-top: 20px;"><h3> Resumen de pago </h3></div>
 
-<hr>
 <div class="col-xs">
+    <div class="alert alert-warning">
+        <p id='mensaje-pago' style='display: none;'></p>    
+    </div>
+    
     <div class="table-responsive">
         <table class="table" id="resumen-pago-academia">
             <thead>

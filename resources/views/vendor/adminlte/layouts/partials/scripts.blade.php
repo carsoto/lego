@@ -576,14 +576,83 @@
 			week_number = 4;
 		}
     	
-
     	semana['restantes'] = week_number;
     	
     	return semana;
 	}
 
-    function agregar_nino(preguntas, datos_tarifa, servicio){
+	/*function cuentaDiasHabilesLego(inicio, fin){
+	    var timeDiff = Math.abs(fin.getTime() - inicio.getTime());
+	    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); //Días entre las dos fechas
+	    var diashabiles = 0; //Número de Sábados y Domingos
+	    var array = new Array(diffDays);
 
+	    for (var i=0; i < diffDays; i++) 
+	    {
+	        //0 => Domingo - 6 => Sábado
+	        if (inicio.getDay() == 1 || inicio.getDay() == 2 || inicio.getDay() == 3 || inicio.getDay() == 4) {
+	            diashabiles++;
+	        }
+	        inicio.setDate(inicio.getDate() + 1);
+	    }
+
+	   return diashabiles;
+	}*/
+
+	function cuentaDiasHabilesLego(inicio, fin){
+	    var timeDiff = fin.getTime() - inicio.getTime();
+	    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); //Días entre las dos fechas
+	    var diashabiles = {}; //Número de Sábados y Domingos
+	    var array = new Array(diffDays);
+
+	    for (var i=0; i < diffDays; i++) 
+	    {
+	        //0 => Domingo - 6 => Sábado
+	        if (inicio.getDay() == 1) {
+	            if (typeof diashabiles[1] != "undefined") { 
+	            	diashabiles[1] = diashabiles[1] + 1; 
+	            }else{
+	            	diashabiles[1] = 1;
+	            }
+	            
+	        }
+
+			if (inicio.getDay() == 2) {
+				if (typeof diashabiles[2] != "undefined") { 
+					diashabiles[2] = diashabiles[2] + 1; 
+				}else{
+					diashabiles[2] = 1;
+				}
+				
+			}
+
+			if (inicio.getDay() == 3) {
+				if (typeof diashabiles[3] != "undefined") { 
+					diashabiles[3] = diashabiles[3] + 1; 
+				}else{
+					diashabiles[3] = 1;
+				}
+				
+			}
+
+			if (inicio.getDay() == 4) {
+				if (typeof diashabiles[4] != "undefined") { 
+					diashabiles[4] = diashabiles[4] + 1; 
+				}else{
+					diashabiles[4] = 1;
+				}
+				
+			}
+	        inicio.setDate(inicio.getDate() + 1);
+	    }
+
+	   return diashabiles;
+	}
+	
+	var total_diario = 0;
+	var subtotal_diario = 0;
+
+    function agregar_nino(preguntas, datos_tarifa, servicio){
     	var dia_actual = new Date().getDate();
     	var cantidad_alumnos = $('#lista-atletas tbody').children().length;
     	var cabecera = 1;
@@ -731,13 +800,13 @@
 
 				var cell_resume6 = row_resume.insertCell(5);
 				var info_semana = calcularSemanaRestantes(dia_actual);
-					
+
 				if((info_semana.actual > 0) && (info_semana.actual <= 3)){
 					$.each(datos_tarifa.tarifas, function(key, tarifa) {
 						if(parseInt(horario_descripciones.length) == parseInt(tarifa.cant_dias)){
 							var proporcional = tarifa.tarifa_individual/4;
 							proporcional = proporcional*info_semana.restantes;
-							cell_resume6.innerHTML = '<input value="'+proporcional.toFixed(2)+'" type="hidden" name="form_atleta['+ array_form +'][tarifa]" style="border: 0px solid;" readonly="readonly">'+ '$ '+ proporcional.toFixed(2);
+							cell_resume6.innerHTML = '<input type="hidden" value="'+tarifa.cant_clases+'" name="form_atleta['+ array_form +'][cantd_clases]" readonly="readonly" /><input value="'+proporcional.toFixed(2)+'" type="hidden" name="form_atleta['+ array_form +'][tarifa]" style="border: 0px solid;" readonly="readonly">'+ '$ '+ proporcional.toFixed(2);
 							$(cell_resume6).attr('subtotal', proporcional.toFixed(2));
 						}
 
@@ -745,7 +814,34 @@
 						recalcularTarifaAcademia("resumen-pago-academia", dia_actual, datos_tarifa.descuento, cantidad_alumnos);
 					});
 				}else{
-					console.log('fecha => ' + dia_actual + ' cantd_alumnos => ' + cantidad_alumnos + ' precio => PAGAR CLASES POR DÍA');
+					var f_actual = new Date();
+					var ultimo_dia = new Date(f_actual.getFullYear(), f_actual.getMonth() + 1, 0);
+					var cant_hab = cuentaDiasHabilesLego(f_actual, ultimo_dia);
+					var subtotal = 0;
+					var cantd_clases_permitidas = 0;
+					for (var k = 0; k < horario_valores.length; k++){
+						if (typeof cant_hab[horario_valores[k]] != "undefined"){
+							subtotal += cant_hab[horario_valores[k]] * datos_tarifa.clase_diaria;
+							cantd_clases_permitidas += cant_hab[horario_valores[k]];
+						}
+					}
+					total_diario += subtotal;
+					subtotal_diario += subtotal;
+					cell_resume6.innerHTML = '<input type="hidden" value="'+cantd_clases_permitidas+'" name="form_atleta['+ array_form +'][cantd_clases]" readonly="readonly" /><input value="'+subtotal.toFixed(2)+'" type="hidden" name="form_atleta['+ array_form +'][tarifa]" style="border: 0px solid;" readonly="readonly">'+ '$ '+ subtotal.toFixed(2);
+					$(cell_resume6).attr('subtotal', subtotal.toFixed(2));
+					$('#resumen-pago-academia tbody').append(row_resume);
+					$('#mensaje-pago').html("<strong>AVISO IMPORTANTE</strong> El valor a cobrar es un proporcional según la fecha en la que se esté inscribiendo. Este valor corresponde a las clases por día, según los días hábiles que falten para culminar el mes.");
+					document.getElementById('mensaje-pago').style.display = 'block';
+					recalcularTarifaAcademia("resumen-pago-academia", dia_actual, 0, cantidad_alumnos);
+
+
+					/*$('#mensaje-pago').html("<strong>AVISO IMPORTANTE</strong> El valor a cobrar es un proporcional según la fecha en la que se esté inscribiendo. Este valor corresponde a las clases por día, según los días hábiles que falten para culminar el mes.");
+					document.getElementById('mensaje-pago').style.display = 'block';
+					
+					document.getElementById('academia_subtotal').innerHTML = '<input value="'+ parseFloat(subtotal_diario).toFixed(2) + '" type="hidden" name="factura[subtotal]" style="border: 0px solid;" readonly="readonly">$ ' + parseFloat(subtotal_diario).toFixed(2);
+					document.getElementById('academia_descuento').innerHTML = '<input value="'+ parseFloat(0).toFixed(2) +'" type="hidden" name="factura[descuento]" style="border: 0px solid;" readonly="readonly">$ ' + parseFloat(0).toFixed(2);
+					document.getElementById('academia_total').innerHTML = '<input value="' + + parseFloat(total_diario).toFixed(2) + '" type="hidden" name="factura[total]" style="border: 0px solid;" readonly="readonly">$ ' + parseFloat(total_diario).toFixed(2);*/
+					//console.log('fecha => ' + dia_actual + ' cantd_alumnos => ' + cantidad_alumnos + ' precio => PAGAR CLASES POR DÍA');*/
 				}
 			}
 			
@@ -1363,10 +1459,10 @@
 
 	            		$("#tabla-asistencia tbody").html("");
 
-	            		$.each(atletas, function(id, alumno) {
+	            		$.each(atletas, function(id, info) {
 	            			var row = table.insertRow(0);
 							var cell1 = row.insertCell(0);
-							cell1.innerHTML = alumno;
+							cell1.innerHTML = info.alumno;
 
 							var cell2 = row.insertCell(1);
 							if(inArray(id, response.asistencia_reg)){
@@ -1378,11 +1474,9 @@
 							$('#tabla-asistencia tbody').append(row);
 						});
 
-						$.each(asistencia_no_regular, function(id, alumno) {
-							var option = document.createElement("option");
-							option.value = id;
-							option.text = alumno;
-							document.getElementById('recupera-clase').appendChild(option);
+						$('#recupera-clase').find('option').remove().end().append('<option value="">RECUPERA CLASE</option>').val('');
+						$.each(asistencia_no_regular, function(id, info) {
+							$('#recupera-clase').append('<option value="'+id+'" clases_pendientes="'+info.pendientes+'">'+info.alumno+'</option>');
 						});
 						
 						$('input').iCheck({
@@ -1397,7 +1491,6 @@
 								url: '../public/js/datatable-spanish.json' //Ubicacion del archivo con el json del idioma.
 							}
 						});
-
 	            		
 						document.getElementById('content-tabla-asistencia').style.display = 'block';
 	            	}
@@ -1436,38 +1529,43 @@
 		}
 	}
 
-
 	function recuperar_clase(){
 		var id_alumno_recupera_clase = $("#recupera-clase option:selected").val();
 
 		if(empty(!id_alumno_recupera_clase)){
-			$('#tabla-asistencia').dataTable().fnDestroy();
 			var alumno_recupera_clase = $("#recupera-clase option:selected").text();
-			var table = document.getElementById("tabla-asistencia");
+			var clases_pendientes = $("#recupera-clase option:selected").attr('clases_pendientes');
 
-			var row = table.insertRow(0);
-			var cell1 = row.insertCell(0);
-			cell1.innerHTML = alumno_recupera_clase;
+			if(clases_pendientes > 0){
+				$('#tabla-asistencia').dataTable().fnDestroy();
+				var table = document.getElementById("tabla-asistencia");
 
-			var cell2 = row.insertCell(1);
-			cell2.innerHTML = '<input value="'+id_alumno_recupera_clase+'" type="checkbox" name="asistencia[]">';
+				var row = table.insertRow(0);
+				var cell1 = row.insertCell(0);
+				cell1.innerHTML = alumno_recupera_clase;
 
-			$('#tabla-asistencia > tbody:last-child').append(row);
+				var cell2 = row.insertCell(1);
+				cell2.innerHTML = '<input value="'+id_alumno_recupera_clase+'" type="checkbox" name="asistencia[]">';
 
-			$('input').iCheck({
-				checkboxClass: 'icheckbox_square-red',
-				radioClass: 'iradio_square-red',
-				increaseArea: '10%' // optional
-			});
+				$('#tabla-asistencia > tbody:last-child').append(row);
 
-			$('#tabla-asistencia').DataTable({
-				responsive: true,
-				language: {
-					url: '../public/js/datatable-spanish.json' //Ubicacion del archivo con el json del idioma.
-				}
-			});
+				$('input').iCheck({
+					checkboxClass: 'icheckbox_square-red',
+					radioClass: 'iradio_square-red',
+					increaseArea: '10%' // optional
+				});
 
-			$("#recupera-clase option[value='"+id_alumno_recupera_clase+"']").remove();
+				$('#tabla-asistencia').DataTable({
+					responsive: true,
+					language: {
+						url: '../public/js/datatable-spanish.json' //Ubicacion del archivo con el json del idioma.
+					}
+				});
+
+				$("#recupera-clase option[value='"+id_alumno_recupera_clase+"']").remove();
+			}else{
+				swal("Ocurrió un error!", "Este alumno <strong>"+alumno_recupera_clase+"</strong> no puede recuperar la clase, ya cumplio con sus clases del mes", "error");
+			}
 		}
 	}
 </script>

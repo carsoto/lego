@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 14 Mar 2019 20:27:20 +0000.
+ * Date: Mon, 25 Mar 2019 19:49:24 +0000.
  */
 
 namespace App;
@@ -16,6 +16,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $inscripciones_academia_id
  * @property int $academia_horarios_id
  * @property \Carbon\Carbon $fecha
+ * @property int $cantd_clases
  * @property int $mes
  * @property int $anyo
  * @property string $dias_asistencia
@@ -36,6 +37,7 @@ class AcademiaMatricula extends Eloquent
 	protected $casts = [
 		'inscripciones_academia_id' => 'int',
 		'academia_horarios_id' => 'int',
+		'cantd_clases' => 'int',
 		'mes' => 'int',
 		'anyo' => 'int',
 		'activo' => 'int'
@@ -49,6 +51,7 @@ class AcademiaMatricula extends Eloquent
 		'inscripciones_academia_id',
 		'academia_horarios_id',
 		'fecha',
+		'cantd_clases',
 		'mes',
 		'anyo',
 		'dias_asistencia',
@@ -61,8 +64,8 @@ class AcademiaMatricula extends Eloquent
 		return $this->belongsTo(\App\AcademiaHorario::class, 'academia_horarios_id');
 	}
 
-	public function inscripciones_academium()
+	public function inscripciones_academia()
 	{
-		return $this->belongsTo(\App\InscripcionesAcademium::class, 'inscripciones_academia_id');
+		return $this->belongsTo(\App\InscripcionesAcademia::class, 'inscripciones_academia_id');
 	}
 }

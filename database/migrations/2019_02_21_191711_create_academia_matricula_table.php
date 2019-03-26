@@ -20,6 +20,7 @@ class CreateAcademiaMatriculaTable extends Migration
             $table->integer('inscripciones_academia_id')->unsigned();
             $table->integer('academia_horarios_id')->unsigned();
             $table->date('fecha');
+            $table->integer('cantd_clases');
             $table->integer('mes');
             $table->integer('anyo');
             $table->string('dias_asistencia', 45);

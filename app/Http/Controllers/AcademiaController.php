@@ -77,6 +77,7 @@ class AcademiaController extends Controller
         $datos_tarifas['edades'] = array();
         $datos_tarifas['tarifas'] = $tarifas;
         $datos_tarifas['descuento'] = $configuraciones['Descuento mas de 1'];
+        $datos_tarifas['clase_diaria'] = $configuraciones['Clase por dia'];
         
         foreach ($horarios as $key => $horario) {
             $datos_tarifas['edades'][$horario->academia_horario->edad_inicio.'_'.$horario->academia_horario->edad_fin] = "";
@@ -199,7 +200,7 @@ class AcademiaController extends Controller
             $atletas_registrados = array();
             
             if(isset($request->factura["tipo_pago"])){
-                $tipo_pago = $request->factura["tipo_pago"];2
+                $tipo_pago = $request->factura["tipo_pago"];
             }else{
                 $tipo_pago = 'Efectivo';
             }
@@ -289,6 +290,7 @@ class AcademiaController extends Controller
                     'inscripciones_academia_id' => $inscripcion->id,
                     'academia_horarios_id' => $horario[0]->id,
                     'fecha' => $fecha_actual,
+                    'cantd_clases' => $atleta["cantd_clases"],
                     'mes' => date('m'),
                     'anyo' => date('Y'),
                     'dias_asistencia' => $atleta["dias_horario"],
@@ -337,6 +339,7 @@ class AcademiaController extends Controller
         $dia_consultado = $request->dia_actual;
         $asistencia_no_regular = array();
         $asistencia_reg = array();
+        $asistencia_x_dia = array();
 
         if((isset($request->fecha_asistencia)) && ($request->fecha_asistencia != "")){
             $fecha = explode('-', $request->fecha_asistencia);
@@ -351,7 +354,7 @@ class AcademiaController extends Controller
 
         $atletas = Funciones::asistencia($modalidad, $mes, $anyo, $locacion, $horario);
         $asistencia_registrada = AcademiaAsistencia::where('fecha', '=', $fecha_asistencia)->where('locaciones_id', '=', $locacion)->where('academia_horarios_id', '=', $horario)->where('modalidad', '=', $modalidad)->get();
-        
+
         foreach ($asistencia_registrada as $key => $asistente) {
             $asistencia_reg[] = $asistente->atletas_id;
         }
@@ -362,16 +365,16 @@ class AcademiaController extends Controller
                     $dias = explode(',', $info->dias_asistencia);
                     
                     for ($t=0; $t < count($dias); $t++) { 
-                        
+                        $asistencia_x_dia[$dias[$t]][$info->id] = $info;
                         if($dias[$t] == $dia_consultado){
-                            $asistencia[$info->id] = $info->alumno;
+                            $asistencia = $asistencia_x_dia[$dias[$t]];
                         }
                     }
                     if(!array_key_exists($info->id, $asistencia)){
-                        $asistencia_no_regular[$info->id] = $info->alumno;
+                        $asistencia_no_regular[$info->id] = $info;
                     }
                 }
-
+                //dd($asistencia, $asistencia_no_regular, $asistencia_x_dia);
                 if(count($asistencia) == 0){
                     $error_message = 'No hay atletas inscritos para este día';
                 }
@@ -401,6 +404,16 @@ class AcademiaController extends Controller
         $horario = $request->horario;
         $asistencia = $request->asistencia;
 
+        $asistencia_registrada = AcademiaAsistencia::where('fecha', '=', $fecha_asistencia)->where('locaciones_id', '=', $locacion)->where('academia_horarios_id', '=', $horario)->get();
+        //dd($asistencia, $asistencia_registrada);
+
+        foreach ($asistencia_registrada as $key => $asistencia_r) {
+            if(!in_array($asistencia_r->atletas_id, $asistencia)){
+                $item = AcademiaAsistencia::findOrFail($asistencia_r->id);
+                $item->delete();
+            }
+        }
+
         for ($i=0; $i < count($asistencia); $i++) { 
             AcademiaAsistencia::updateOrCreate([
                 'atletas_id' => $asistencia[$i],
@@ -416,6 +429,8 @@ class AcademiaController extends Controller
                 'modalidad' => $modalidad
             ]);
         }
+
+        return redirect()->route('academia.dashboard');
     }
 
     /**
