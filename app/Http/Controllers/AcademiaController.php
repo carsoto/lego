@@ -21,6 +21,7 @@ use Funciones;
 use DB;
 use Response;
 use Auth;
+use Redirect;
 
 class AcademiaController extends Controller
 {
@@ -32,6 +33,43 @@ class AcademiaController extends Controller
     public function index()
     {
         return view('adminlte::academia.index');
+    }
+
+    public function miembro(){
+        $tipos_pago = Funciones::tipos_pago();
+        return view('adminlte::academia.miembro', array('tipos_pago' => $tipos_pago));
+    }
+
+    public function validardatos($cedula){
+        $representante = Representante::where('cedula', '=', $cedula)->get();
+        $atletas = array();
+        $msj = "";
+
+        if(count($representante) == 0){
+            $status = "error";
+            $msj = "No hay datos registrados a esta cédula";
+        }else{
+            $representante = $representante[0];
+            $atletas = $representante->atletas;
+            $status = "success";
+        }
+
+        $horarios = AcademiaHorariosDisponible::where('activo', '=', 1)->get();
+        $tarifas = AcademiaTarifa::where('activo', '=', 1)->get();
+        $horarios_academia = array();
+        $datos_tarifas = array();
+        $configuraciones = Funciones::configuracion_academia();
+        $dias_de_clases = explode(",", $configuraciones['Dias de clases']);
+        $dias_semana_desc = Funciones::descripcion_semana();
+        $descuento = $configuraciones['Descuento mas de 1'];
+
+        foreach ($horarios as $key => $horario) {
+            $datos_tarifas['edades'][$horario->academia_horario->edad_inicio.'_'.$horario->academia_horario->edad_fin] = "";
+            $datos_tarifas['horario'][$horario->academia_horario->edad_inicio] = array('edad_inicio' => $horario->academia_horario->edad_inicio, 'edad_fin' => $horario->academia_horario->edad_fin, 'hora' => $horario->academia_horario->hora_inicio.' - '.$horario->academia_horario->hora_fin);
+            $horarios_academia[$horario->locaciones_id][$horario->locacion->ubicacion][$horario->academia_horario->edad_inicio.'_'.$horario->academia_horario->edad_fin] = array('edad_inicio' => $horario->academia_horario->edad_inicio, 'edad_fin' => $horario->academia_horario->edad_fin, 'hora' => $horario->academia_horario->hora_inicio.' - '.$horario->academia_horario->hora_fin, 'tarifas' => $tarifas[$horario->locaciones_id][$horario->academia_horario->edad_inicio.'_'.$horario->academia_horario->edad_fin]);
+        }
+
+        return Response::json(array('status' => $status, 'msj' => $msj, 'atletas' => $atletas, 'representante' => $representante, 'horarios' => $horarios_academia, 'dias_de_clases' => $dias_de_clases, 'dias_semana_desc' => $dias_semana_desc, 'descuento' => $descuento));
     }
 
     public function inscripcionprueba(){
@@ -462,9 +500,9 @@ class AcademiaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**

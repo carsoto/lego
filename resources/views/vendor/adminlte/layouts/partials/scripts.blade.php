@@ -20,6 +20,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
+
 <script>
 
     window.Laravel = {!! json_encode([
@@ -30,6 +31,7 @@
 
 
     (function($) {
+    	var t_inscripcion = 0;
     	$('input').iCheck({
 
             checkboxClass: 'icheckbox_square-red',
@@ -54,7 +56,9 @@
 
 		        columns: [		
 
-		            {data: 'name', name: 'name'},
+		            {data: "name", render: function (data, type, row) {
+		                return row.name+' '+row.lastname;
+	            	}},
 
 		            {data: 'email', name: 'email'},
 
@@ -65,7 +69,6 @@
 		            {data: 'action', name: 'action', orderable: false}
 
 		        ]
-
 		    });
 
 
@@ -135,66 +138,6 @@
 		    });	
 
     	}
-
-    	/*$('.datepicker-nac').datepicker({
-
-			language: "es",
-
-			format: 'yyyy-mm-dd',
-
-		    orientation: "auto left",
-
-		    forceParse: false,
-
-		    autoclose: true,
-
-		    todayHighlight: true,
-
-		    toggleActive: true,
-
-		    endDate: "today",
-
-		}).on('changeDate', function(e) {
-
-			var hoy = new Date();
-
-			var h = hoy.toJSON().slice(0,10);
-
-			var fecha1 = moment(this.value);
-
-			var fecha2 = moment(h);
-
-			var edad = fecha2.diff(fecha1, 'years');
-
-			if(edad < 18){
-
-				document.getElementById('ficha-representante').style.display = 'block';
-
-				document.getElementById('ficha-representante').style.paddingTop = '15px';
-
-				document.getElementById('ced-atleta').style.display = 'none';
-
-				document.getElementById('telf-contacto-atleta').style.display = 'none';
-
-				document.getElementById('colegio-atleta').style.display = 'inline-block';
-
-				document.getElementById('direccion-atleta').style.display = 'none';
-
-			}else{
-
-				document.getElementById('ficha-representante').style.display = 'none';
-
-				document.getElementById('ced-atleta').style.display = 'inline-block';
-
-				document.getElementById('telf-contacto-atleta').style.display = 'inline-block';
-
-				document.getElementById('colegio-atleta').style.display = 'none';
-
-				document.getElementById('direccion-atleta').style.display = 'inline-block';
-
-			}
-
-    	});*/
 
     	$('.datepicker-nac').datepicker({
 
@@ -417,32 +360,203 @@
 			}
 		});
 
-		/*$('input[name="check_ubicacion_academia"]').on('ifChecked', function() {
-			document.getElementById('ubicacion-'+this.value).style.display = 'block';
-		});
+		$('input[name="t_inscripcion"]').on('ifChecked', function() {
+			window.t_inscripcion = this.value;
+			if(this.value == 1){
+				document.getElementById('ficha-atleta').style.display = 'block';
+				document.getElementById('ficha-representante').style.display = 'none';
+				document.getElementById('instituto-atleta').style.display = "none";
+			}else if(this.value == 2){
+				document.getElementById('ficha-representante').style.display = 'block';
+				document.getElementById('ficha-atleta').style.display = 'block';
+				document.getElementById('instituto-atleta').style.display = "inline";
+			}
 
-		$('input[name="check_ubicacion_academia"]').on('ifUnchecked', function() {
-			document.getElementById('ubicacion-'+this.value).style.display = 'none';
-		});*/
+			$('#lista-atletas tbody tr:not(:first-child)').remove();
+		});
 
     })(jQuery);
 
-    /*function validarForm(){
-		var datosRegistro = $("#form-inscripcion").serialize();
-		var formUrl = $("#form-inscripcion").attr("action");
-		$.ajax({
-			type: "POST",
-			url:  formUrl,
-			data: datosRegistro,
-			success: function(data) {
-				/*$(".ConsolaErrores").show("fast");
-				$(".ConsolaErrores").html(data);
-				$(".ConsolaErrores").delay(15000).hide("fast");
-				console.log(data);
-			}
-		});
+    /*function validarDatosRepresentante(){
+		console.log(document.getElementById('representante-cedula');
+		console.log(document.getElementById('representante-nombre');
+		console.log(document.getElementById('representante-apellido');
+		console.log(document.getElementById('representante-telefono');
+		console.log(document.getElementById('representante-email');
+		console.log(document.getElementById('representante-red-social');
     }*/
 
+    //á é í ó ú
+    function buscarRegistros(){
+    	var result = document.getElementById('cedula_rep_registrado');
+    	if ((result.value == "") || (!/^([0-9])*$/.test(result.value))){
+			swal("Ocurrió un error!", "La cédula <strong>" + result.value + "</strong> no es un número", "error");
+
+		}else{
+			$.ajax({
+	           	url: 'validar/datos/'+result.value,
+	            dataType: "JSON",
+	            type: 'GET',
+	            
+	            success: function (response) {
+	            	$('#lista-atletas-registrados tbody tr:not(:first-child)').remove();
+					document.getElementById('representante-cedula').value = "";
+					document.getElementById('representante-nombre').value = "";
+					document.getElementById('representante-apellido').value = "";
+					document.getElementById('representante-telefono').value = "";
+					document.getElementById('representante-email').value = "";
+					document.getElementById('representante-red-social').value = "";
+
+	            	if(response.status == 'error'){
+						swal("Ocurrió un error!", response.msj, response.status);
+	            	}
+
+	            	else{
+	            		var representante = response.representante;
+	            		var atleta = response.atletas;
+						var table = document.getElementById("lista-atletas-registrados");
+						var row = "";
+						var count = $('#lista-atletas-registrados tbody').children().length;
+						var dias = response.dias_de_clases;
+						var horarios = response.horarios;
+						var date = new Date();
+
+						document.getElementById('representante-cedula').value = representante.cedula;
+						document.getElementById('representante-nombre').value = representante.nombres;
+						document.getElementById('representante-apellido').value = representante.apellidos;
+						document.getElementById('representante-telefono').value = representante.telf_contacto;
+						document.getElementById('representante-email').value = representante.email;
+						document.getElementById('representante-red-social').value = representante.red_social;
+
+						if(count == 1){
+							for (var i = 0; i < atleta.length; i++) {
+								var edad = calcularEdad(atleta[i].fecha_nacimiento);
+	                        	row = table.insertRow(i);
+	                        	
+	                        	var cell0 = row.insertCell(0);
+	                        	cell0.innerHTML = '<input type="hidden" value="'+ atleta[i].id +'" name="atleta['+i+'][id]" readonly="readonly" /><input type="hidden" value="'+ atleta[i].fecha_nacimiento +'" name="atleta['+i+'][fecha]" readonly="readonly" />' + moment(atleta[i].fecha_nacimiento).format('DD-MM-YYYY');
+	                        	
+	                        	var cell1 = row.insertCell(1);
+	                        	cell1.innerHTML = '<input type="hidden" value="'+ atleta[i].nombre +'" name="atleta['+i+'][nombre]" readonly="readonly" />' + atleta[i].nombre;
+	                        	
+	                        	var cell2 = row.insertCell(2);
+	                        	cell2.innerHTML = '<input type="hidden" value="'+ atleta[i].apellido +'" name="atleta['+i+'][apellido]" readonly="readonly" />' + atleta[i].apellido;
+	                        	
+	                        	var cell3 = row.insertCell(3);
+	                        	if((atleta[i].cedula != "") && (atleta[i].cedula != null)){
+	                        		cell3.innerHTML = '<input type="hidden" value="'+ atleta[i].cedula +'" name="atleta['+i+'][cedula]" readonly="readonly" />' + atleta[i].cedula;
+	                        	}else{
+	                        		cell3.innerHTML = '<input type="hidden" value="" name="atleta['+i+'][cedula]" readonly="readonly" /> -';
+	                        	}
+
+	                        	var cell4 = row.insertCell(4);
+								$.each(horarios, function(key, horario) {
+									$.each(horario, function(clave, h) {
+										cell4.innerHTML += '<input type="radio" name="atleta['+i+'][ubicacion]" class="atleta_ubicacion" value="'+ key +'" descripcion="' + clave + '"> ' + clave + '  ';
+									});
+								});
+
+	                        	var cell5 = row.insertCell(5);
+	                        	for (var d = 0; d < dias.length; d++) {
+									cell5.innerHTML += '<input type="checkbox" name="atleta['+i+'][horario][]" class="atleta_horario" value="'+dias[d]+'" style="padding-right: 10px;" descripcion="'+response.dias_semana_desc[dias[d]]+'"> '+ response.dias_semana_desc[dias[d]] + '  ';
+								}
+
+								var cell6 = row.insertCell(6);
+								cell6.innerHTML += '<button type="button" class="btn btn-sm btn-flat btn-success" onclick="incluir_atleta(this);">Agregar</button>';
+
+								$('input').iCheck({
+									checkboxClass: 'icheckbox_square-red',
+									radioClass: 'iradio_square-red',
+									increaseArea: '10%' // optional
+								});
+
+	                        	$('#lista-atletas-registrados tbody').append(row);
+	                        	document.getElementById('button-datos-sig').style.display = 'block';
+	                        }	
+						}
+	            	}
+	            },
+
+	            error: function (xhr, ajaxOptions, thrownError) {
+	                swal("Ocurrió un error!", "Disculpe, no se pudieron verificar sus datos", "error");
+	            }
+	        });
+		}
+
+		/*swal({
+			title: '¿Eres miembro?',
+			text: 'Verifica tu cédula',
+			input: 'text',
+			confirmButtonText: 'Verificar!!',
+			confirmButtonColor: '#DD4B39',
+		}).then(function(result) {
+			if (result) {
+				/*swal({
+					type: 'success',
+					html: 'You entered: <strong>' + result.value + '</strong>'
+				});*
+				if ((result.value == "") || (!/^([0-9])*$/.test(result.value))){
+      				swal("Ocurrió un error!", "La cédula <strong>" + result.value + "</strong> no es un número", "error");
+				}else{
+					$.ajax({
+			           	url: 'academia/validar/datos',
+			            dataType: "JSON",
+			            type: 'POST',
+			            headers: {
+			            	'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					    },
+			            data: {cedula: result.value},
+			            success: function (response) {
+			            	//swal("", response.msj, response.status);
+			            	window.location = response.ruta;
+			            },
+
+			            error: function (xhr, ajaxOptions, thrownError) {
+			                swal("Ocurrió un error!", "Disculpe, no se pudieron verificar sus datos", "error");
+			            }
+			        });
+				}
+			}
+		});*/
+    }
+
+    function incluir_atleta(obj){
+    	var ubicaciones = $(obj).closest('tr').find('input[type=radio]');
+    	var dias = $(obj).closest('tr').find('input[type=checkbox]');
+    	var ubicacion = "";
+    	var horario_valores = new Array();
+		var horario_descripciones = new Array();
+		var horario_i = "";
+
+    	for (var d = 0; d < dias.length; d++) {
+    		//horario_valores[d] = new Array();
+			//horario_descripciones[d] = new Array();
+			$('input[name="atleta['+d+'][horario][]"]:checked').map(function(){
+				//horario_valores[d].push($(this).val());
+				//horario_descripciones[d].push($(this).attr('descripcion'));
+				horario_i += $(this).val()+',';
+			});
+    	}
+
+    	for (var i = 0; i < ubicaciones.length; i++) {
+    		if(document.querySelector('input[name="atleta['+i+'][ubicacion]"]:checked') != null){
+    			ubicacion = document.querySelector('input[name="atleta['+i+'][ubicacion]"]:checked').value;
+    			break;
+    		}
+    	}
+
+    	if(ubicacion == ""){
+    		swal("Ocurrió un error!", "Debe seleccionar la ubicación para incluir al alumno", "error");
+    	}
+
+    	$.each(datos_tarifa.horario, function(key, horario) {
+			if((parseInt(edad) >= parseInt(horario.edad_inicio)) && (parseInt(edad) <= parseInt(horario.edad_fin))){
+				cell_resume5.innerHTML = horario.hora;
+			}
+		});
+    	console.log(horario_i);
+    	//$(obj).closest('tr').remove();
+    }
 	function soloNumeros(e){
 
 		var key = window.event ? e.which : e.keyCode;
@@ -535,23 +649,6 @@
 
 	}
 
-	/*function calcularSemanaRestantes(date){
-		var week_number = 0;
-    	var result = date / 7;
-
-    	if(date > 15){
-    		week_number = Math.round(result);
-    	} else {
-    		week_number = Math.floor(result);
-    	}
-
-    	week_number = 4 - week_number;
-    	if(week_number == 0){
-    		week_number = 1;
-    	}
-    	return week_number;
-	}*/
-
 	function calcularSemanaRestantes(date){
 		
 		var semana = new Array();
@@ -580,24 +677,6 @@
     	
     	return semana;
 	}
-
-	/*function cuentaDiasHabilesLego(inicio, fin){
-	    var timeDiff = Math.abs(fin.getTime() - inicio.getTime());
-	    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); //Días entre las dos fechas
-	    var diashabiles = 0; //Número de Sábados y Domingos
-	    var array = new Array(diffDays);
-
-	    for (var i=0; i < diffDays; i++) 
-	    {
-	        //0 => Domingo - 6 => Sábado
-	        if (inicio.getDay() == 1 || inicio.getDay() == 2 || inicio.getDay() == 3 || inicio.getDay() == 4) {
-	            diashabiles++;
-	        }
-	        inicio.setDate(inicio.getDate() + 1);
-	    }
-
-	   return diashabiles;
-	}*/
 
 	function cuentaDiasHabilesLego(inicio, fin){
 	    var timeDiff = fin.getTime() - inicio.getTime();
@@ -696,12 +775,25 @@
 					}
 				}
 			}
-			else if((servicio == 'Prueba Academia') || (servicio == 'Academia')){
+			else if(servicio == 'Prueba Academia'){
 				if((edad < datos_tarifa.edad_inicio)){
 					error_message += '<li>El alumno no cumple con el requisito. Edad requerida: mayor o igual a '+ datos_tarifa.edad_inicio +' años.</li>';
 					valido = false;
+				}	
+			}
+			else if(servicio == 'Academia'){
+				
+				if(window.t_inscripcion == 1){
+					if((edad < 18)){
+						error_message += '<li>El alumno no cumple con el requisito. Edad requerida: mayor o igual a 18 años.</li>';
+						valido = false;
+					}
+				}else{
+					if((edad < datos_tarifa.edad_inicio)){
+						error_message += '<li>El alumno no cumple con el requisito. Edad requerida: mayor o igual a '+ datos_tarifa.edad_inicio +' años.</li>';
+						valido = false;
+					}	
 				}
-			
 			}
 		}
 
@@ -711,8 +803,15 @@
 		}
 
 		if(text5 == ""){
-			error_message += '<li>El nombre del colegio al que asiste el atleta es obligatorio</li>';
-			valido = false;
+			if(servicio == 'Academia'){
+				if(window.t_inscripcion == 2){
+					error_message += '<li>El nombre del colegio al que asiste el atleta es obligatorio</li>';
+					valido = false;
+				}
+			}else{
+				error_message += '<li>El nombre del colegio al que asiste el atleta es obligatorio</li>';
+				valido = false;
+			}
 		}
 
 		if(text9 == ""){
@@ -833,15 +932,6 @@
 					$('#mensaje-pago').html("<strong>AVISO IMPORTANTE</strong> El valor a cobrar es un proporcional según la fecha en la que se esté inscribiendo. Este valor corresponde a las clases por día, según los días hábiles que falten para culminar el mes.");
 					document.getElementById('mensaje-pago').style.display = 'block';
 					recalcularTarifaAcademia("resumen-pago-academia", dia_actual, 0, cantidad_alumnos);
-
-
-					/*$('#mensaje-pago').html("<strong>AVISO IMPORTANTE</strong> El valor a cobrar es un proporcional según la fecha en la que se esté inscribiendo. Este valor corresponde a las clases por día, según los días hábiles que falten para culminar el mes.");
-					document.getElementById('mensaje-pago').style.display = 'block';
-					
-					document.getElementById('academia_subtotal').innerHTML = '<input value="'+ parseFloat(subtotal_diario).toFixed(2) + '" type="hidden" name="factura[subtotal]" style="border: 0px solid;" readonly="readonly">$ ' + parseFloat(subtotal_diario).toFixed(2);
-					document.getElementById('academia_descuento').innerHTML = '<input value="'+ parseFloat(0).toFixed(2) +'" type="hidden" name="factura[descuento]" style="border: 0px solid;" readonly="readonly">$ ' + parseFloat(0).toFixed(2);
-					document.getElementById('academia_total').innerHTML = '<input value="' + + parseFloat(total_diario).toFixed(2) + '" type="hidden" name="factura[total]" style="border: 0px solid;" readonly="readonly">$ ' + parseFloat(total_diario).toFixed(2);*/
-					//console.log('fecha => ' + dia_actual + ' cantd_alumnos => ' + cantidad_alumnos + ' precio => PAGAR CLASES POR DÍA');*/
 				}
 			}
 			
@@ -921,6 +1011,7 @@
 		}else{
 			swal("Oops...", error_message, "error");
 		}
+    
     }
 
     function recalcularTarifaAcademia(id_table, date, descuento_academia, cantd_alumnos){
@@ -951,7 +1042,6 @@
 		document.getElementById('academia_subtotal').innerHTML = '<input value="'+parseFloat(subtotal).toFixed(2)+'" type="hidden" name="factura[subtotal]" style="border: 0px solid;" readonly="readonly">$ ' + parseFloat(subtotal).toFixed(2);
 		document.getElementById('academia_descuento').innerHTML = '<input value="'+parseFloat(descuento).toFixed(2)+'" type="hidden" name="factura[descuento]" style="border: 0px solid;" readonly="readonly">$  ' + parseFloat(descuento).toFixed(2);
 		document.getElementById('academia_total').innerHTML = '<input value="'+parseFloat(total).toFixed(2)+'" type="hidden" name="factura[total]" style="border: 0px solid;" readonly="readonly">$ ' + parseFloat(total).toFixed(2);
-		//console.log('fecha => ' + date + ' cantd_alumnos => ' + cantd_alumnos + ' precio => ' + parseFloat(total).toFixed(2));
     }
 
     function eliminar_atleta(obj, id_atleta, date, fecha_limite, porc_individual, porc_grupal, servicio, descuento_academia){
@@ -1234,10 +1324,8 @@
 		            dataType: "JSON",
 		            type: 'GET',
 		            success: function (response) {
-		            	//console.log(response);
 		            	if(response.status == 'success'){
 		            		swal("Hecho!", response.msg, "success");
-		            		console.log(document.getElementById("status_" + id));
 		            		if(document.getElementById("status_" + id).className.match(/(?:^|\s)label-warning(?!\S)/)){
 								document.getElementById("status_" + id).className = document.getElementById("status_" + id).className.replace( /(?:^|\s)label-warning(?!\S)/g , '');
 								document.getElementById("status_" + id).className += ' label-success';

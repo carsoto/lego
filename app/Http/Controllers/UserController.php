@@ -43,7 +43,7 @@ class UserController extends Controller
     {
 
         $usuarios = User::all();
-
+        
         return view('adminlte::usuarios.index', compact('usuarios'));
 
     }

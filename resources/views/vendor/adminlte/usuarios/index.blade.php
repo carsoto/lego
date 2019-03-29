@@ -31,7 +31,7 @@
 					<!-- /.box-header -->
 					<div class="box-body">
 						<div class="table-responsive" style="padding-top: 15px;">
-							<table id='tabla_usuarios' class="table table-hover table-bordered table-striped datatable" style="width:100%">
+							<table id='tabla_usuarios' class="table table-hover table-bordered table-striped" style="width:100%">
 		                        <thead>
 		                            <tr>
 		                                <th>Nombre</th>

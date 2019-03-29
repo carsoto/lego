@@ -47,7 +47,9 @@ class RegistroController extends Controller
     }
 
     public function store(Request $request){
-        $atleta = new Atleta();
+        dd($request);
+        return redirect::route("academia.inscripcion");
+        /*$atleta = new Atleta();
 
         $atleta->cedula = $request->atleta["cedula"];
         $atleta->nombre = $request->atleta["nombre"];
